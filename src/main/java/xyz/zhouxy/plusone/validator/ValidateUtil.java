@@ -17,6 +17,12 @@ public class ValidateUtil {
         throw new IllegalStateException("Utility class");
     }
 
+    public static void validate(Object obj) {
+        if (obj instanceof IValidateRequired) {
+            ((IValidateRequired) obj).validate();
+        }
+    }
+
     public static <T> void validate(T obj, BaseValidator<T> validator) {
         validator.validate(obj);
     }

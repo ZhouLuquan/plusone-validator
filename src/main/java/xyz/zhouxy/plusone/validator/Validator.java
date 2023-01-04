@@ -1,6 +1,9 @@
 package xyz.zhouxy.plusone.validator;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * 校验器
@@ -37,6 +40,21 @@ import java.util.function.Predicate;
 public final class Validator<T> extends BaseValidator<T> {
     public final Validator<T> addRule(final Predicate<T> rule, final String errorMessage) {
         withRule(rule, errorMessage);
+        return this;
+    }
+
+    public final <E extends RuntimeException> Validator<T> addRule(Predicate<T> rule, Supplier<E> exceptionCreator) {
+        withRule(rule, exceptionCreator);
+        return this;
+    }
+    
+    public final <E extends RuntimeException> Validator<T> addRule(Predicate<T> rule, Function<T, E> exceptionCreator) {
+        withRule(rule, exceptionCreator);
+        return this;
+    }
+
+    public final Validator<T> addRule(Consumer<T> rule) {
+        withRule(rule);
         return this;
     }
 }
