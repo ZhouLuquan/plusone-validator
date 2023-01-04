@@ -31,7 +31,7 @@ public class ValueValidator<DTO, PROPERTY> {
         });
     }
 
-    private <E extends RuntimeException> void withRule(Consumer<PROPERTY> rule) {
+    private void withRule(Consumer<PROPERTY> rule) {
         this.rules.add(rule);
     }
 
