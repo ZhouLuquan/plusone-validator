@@ -8,7 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import xyz.zhouxy.plusone.constant.RegexConsts;
 import xyz.zhouxy.plusone.util.RegexUtil;
 
-class StringValidator<DTO> extends PropertyValidator<DTO, String, StringValidator<DTO>> {
+public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringValidator<DTO>> {
 
     StringValidator(Function<DTO, String> getter) {
         super(getter);

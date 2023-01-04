@@ -4,15 +4,11 @@ import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-class CollectionValidator<DTO, T> extends PropertyValidator<DTO, Collection<T>, CollectionValidator<DTO, T>> {
+public class CollectionValidator<DTO, T> extends PropertyValidator<DTO, Collection<T>, CollectionValidator<DTO, T>> {
 
     CollectionValidator(Function<DTO, Collection<T>> getter) {
         super(getter);
     }
-    
-    // ================================
-    // ====== Collection, String ======
-    // ================================
 
     // ====== notEmpty =====
 
