@@ -29,7 +29,7 @@ public class IntValidator<DTO> extends PropertyValidator<DTO, Integer, IntValida
     }
 
     @Override
-    protected IntValidator<DTO> returnThis() {
+    protected IntValidator<DTO> thisObject() {
         return this;
     }
 }

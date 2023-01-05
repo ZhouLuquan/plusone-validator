@@ -9,7 +9,7 @@ public class ObjectValidator<DTO, T> extends PropertyValidator<DTO, T, ObjectVal
     }
 
     @Override
-    protected ObjectValidator<DTO, T> returnThis() {
+    protected ObjectValidator<DTO, T> thisObject() {
         return this;
     }
 }

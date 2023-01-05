@@ -29,7 +29,7 @@ public class DoubleValidator<DTO> extends PropertyValidator<DTO, Double, DoubleV
     }
 
     @Override
-    protected DoubleValidator<DTO> returnThis() {
+    protected DoubleValidator<DTO> thisObject() {
         return this;
     }
 }

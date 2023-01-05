@@ -47,7 +47,7 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
 
     public <E extends RuntimeException> THIS notNull(Function<PROPERTY, E> exceptionCreator) {
         withRule(Objects::nonNull, exceptionCreator);
-        return returnThis();
+        return thisObject();
     }
 
     // ====== isNull =====
@@ -62,7 +62,7 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
 
     public <E extends RuntimeException> THIS isNull(Function<PROPERTY, E> exceptionCreator) {
         withRule(Objects::isNull, exceptionCreator);
-        return returnThis();
+        return thisObject();
     }
 
     // ===== equals =====
@@ -83,7 +83,7 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
     public <E extends RuntimeException> THIS equalsThat(
             Object that, Function<PROPERTY, E> exceptionCreator) {
         withRule(value -> Objects.equals(value, that), exceptionCreator);
-        return returnThis();
+        return thisObject();
     }
 
     // ===== state =====
@@ -106,7 +106,7 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
             Predicate<PROPERTY> condition,
             Function<PROPERTY, E> exceptionCreator) {
         withRule(condition, exceptionCreator);
-        return returnThis();
+        return thisObject();
     }
 
     // ========================================================================
@@ -125,5 +125,5 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
         return value -> exceptionSupplier.get();
     }
     
-    protected abstract THIS returnThis();
+    protected abstract THIS thisObject();
 }

@@ -8,15 +8,16 @@ import org.junit.Test;
 
 import xyz.zhouxy.plusone.constant.RegexConsts;
 import xyz.zhouxy.plusone.validator.BaseValidator;
-import xyz.zhouxy.plusone.validator.IValidateRequired;
+import xyz.zhouxy.plusone.validator.ValidateUtil;
 
 public class BaseValidatorTest {
     @Test
-    public void testRuleFor() {
+    public void testValidate() {
         RegisterCommand registerCommand = new RegisterCommand("zhouxy108", "luquanlion@outlook.com", "22336", "A1b2C3d4",
                 "A1b2C3d4",
                 Arrays.asList(new String[] { "admin", "editor" }));
-        registerCommand.validate();
+        RegisterCommandValidator.INSTANCE.validate(registerCommand);
+        ValidateUtil.validate(registerCommand, RegisterCommandValidator.INSTANCE);
         System.out.println(registerCommand);
     }
 }
@@ -50,7 +51,7 @@ class RegisterCommandValidator extends BaseValidator<RegisterCommand> {
 /**
  * RegisterCommand
  */
-class RegisterCommand implements IValidateRequired {
+class RegisterCommand {
 
     private String username;
     private String account;
@@ -58,11 +59,6 @@ class RegisterCommand implements IValidateRequired {
     private String password;
     private String password2;
     private List<String> roles;
-
-    @Override
-    public void validate() {
-        RegisterCommandValidator.INSTANCE.validate(this);
-    }
 
     public RegisterCommand() {
     }

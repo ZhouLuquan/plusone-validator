@@ -50,7 +50,7 @@ public class BoolValidator<DTO> extends PropertyValidator<DTO, Boolean, BoolVali
     }
     
     @Override
-    protected BoolValidator<DTO> returnThis() {
+    protected BoolValidator<DTO> thisObject() {
         return this;
     }
 }

@@ -173,7 +173,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
     }
 
     @Override
-    protected StringValidator<DTO> returnThis() {
+    protected StringValidator<DTO> thisObject() {
         return this;
     }
 }

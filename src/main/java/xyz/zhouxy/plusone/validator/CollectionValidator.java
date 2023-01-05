@@ -53,7 +53,7 @@ public class CollectionValidator<DTO, T> extends PropertyValidator<DTO, Collecti
     }
 
     @Override
-    protected CollectionValidator<DTO, T> returnThis() {
+    protected CollectionValidator<DTO, T> thisObject() {
         return this;
     }
 }
