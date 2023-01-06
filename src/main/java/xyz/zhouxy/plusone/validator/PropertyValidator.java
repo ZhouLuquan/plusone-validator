@@ -1,5 +1,6 @@
 package xyz.zhouxy.plusone.validator;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -106,6 +107,31 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
             Predicate<PROPERTY> condition,
             Function<PROPERTY, E> exceptionCreator) {
         withRule(condition, exceptionCreator);
+        return thisObject();
+    }
+
+    // ===== state =====
+
+    public THIS state(Collection<Predicate<PROPERTY>> conditions) {
+        return state(conditions, "无效的用户输入");
+    }
+
+    public THIS state(Collection<Predicate<PROPERTY>> conditions, String errMsg) {
+        return state(conditions, convertExceptionCreator(errMsg));
+    }
+
+    public <E extends RuntimeException> THIS state(
+            Collection<Predicate<PROPERTY>> conditions,
+            Supplier<E> exceptionCreator) {
+        return state(conditions, convertExceptionCreator(exceptionCreator));
+    }
+
+    public <E extends RuntimeException> THIS state(
+            Collection<Predicate<PROPERTY>> conditions,
+            Function<PROPERTY, E> exceptionCreator) {
+        for (Predicate<PROPERTY> condition : conditions) {
+            withRule(condition, exceptionCreator);
+        }
         return thisObject();
     }
 
