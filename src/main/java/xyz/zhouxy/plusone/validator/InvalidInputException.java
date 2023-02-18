@@ -1,13 +1,13 @@
 package xyz.zhouxy.plusone.validator;
 
-import xyz.zhouxy.plusone.exception.PlusoneException;
+import xyz.zhouxy.plusone.exception.BaseException;
 
 /**
  * 4040200 - 无效的用户输入
  *
  * @author <a href="https://gitee.com/zhouxy108">ZhouXY</a>
  */
-public class InvalidInputException extends PlusoneException {
+public class InvalidInputException extends BaseException {
 
     private static final long serialVersionUID = 7956661913360059670L;
 
