@@ -1,5 +1,6 @@
 package xyz.zhouxy.plusone.validator;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -58,18 +59,18 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
         return this;
     }
 
-    public StringValidator<DTO> matchesOr(List<String> regexs, String errMsg) {
+    public StringValidator<DTO> matchesOr(List<Pattern> regexs, String errMsg) {
         return matchesOr(regexs, convertExceptionCreator(errMsg));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            List<String> regexs,
+            List<Pattern> regexs,
             Supplier<E> exceptionCreator) {
         return matchesOr(regexs, convertExceptionCreator(exceptionCreator));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            List<String> regexs,
+            List<Pattern> regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> RegexUtil.matchesOr(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
@@ -91,6 +92,23 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
             Pattern[] regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> RegexUtil.matchesAnd(input, regexs), exceptionCreator);
+        return this;
+    }
+
+    public StringValidator<DTO> matchesAnd(Collection<Pattern> regexs, String errMsg) {
+        return matchesAnd(regexs, convertExceptionCreator(errMsg));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
+            Collection<Pattern> regexs,
+            Supplier<E> exceptionCreator) {
+        return matchesAnd(regexs, convertExceptionCreator(exceptionCreator));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
+            Collection<Pattern> regexs,
+            Function<String, E> exceptionCreator) {
+        withRule(input -> RegexUtil.matchesAnd(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
