@@ -6,10 +6,10 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import cn.hutool.core.util.StrUtil;
-import xyz.zhouxy.plusone.constant.RegexConsts;
+import xyz.zhouxy.plusone.commons.constant.RegexConsts;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 
 class BaseValidator2Test {
@@ -30,8 +30,8 @@ class RegisterCommandValidator2 extends BaseValidator<RegisterCommand> {
     private RegisterCommandValidator2() {
         ruleForString(RegisterCommand::getUsername)
                 .state(((Predicate<String>) Objects::nonNull)
-                        .and(StrUtil::isNotEmpty)
-                        .and(StrUtil::isNotBlank)
+                        .and(StringUtils::isNotEmpty)
+                        .and(StringUtils::isNotBlank)
                         .and(username -> Pattern.matches(RegexConsts.EMAIL, username)),
                         (username -> new IllegalArgumentException(String.format("用户名\"%s\"不符合规范", username))));
     }

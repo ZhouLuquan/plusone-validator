@@ -3,10 +3,11 @@ package xyz.zhouxy.plusone.validator.test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 
-import xyz.zhouxy.plusone.constant.RegexConsts;
+import xyz.zhouxy.plusone.commons.constant.PatternConsts;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.ValidateUtil;
 
@@ -29,17 +30,17 @@ class RegisterCommandValidator extends BaseValidator<RegisterCommand> {
     private RegisterCommandValidator() {
         ruleForString(RegisterCommand::getUsername)
                 .notNull("用户名不能为空")
-                .matches(RegexConsts.USERNAME,
+                .matches(PatternConsts.USERNAME,
                         username -> new IllegalArgumentException(String.format("用户名\"%s\"不符合规范", username)));
         ruleForString(RegisterCommand::getAccount)
                 .notNull("请输入邮箱地址或手机号")
-                .matchesOr(new String[] { RegexConsts.EMAIL, RegexConsts.MOBILE_PHONE }, "请输入邮箱地址或手机号");
+                .matchesOr(new Pattern[] { PatternConsts.EMAIL, PatternConsts.MOBILE_PHONE }, "请输入邮箱地址或手机号");
         ruleForString(RegisterCommand::getCode)
                 .notNull("验证码不能为空")
-                .matches(RegexConsts.CAPTCHA, "验证码不符合规范");
+                .matches(PatternConsts.CAPTCHA, "验证码不符合规范");
         ruleForString(RegisterCommand::getPassword)
                 .notEmpty("密码不能为空")
-                .matches(RegexConsts.PASSWORD, "密码不符合规范");
+                .matches(PatternConsts.PASSWORD, "密码不符合规范");
         ruleForCollection(RegisterCommand::getRoles)
                 .notEmpty(() -> new RuntimeException("角色列表不能为空"));
 

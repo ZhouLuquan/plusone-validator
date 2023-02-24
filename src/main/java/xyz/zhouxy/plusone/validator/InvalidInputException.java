@@ -1,6 +1,6 @@
 package xyz.zhouxy.plusone.validator;
 
-import xyz.zhouxy.plusone.exception.BaseException;
+import xyz.zhouxy.plusone.commons.exception.BaseException;
 
 /**
  * 4040200 - 无效的用户输入
@@ -35,19 +35,5 @@ public class InvalidInputException extends BaseException {
 
     public InvalidInputException(String msg, Throwable cause) {
         this(ERROR_CODE, msg, cause);
-    }
-
-    /**
-     * 不支持的 Principal 类型出现时抛出的异常
-     */
-    public static InvalidInputException unsupportedPrincipalTypeException() {
-        return unsupportedPrincipalTypeException("不支持的 PrincipalType");
-    }
-
-    /**
-     * 不支持的 Principal 类型出现时抛出的异常
-     */
-    public static InvalidInputException unsupportedPrincipalTypeException(String message) {
-        return new InvalidInputException(4040201, message);
     }
 }

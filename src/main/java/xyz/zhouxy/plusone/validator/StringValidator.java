@@ -3,11 +3,12 @@ package xyz.zhouxy.plusone.validator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import xyz.zhouxy.plusone.constant.RegexConsts;
-import xyz.zhouxy.plusone.util.RegexUtil;
+import xyz.zhouxy.plusone.commons.constant.PatternConsts;
+import xyz.zhouxy.plusone.commons.util.RegexUtil;
 
 public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringValidator<DTO>> {
 
@@ -21,18 +22,18 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     // ===== matches =====
 
-    public StringValidator<DTO> matches(String regex, String errMsg) {
+    public StringValidator<DTO> matches(Pattern regex, String errMsg) {
         return matches(regex, convertExceptionCreator(errMsg));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matches(
-            String regex,
+            Pattern regex,
             Supplier<E> exceptionCreator) {
         return matches(regex, convertExceptionCreator(exceptionCreator));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matches(
-            String regex,
+            Pattern regex,
             Function<String, E> exceptionCreator) {
         withRule(input -> RegexUtil.matches(input, regex), exceptionCreator);
         return this;
@@ -40,18 +41,18 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     // ===== matchesOr =====
 
-    public StringValidator<DTO> matchesOr(String[] regexs, String errMsg) {
+    public StringValidator<DTO> matchesOr(Pattern[] regexs, String errMsg) {
         return matchesOr(regexs, convertExceptionCreator(errMsg));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            String[] regexs,
+            Pattern[] regexs,
             Supplier<E> exceptionCreator) {
         return matchesOr(regexs, convertExceptionCreator(exceptionCreator));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            String[] regexs,
+            Pattern[] regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> RegexUtil.matchesOr(input, regexs), exceptionCreator);
         return this;
@@ -70,24 +71,24 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
     public <E extends RuntimeException> StringValidator<DTO> matchesOr(
             List<String> regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesOr(input, regexs.toArray(new String[regexs.size()])), exceptionCreator);
+        withRule(input -> RegexUtil.matchesOr(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
     // ===== matchesAnd =====
 
-    public StringValidator<DTO> matchesAnd(String[] regexs, String errMsg) {
+    public StringValidator<DTO> matchesAnd(Pattern[] regexs, String errMsg) {
         return matchesAnd(regexs, convertExceptionCreator(errMsg));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
-            String[] regexs,
+            Pattern[] regexs,
             Supplier<E> exceptionCreator) {
         return matchesAnd(regexs, convertExceptionCreator(exceptionCreator));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
-            String[] regexs,
+            Pattern[] regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> RegexUtil.matchesAnd(input, regexs), exceptionCreator);
         return this;
@@ -128,7 +129,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
     }
 
     public <E extends RuntimeException> StringValidator<DTO> email(Function<String, E> exceptionCreator) {
-        return matches(RegexConsts.EMAIL, exceptionCreator);
+        return matches(PatternConsts.EMAIL, exceptionCreator);
     }
 
     // ====== notEmpty =====
