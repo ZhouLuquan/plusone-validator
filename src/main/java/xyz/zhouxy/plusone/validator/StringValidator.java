@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import cn.hutool.core.util.StrUtil;
+import org.apache.commons.lang3.StringUtils;
+
 import xyz.zhouxy.plusone.constant.RegexConsts;
 import xyz.zhouxy.plusone.util.RegexUtil;
 
@@ -108,7 +109,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     public <E extends RuntimeException> StringValidator<DTO> notBlank(
             Function<String, E> exceptionCreator) {
-        withRule(input -> StrUtil.isNotBlank(input), exceptionCreator);
+        withRule(StringUtils::isNotBlank, exceptionCreator);
         return this;
     }
 

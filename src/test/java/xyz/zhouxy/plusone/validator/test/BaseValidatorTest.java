@@ -4,15 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xyz.zhouxy.plusone.constant.RegexConsts;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.ValidateUtil;
 
-public class BaseValidatorTest {
+class BaseValidatorTest {
     @Test
-    public void testValidate() {
+    void testValidate() {
         RegisterCommand registerCommand = new RegisterCommand("zhouxy108", "luquanlion@outlook.com", "22336", "A1b2C3d4",
                 "A1b2C3d4",
                 Arrays.asList(new String[] { "admin", "editor" }));
