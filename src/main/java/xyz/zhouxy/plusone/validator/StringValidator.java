@@ -162,7 +162,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     public <E extends RuntimeException> StringValidator<DTO> notEmpty(
             Function<String, E> exceptionCreator) {
-        withRule(value -> (value != null) && (!value.isEmpty()), exceptionCreator);
+        withRule(StringUtils::isNotEmpty, exceptionCreator);
         return this;
     }
 
@@ -178,7 +178,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     public <E extends RuntimeException> StringValidator<DTO> isEmpty(
             Function<String, E> exceptionCreator) {
-        withRule(value -> value == null || value.isEmpty(), exceptionCreator);
+        withRule(StringUtils::isEmpty, exceptionCreator);
         return this;
     }
 
