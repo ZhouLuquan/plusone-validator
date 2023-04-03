@@ -3,6 +3,8 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 public class BoolValidator<DTO> extends PropertyValidator<DTO, Boolean, BoolValidator<DTO>> {
 
     BoolValidator(Function<DTO, Boolean> getter) {
@@ -25,7 +27,7 @@ public class BoolValidator<DTO> extends PropertyValidator<DTO, Boolean, BoolVali
 
     public <E extends RuntimeException> BoolValidator<DTO> isTrue(
             Function<Boolean, E> exceptionCreator) {
-        withRule(Boolean.TRUE::equals, exceptionCreator);
+        withRule(BooleanUtils::isTrue, exceptionCreator);
         return this;
     }
 
@@ -45,10 +47,10 @@ public class BoolValidator<DTO> extends PropertyValidator<DTO, Boolean, BoolVali
 
     public <E extends RuntimeException> BoolValidator<DTO> isFalse(
             Function<Boolean, E> exceptionCreator) {
-        withRule(Boolean.FALSE::equals, exceptionCreator);
+        withRule(BooleanUtils::isFalse, exceptionCreator);
         return this;
     }
-    
+
     @Override
     protected BoolValidator<DTO> thisObject() {
         return this;
