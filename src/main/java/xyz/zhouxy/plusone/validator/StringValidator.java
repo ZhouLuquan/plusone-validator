@@ -185,7 +185,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
             Function<String, E> exceptionCreator) {
         withRule(value -> {
             if (value == null) {
-                return false;
+                return true;
             }
             return value.isEmpty();
         }, exceptionCreator);
