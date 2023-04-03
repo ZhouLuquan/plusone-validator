@@ -45,7 +45,7 @@ public class CollectionValidator<DTO, T> extends PropertyValidator<DTO, Collecti
             Function<Collection<T>, E> exceptionCreator) {
         withRule(value -> {
             if (value == null) {
-                return false;
+                return true;
             }
             return ((Collection<?>) value).isEmpty();
         }, exceptionCreator);
