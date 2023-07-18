@@ -3,37 +3,36 @@ package xyz.zhouxy.plusone.validator2.test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import xyz.zhouxy.plusone.commons.constant.RegexConsts;
+import xyz.zhouxy.plusone.commons.constant.PatternConsts;
+import xyz.zhouxy.plusone.commons.function.Predicates;
+import xyz.zhouxy.plusone.commons.util.RegexUtil;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 
 class BaseValidator2Test {
     @Test
     void testValidate() {
-        RegisterCommand registerCommand = new RegisterCommand("null", "luquanlion@outlook.com", "22336", "A1b2C3d4",
-                "A1b2C3d4",
-                Arrays.asList(new String[] { "admin", "editor" }));
-        RegisterCommandValidator2.INSTANCE.validate(registerCommand);
+        RegisterCommand registerCommand = new RegisterCommand("null", "luquanlion@outlook.com", "22336",
+                "A1b2C3d4", "A1b2C3d4", Arrays.asList(new String[] { "admin", "editor" }));
+        RegisterCommandValidator.INSTANCE.validate(registerCommand);
         System.out.println(registerCommand);
     }
 }
 
-class RegisterCommandValidator2 extends BaseValidator<RegisterCommand> {
+class RegisterCommandValidator extends BaseValidator<RegisterCommand> {
 
-    static final RegisterCommandValidator2 INSTANCE = new RegisterCommandValidator2();
+    static final RegisterCommandValidator INSTANCE = new RegisterCommandValidator();
 
-    private RegisterCommandValidator2() {
+    private RegisterCommandValidator() {
         ruleForString(RegisterCommand::getUsername)
-                .state(((Predicate<String>) Objects::nonNull)
+                .isTrue(Predicates.<String>of(Objects::nonNull)
                         .and(StringUtils::isNotEmpty)
                         .and(StringUtils::isNotBlank)
-                        .and(username -> Pattern.matches(RegexConsts.EMAIL, username)),
-                        (username -> new IllegalArgumentException(String.format("用户名\"%s\"不符合规范", username))));
+                        .and(username -> RegexUtil.matches(username, PatternConsts.EMAIL)),
+                        username -> new IllegalArgumentException(String.format("用户名【%s】不符合规范", username)));
     }
 }
 

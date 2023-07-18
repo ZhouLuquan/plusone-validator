@@ -3,7 +3,6 @@ package xyz.zhouxy.plusone.validator.test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +33,7 @@ class RegisterCommandValidator extends BaseValidator<RegisterCommand> {
                         username -> new IllegalArgumentException(String.format("用户名\"%s\"不符合规范", username)));
         ruleForString(RegisterCommand::getAccount)
                 .notNull("请输入邮箱地址或手机号")
-                .matchesOr(new Pattern[] { PatternConsts.EMAIL, PatternConsts.MOBILE_PHONE }, "请输入邮箱地址或手机号");
+                .matchesOne(Arrays.asList(PatternConsts.EMAIL, PatternConsts.MOBILE_PHONE), "请输入邮箱地址或手机号");
         ruleForString(RegisterCommand::getCode)
                 .notNull("验证码不能为空")
                 .matches(PatternConsts.CAPTCHA, "验证码不符合规范");

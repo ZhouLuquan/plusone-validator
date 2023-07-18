@@ -87,46 +87,46 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
         return thisObject();
     }
 
-    // ===== state =====
+    // ===== isTrue =====
 
-    public THIS state(Predicate<PROPERTY> condition) {
-        return state(condition, "无效的用户输入");
+    public THIS isTrue(Predicate<PROPERTY> condition) {
+        return isTrue(condition, "无效的用户输入");
     }
 
-    public THIS state(Predicate<PROPERTY> condition, String errMsg) {
-        return state(condition, convertExceptionCreator(errMsg));
+    public THIS isTrue(Predicate<PROPERTY> condition, String errMsg) {
+        return isTrue(condition, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> THIS state(
+    public <E extends RuntimeException> THIS isTrue(
             Predicate<PROPERTY> condition,
             Supplier<E> exceptionCreator) {
-        return state(condition, convertExceptionCreator(exceptionCreator));
+        return isTrue(condition, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> THIS state(
+    public <E extends RuntimeException> THIS isTrue(
             Predicate<PROPERTY> condition,
             Function<PROPERTY, E> exceptionCreator) {
         withRule(condition, exceptionCreator);
         return thisObject();
     }
 
-    // ===== state =====
+    // ===== isTrue =====
 
-    public THIS state(Collection<Predicate<PROPERTY>> conditions) {
-        return state(conditions, "无效的用户输入");
+    public THIS isTrue(Collection<Predicate<PROPERTY>> conditions) {
+        return isTrue(conditions, "无效的用户输入");
     }
 
-    public THIS state(Collection<Predicate<PROPERTY>> conditions, String errMsg) {
-        return state(conditions, convertExceptionCreator(errMsg));
+    public THIS isTrue(Collection<Predicate<PROPERTY>> conditions, String errMsg) {
+        return isTrue(conditions, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> THIS state(
+    public <E extends RuntimeException> THIS isTrue(
             Collection<Predicate<PROPERTY>> conditions,
             Supplier<E> exceptionCreator) {
-        return state(conditions, convertExceptionCreator(exceptionCreator));
+        return isTrue(conditions, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> THIS state(
+    public <E extends RuntimeException> THIS isTrue(
             Collection<Predicate<PROPERTY>> conditions,
             Function<PROPERTY, E> exceptionCreator) {
         for (Predicate<PROPERTY> condition : conditions) {

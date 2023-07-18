@@ -40,75 +40,75 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
         return this;
     }
 
-    // ===== matchesOr =====
+    // ===== matchesOne =====
 
-    public StringValidator<DTO> matchesOr(Pattern[] regexs, String errMsg) {
-        return matchesOr(regexs, convertExceptionCreator(errMsg));
+    public StringValidator<DTO> matchesOne(Pattern[] regexs, String errMsg) {
+        return matchesOne(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
             Pattern[] regexs,
             Supplier<E> exceptionCreator) {
-        return matchesOr(regexs, convertExceptionCreator(exceptionCreator));
+        return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
             Pattern[] regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesOr(input, regexs), exceptionCreator);
+        withRule(input -> RegexUtil.matchesOne(input, regexs), exceptionCreator);
         return this;
     }
 
-    public StringValidator<DTO> matchesOr(List<Pattern> regexs, String errMsg) {
-        return matchesOr(regexs, convertExceptionCreator(errMsg));
+    public StringValidator<DTO> matchesOne(List<Pattern> regexs, String errMsg) {
+        return matchesOne(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
             List<Pattern> regexs,
             Supplier<E> exceptionCreator) {
-        return matchesOr(regexs, convertExceptionCreator(exceptionCreator));
+        return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
             List<Pattern> regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesOr(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
+        withRule(input -> RegexUtil.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
-    // ===== matchesAnd =====
+    // ===== matchesAll =====
 
-    public StringValidator<DTO> matchesAnd(Pattern[] regexs, String errMsg) {
-        return matchesAnd(regexs, convertExceptionCreator(errMsg));
+    public StringValidator<DTO> matchesAll(Pattern[] regexs, String errMsg) {
+        return matchesAll(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
             Pattern[] regexs,
             Supplier<E> exceptionCreator) {
-        return matchesAnd(regexs, convertExceptionCreator(exceptionCreator));
+        return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
             Pattern[] regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesAnd(input, regexs), exceptionCreator);
+        withRule(input -> RegexUtil.matchesAll(input, regexs), exceptionCreator);
         return this;
     }
 
-    public StringValidator<DTO> matchesAnd(Collection<Pattern> regexs, String errMsg) {
-        return matchesAnd(regexs, convertExceptionCreator(errMsg));
+    public StringValidator<DTO> matchesAll(Collection<Pattern> regexs, String errMsg) {
+        return matchesAll(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
             Collection<Pattern> regexs,
             Supplier<E> exceptionCreator) {
-        return matchesAnd(regexs, convertExceptionCreator(exceptionCreator));
+        return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
             Collection<Pattern> regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesAnd(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
+        withRule(input -> RegexUtil.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
