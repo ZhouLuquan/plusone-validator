@@ -10,7 +10,7 @@ public class IntValidator<DTO> extends PropertyValidator<DTO, Integer, IntValida
     }
 
     public IntValidator<DTO> between(int min, int max) {
-        return between(min, max, String.format("数值不在 %s 和 %s 之间", String.valueOf(min), String.valueOf(max)));
+        return between(min, max, String.format("数值不在 %d 和 %d 之间", min, max));
     }
 
     public IntValidator<DTO> between(int min, int max, String errMsg) {
