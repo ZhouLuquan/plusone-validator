@@ -4,9 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import xyz.zhouxy.plusone.commons.constant.PatternConsts;
+import xyz.zhouxy.plusone.commons.function.Predicates;
+import xyz.zhouxy.plusone.commons.util.RegexUtil;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.ValidateUtil;
 
@@ -28,9 +31,11 @@ class RegisterCommandValidator extends BaseValidator<RegisterCommand> {
 
     private RegisterCommandValidator() {
         ruleForString(RegisterCommand::getUsername)
-                .notNull("用户名不能为空")
-                .matches(PatternConsts.USERNAME,
-                        username -> new IllegalArgumentException(String.format("用户名\"%s\"不符合规范", username)));
+                .isTrue(Predicates.<String>of(Objects::nonNull)
+                        .and(StringUtils::isNotEmpty)
+                        .and(StringUtils::isNotBlank)
+                        .and(username -> RegexUtil.matches(username, PatternConsts.USERNAME)),
+                        username -> new IllegalArgumentException(String.format("用户名【%s】不符合规范", username)));
         ruleForString(RegisterCommand::getAccount)
                 .notNull("请输入邮箱地址或手机号")
                 .matchesOne(Arrays.asList(PatternConsts.EMAIL, PatternConsts.MOBILE_PHONE), "请输入邮箱地址或手机号");
