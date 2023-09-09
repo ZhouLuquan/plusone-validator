@@ -69,7 +69,7 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
     // ===== equals =====
 
     public THIS equalsThat(Object that) {
-        return equalsThat(that, value -> new InvalidInputException(String.format("(%s) 必须与 (%s) 相等", value, that)));
+        return equalsThat(that, value -> InvalidInputException.of(String.format("(%s) 必须与 (%s) 相等", value, that)));
     }
 
     public THIS equalsThat(Object that, String errMsg) {
@@ -143,7 +143,7 @@ abstract class PropertyValidator<DTO, PROPERTY, THIS> {
     }
 
     static <V> Function<V, InvalidInputException> convertExceptionCreator(String errMsg) {
-        return value -> new InvalidInputException(errMsg);
+        return value -> InvalidInputException.of(errMsg);
     }
 
     static <V, E extends RuntimeException> Function<V, E> convertExceptionCreator(

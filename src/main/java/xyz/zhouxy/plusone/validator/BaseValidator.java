@@ -13,7 +13,7 @@ public class BaseValidator<T> {
     private final List<PropertyValidator<T, ?, ?>> propertyValidators = new ArrayList<>();
 
     protected void withRule(final Predicate<T> rule, final String errorMessage) {
-        withRule(rule, () -> new InvalidInputException(errorMessage));
+        withRule(rule, () -> InvalidInputException.of(errorMessage));
     }
 
     protected <E extends RuntimeException> void withRule(Predicate<T> rule, Supplier<E> exceptionBuilder) {

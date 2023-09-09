@@ -11,29 +11,29 @@ public class InvalidInputException extends BaseException {
 
     private static final long serialVersionUID = 7956661913360059670L;
 
-    public static final int ERROR_CODE = 4040200;
+    public static final String ERROR_CODE = "4040200";
 
-    private InvalidInputException(int code, String msg) {
+    private InvalidInputException(String code, String msg) {
         super(code, msg);
     }
 
-    private InvalidInputException(int code, Throwable cause) {
+    private InvalidInputException(String code, Throwable cause) {
         super(code, cause);
     }
 
-    private InvalidInputException(int code, String msg, Throwable cause) {
+    private InvalidInputException(String code, String msg, Throwable cause) {
         super(code, msg, cause);
     }
 
-    public InvalidInputException(String msg) {
-        this(ERROR_CODE, msg);
+    public static InvalidInputException of(String msg) {
+        return new InvalidInputException(ERROR_CODE, msg);
     }
 
-    public InvalidInputException(Throwable cause) {
-        this(ERROR_CODE, cause);
+    public static InvalidInputException of(Throwable cause) {
+        return new InvalidInputException(ERROR_CODE, cause);
     }
 
-    public InvalidInputException(String msg, Throwable cause) {
-        this(ERROR_CODE, msg, cause);
+    public static InvalidInputException of(String msg, Throwable cause) {
+        return new InvalidInputException(ERROR_CODE, msg, cause);
     }
 }
