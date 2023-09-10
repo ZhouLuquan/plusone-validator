@@ -13,15 +13,15 @@ public class InvalidInputException extends BaseException {
 
     public static final String ERROR_CODE = "4040200";
 
-    private InvalidInputException(String code, String msg) {
+    protected InvalidInputException(String code, String msg) {
         super(code, msg);
     }
 
-    private InvalidInputException(String code, Throwable cause) {
+    protected InvalidInputException(String code, Throwable cause) {
         super(code, cause);
     }
 
-    private InvalidInputException(String code, String msg, Throwable cause) {
+    protected InvalidInputException(String code, String msg, Throwable cause) {
         super(code, msg, cause);
     }
 
