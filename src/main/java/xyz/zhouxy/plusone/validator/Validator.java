@@ -47,7 +47,7 @@ public final class Validator<T> extends BaseValidator<T> {
         withRule(rule, exceptionCreator);
         return this;
     }
-    
+
     public final <E extends RuntimeException> Validator<T> addRule(Predicate<T> rule, Function<T, E> exceptionCreator) {
         withRule(rule, exceptionCreator);
         return this;
