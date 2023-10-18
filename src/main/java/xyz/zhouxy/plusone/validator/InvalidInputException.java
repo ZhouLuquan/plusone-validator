@@ -3,7 +3,7 @@ package xyz.zhouxy.plusone.validator;
 import xyz.zhouxy.plusone.commons.exception.BaseRuntimeException;
 
 /**
- * 4040200 - 无效的用户输入
+ * 4040000 - 用户请求参数错误
  *
  * @author <a href="https://gitee.com/zhouxy108">ZhouXY</a>
  */
@@ -11,7 +11,7 @@ public class InvalidInputException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 7956661913360059670L;
 
-    public static final String ERROR_CODE = "4040200";
+    public static final String ERROR_CODE = "4040000";
 
     protected InvalidInputException(String code, String msg) {
         super(code, msg);
