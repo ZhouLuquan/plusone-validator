@@ -4,7 +4,10 @@ import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class CollectionValidator<DTO, T> extends PropertyValidator<DTO, Collection<T>, CollectionValidator<DTO, T>> {
+import xyz.zhouxy.plusone.commons.collection.CollectionTools;
+
+public class CollectionValidator<DTO, T>
+        extends BasePropertyValidator<DTO, Collection<T>, CollectionValidator<DTO, T>> {
 
     CollectionValidator(Function<DTO, Collection<T>> getter) {
         super(getter);
@@ -22,12 +25,7 @@ public class CollectionValidator<DTO, T> extends PropertyValidator<DTO, Collecti
 
     public <E extends RuntimeException> CollectionValidator<DTO, T> notEmpty(
             Function<Collection<T>, E> exceptionCreator) {
-        withRule(value -> {
-            if (value == null) {
-                return false;
-            }
-            return !((Collection<?>) value).isEmpty();
-        }, exceptionCreator);
+        withRule(CollectionTools::isNotEmpty, exceptionCreator);
         return this;
     }
 
@@ -43,12 +41,7 @@ public class CollectionValidator<DTO, T> extends PropertyValidator<DTO, Collecti
 
     public <E extends RuntimeException> CollectionValidator<DTO, T> isEmpty(
             Function<Collection<T>, E> exceptionCreator) {
-        withRule(value -> {
-            if (value == null) {
-                return false;
-            }
-            return ((Collection<?>) value).isEmpty();
-        }, exceptionCreator);
+        withRule(CollectionTools::isEmpty, exceptionCreator);
         return this;
     }
 

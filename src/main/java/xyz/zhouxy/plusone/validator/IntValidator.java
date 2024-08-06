@@ -3,14 +3,14 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class IntValidator<DTO> extends PropertyValidator<DTO, Integer, IntValidator<DTO>> {
+public class IntValidator<DTO> extends BasePropertyValidator<DTO, Integer, IntValidator<DTO>> {
 
     IntValidator(Function<DTO, Integer> getter) {
         super(getter);
     }
 
     public IntValidator<DTO> between(int min, int max) {
-        return between(min, max, String.format("数值不在 %s 和 %s 之间", String.valueOf(min), String.valueOf(max)));
+        return between(min, max, String.format("数值不在 %d 和 %d 之间", min, max));
     }
 
     public IntValidator<DTO> between(int min, int max, String errMsg) {

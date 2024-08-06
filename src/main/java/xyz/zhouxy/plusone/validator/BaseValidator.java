@@ -10,18 +10,17 @@ import java.util.function.Supplier;
 
 public class BaseValidator<T> {
     private final List<Consumer<T>> rules = new ArrayList<>();
-    private final List<PropertyValidator<T, ?, ?>> propertyValidators = new ArrayList<>();
 
     protected void withRule(final Predicate<T> rule, final String errorMessage) {
-        withRule(rule, value -> new InvalidInputException(errorMessage));
+        withRule(rule, () -> new IllegalArgumentException(errorMessage));
     }
 
     protected <E extends RuntimeException> void withRule(Predicate<T> rule, Supplier<E> exceptionBuilder) {
         withRule(rule, value -> exceptionBuilder.get());
     }
 
-    protected <E extends RuntimeException> void withRule(Predicate<T> condition,
-            Function<T, E> exceptionBuilder) {
+    protected <E extends RuntimeException> void withRule(
+            Predicate<T> condition, Function<T, E> exceptionBuilder) {
         withRule(value -> {
             if (!condition.test(value)) {
                 throw exceptionBuilder.apply(value);
@@ -34,47 +33,42 @@ public class BaseValidator<T> {
     }
 
     protected final <R> ObjectValidator<T, R> ruleFor(Function<T, R> getter) {
-        ObjectValidator<T, R> validValueHolder = new ObjectValidator<>(getter);
-        propertyValidators.add(validValueHolder);
-        return validValueHolder;
+        ObjectValidator<T, R> validator = new ObjectValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
     }
 
     protected final IntValidator<T> ruleForInt(Function<T, Integer> getter) {
-        IntValidator<T> validValueHolder = new IntValidator<>(getter);
-        propertyValidators.add(validValueHolder);
-        return validValueHolder;
+        IntValidator<T> validator = new IntValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
     }
 
     protected final DoubleValidator<T> ruleForDouble(Function<T, Double> getter) {
-        DoubleValidator<T> validValueHolder = new DoubleValidator<>(getter);
-        propertyValidators.add(validValueHolder);
-        return validValueHolder;
+        DoubleValidator<T> validator = new DoubleValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
     }
 
     protected final BoolValidator<T> ruleForBool(Function<T, Boolean> getter) {
-        BoolValidator<T> validValueHolder = new BoolValidator<>(getter);
-        propertyValidators.add(validValueHolder);
-        return validValueHolder;
+        BoolValidator<T> validator = new BoolValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
     }
 
     protected final StringValidator<T> ruleForString(Function<T, String> getter) {
-        StringValidator<T> validValueHolder = new StringValidator<>(getter);
-        propertyValidators.add(validValueHolder);
-        return validValueHolder;
+        StringValidator<T> validator = new StringValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
     }
 
     protected final <E> CollectionValidator<T, E> ruleForCollection(Function<T, Collection<E>> getter) {
-        CollectionValidator<T, E> validValueHolder = new CollectionValidator<>(getter);
-        propertyValidators.add(validValueHolder);
-        return validValueHolder;
+        CollectionValidator<T, E> validator = new CollectionValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
     }
 
     public void validate(T obj) {
-        for (Consumer<T> rule : this.rules) {
-            rule.accept(obj);
-        }
-        for (PropertyValidator<T, ?, ?> valueValidator : this.propertyValidators) {
-            valueValidator.validate(obj);
-        }
+        this.rules.forEach(rule -> rule.accept(obj));
     }
 }

@@ -1,14 +1,17 @@
 package xyz.zhouxy.plusone.validator;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
-import cn.hutool.core.util.StrUtil;
-import xyz.zhouxy.plusone.constant.RegexConsts;
-import xyz.zhouxy.plusone.util.RegexUtil;
+import com.google.common.base.Preconditions;
 
-public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringValidator<DTO>> {
+import xyz.zhouxy.plusone.commons.constant.PatternConsts;
+import xyz.zhouxy.plusone.commons.util.RegexTools;
+
+public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, StringValidator<DTO>> {
 
     StringValidator(Function<DTO, String> getter) {
         super(getter);
@@ -20,79 +23,108 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     // ===== matches =====
 
-    public StringValidator<DTO> matches(String regex, String errMsg) {
+    public StringValidator<DTO> matches(Pattern regex, String errMsg) {
         return matches(regex, convertExceptionCreator(errMsg));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matches(
-            String regex,
+            Pattern regex,
             Supplier<E> exceptionCreator) {
         return matches(regex, convertExceptionCreator(exceptionCreator));
     }
 
     public <E extends RuntimeException> StringValidator<DTO> matches(
-            String regex,
+            Pattern regex,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matches(input, regex), exceptionCreator);
+        withRule(input -> RegexTools.matches(input, regex), exceptionCreator);
         return this;
     }
 
-    // ===== matchesOr =====
+    // ===== matchesOne =====
 
-    public StringValidator<DTO> matchesOr(String[] regexs, String errMsg) {
-        return matchesOr(regexs, convertExceptionCreator(errMsg));
+    public StringValidator<DTO> matchesOne(Pattern[] regexs, String errMsg) {
+        return matchesOne(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            String[] regexs,
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
+            Pattern[] regexs,
             Supplier<E> exceptionCreator) {
-        return matchesOr(regexs, convertExceptionCreator(exceptionCreator));
+        return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            String[] regexs,
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
+            Pattern[] regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesOr(input, regexs), exceptionCreator);
+        withRule(input -> RegexTools.matchesOne(input, regexs), exceptionCreator);
         return this;
     }
 
-    public StringValidator<DTO> matchesOr(List<String> regexs, String errMsg) {
-        return matchesOr(regexs, convertExceptionCreator(errMsg));
+    public StringValidator<DTO> matchesOne(List<Pattern> regexs, String errMsg) {
+        return matchesOne(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            List<String> regexs,
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
+            List<Pattern> regexs,
             Supplier<E> exceptionCreator) {
-        return matchesOr(regexs, convertExceptionCreator(exceptionCreator));
+        return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesOr(
-            List<String> regexs,
+    public <E extends RuntimeException> StringValidator<DTO> matchesOne(
+            List<Pattern> regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesOr(input, regexs.toArray(new String[regexs.size()])), exceptionCreator);
+        withRule(input -> RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
-    // ===== matchesAnd =====
+    // ===== matchesAll =====
 
-    public StringValidator<DTO> matchesAnd(String[] regexs, String errMsg) {
-        return matchesAnd(regexs, convertExceptionCreator(errMsg));
+    public StringValidator<DTO> matchesAll(Pattern[] regexs, String errMsg) {
+        return matchesAll(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
-            String[] regexs,
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
+            Pattern[] regexs,
             Supplier<E> exceptionCreator) {
-        return matchesAnd(regexs, convertExceptionCreator(exceptionCreator));
+        return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> matchesAnd(
-            String[] regexs,
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
+            Pattern[] regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexUtil.matchesAnd(input, regexs), exceptionCreator);
+        withRule(input -> RegexTools.matchesAll(input, regexs), exceptionCreator);
+        return this;
+    }
+
+    public StringValidator<DTO> matchesAll(Collection<Pattern> regexs, String errMsg) {
+        return matchesAll(regexs, convertExceptionCreator(errMsg));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
+            Collection<Pattern> regexs,
+            Supplier<E> exceptionCreator) {
+        return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> matchesAll(
+            Collection<Pattern> regexs,
+            Function<String, E> exceptionCreator) {
+        withRule(input -> RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
     // ===== notBlank =====
+
+    static boolean isNotBlank(final String cs) {
+        if (cs == null || cs.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < cs.length(); i++) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public StringValidator<DTO> notBlank() {
         return notBlank("This String argument must have text; it must not be null, empty, or blank");
@@ -108,7 +140,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     public <E extends RuntimeException> StringValidator<DTO> notBlank(
             Function<String, E> exceptionCreator) {
-        withRule(input -> StrUtil.isNotBlank(input), exceptionCreator);
+        withRule(StringValidator::isNotBlank, exceptionCreator);
         return this;
     }
 
@@ -127,7 +159,7 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
     }
 
     public <E extends RuntimeException> StringValidator<DTO> email(Function<String, E> exceptionCreator) {
-        return matches(RegexConsts.EMAIL, exceptionCreator);
+        return matches(PatternConsts.EMAIL, exceptionCreator);
     }
 
     // ====== notEmpty =====
@@ -142,33 +174,66 @@ public class StringValidator<DTO> extends PropertyValidator<DTO, String, StringV
 
     public <E extends RuntimeException> StringValidator<DTO> notEmpty(
             Function<String, E> exceptionCreator) {
-        withRule(value -> {
-            if (value == null) {
-                return false;
-            }
-            return !(value.isEmpty());
-        }, exceptionCreator);
+        withRule(s -> s != null && !s.isEmpty(), exceptionCreator);
         return this;
     }
 
-    // ====== isEmpty =====
+    // ====== isNullOrEmpty =====
 
-    public StringValidator<DTO> isEmpty(String errMsg) {
-        return isEmpty(convertExceptionCreator(errMsg));
+    public StringValidator<DTO> isNullOrEmpty(String errMsg) {
+        return isNullOrEmpty(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> isEmpty(Supplier<E> exceptionCreator) {
-        return isEmpty(convertExceptionCreator(exceptionCreator));
+    public <E extends RuntimeException> StringValidator<DTO> isNullOrEmpty(Supplier<E> exceptionCreator) {
+        return isNullOrEmpty(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringValidator<DTO> isEmpty(
+    public <E extends RuntimeException> StringValidator<DTO> isNullOrEmpty(
             Function<String, E> exceptionCreator) {
-        withRule(value -> {
-            if (value == null) {
-                return false;
-            }
-            return value.isEmpty();
-        }, exceptionCreator);
+        withRule(s -> s == null || s.isEmpty(), exceptionCreator);
+        return this;
+    }
+
+    // ====== length =====
+
+    public StringValidator<DTO> length(int length, String errMsg) {
+        return length(length, convertExceptionCreator(errMsg));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> length(int length,
+            Supplier<E> exceptionCreator) {
+        return length(length, convertExceptionCreator(exceptionCreator));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> length(int length,
+            Function<String, E> exceptionCreator) {
+        Preconditions.checkArgument(length >= 0, "The minimum value must be less than the maximum value.");
+        withRule(s -> s != null && s.length() == length, exceptionCreator);
+        return this;
+    }
+
+    static boolean length(String str, int min, int max) {
+        if (str == null) {
+            return false;
+        }
+        final int len = str.length();
+        return len >= min && len < max;
+    }
+
+    public StringValidator<DTO> length(int min, int max, String errMsg) {
+        return length(min, max, convertExceptionCreator(errMsg));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> length(int min, int max,
+            Supplier<E> exceptionCreator) {
+        return length(min, max, convertExceptionCreator(exceptionCreator));
+    }
+
+    public <E extends RuntimeException> StringValidator<DTO> length(int min, int max,
+            Function<String, E> exceptionCreator) {
+        Preconditions.checkArgument(min >= 0, "The minimum value must be greater than equal to 0.");
+        Preconditions.checkArgument(min < max, "The minimum value must be less than the maximum value.");
+        withRule(s -> length(s, min, max), exceptionCreator);
         return this;
     }
 

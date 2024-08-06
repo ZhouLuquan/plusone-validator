@@ -3,7 +3,7 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class DoubleValidator<DTO> extends PropertyValidator<DTO, Double, DoubleValidator<DTO>> {
+public class DoubleValidator<DTO> extends BasePropertyValidator<DTO, Double, DoubleValidator<DTO>> {
 
     DoubleValidator(Function<DTO, Double> getter) {
         super(getter);
