@@ -3,7 +3,6 @@ package xyz.zhouxy.plusone.validator.map.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -12,11 +11,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import xyz.zhouxy.plusone.commons.collection.CollectionTools;
 import xyz.zhouxy.plusone.commons.constant.PatternConsts;
-import xyz.zhouxy.plusone.commons.function.PredicateTools;
-import xyz.zhouxy.plusone.commons.util.RegexTools;
-import xyz.zhouxy.plusone.validator.map.MapValidator;
+import xyz.zhouxy.plusone.validator.MapValidator;
 
 public //
 class MapValidatorTests {
@@ -52,36 +48,33 @@ class ParamsValidator extends MapValidator<String, Object> {
 
     private ParamsValidator() {
         super(new String[] { USERNAME, ACCOUNT, PASSWORD, AGE, BOOLEAN, ROLE_LIST });
-        checkValue(USERNAME, String.class).withRule(
-                PredicateTools.from(StringUtils::isNotBlank)
-                        .and(username -> RegexTools.matches(username, PatternConsts.USERNAME)),
-                username -> new IllegalArgumentException(String.format("用户名【%s】不符合规范", username)));
+        ruleForString(USERNAME)
+                .notBlank("用户名不能为空")
+                .matches(PatternConsts.USERNAME,
+                        username -> new IllegalArgumentException(String.format("用户名【%s】不符合规范", username)));
 
-        checkValue(ACCOUNT, String.class).withRule(
-                PredicateTools.from(StringUtils::isNotBlank)
-                        .and(account -> RegexTools.matchesOne(account,
-                                new Pattern[] { PatternConsts.EMAIL, PatternConsts.MOBILE_PHONE })),
-                "请输入正确的邮箱地址或手机号");
+        ruleForString(ACCOUNT)
+                .notBlank("账号不能为空")
+                .matchesOne(new Pattern[] { PatternConsts.EMAIL, PatternConsts.MOBILE_PHONE }, "请输入正确的邮箱地址或手机号");
 
-        checkValue(PASSWORD, String.class)
-                .withRule(StringUtils::isNotEmpty, "密码不能为空")
-                .withRule(pwd -> RegexTools.matches(pwd, PatternConsts.PASSWORD), "密码不符合规范");
+        ruleForString(PASSWORD)
+                .notEmpty("密码不能为空")
+                .matches(PatternConsts.PASSWORD, "密码不符合规范");
 
         // 校验到多个属性，只能针对 map 本身进行校验
         withRule(m -> Objects.equals(m.get(PASSWORD), m.get(PASSWORD2)),
                 "两次输入的密码不一样！");
 
-        // 通过泛型方式调用方法，指定数据类型
-        this.<Integer>checkValue(AGE)
+        ruleForInt(AGE)
                 .withRule(Objects::nonNull)
-                .withRule(age -> (18 <= age && 60 >= age));
+                .between(18, 61);
 
-        checkValue(BOOLEAN, Boolean.class)
-                .withRule(Objects::nonNull, "Boolean property could not be null.")
-                .withRule(b -> b, "Boolean property must be true.");
+        ruleForBool(BOOLEAN)
+                .notNull("Boolean property could not be null.")
+                .isTrue("Boolean property must be true.");
 
-        this.<Collection<String>>checkValue(ROLE_LIST)
-                .withRule(CollectionTools::isNotEmpty, "角色列表不能为空！")
+        this.<String>ruleForCollection(ROLE_LIST)
+                .notEmpty("角色列表不能为空！")
                 .withRule(l -> l.stream().allMatch(StringUtils::isNotBlank),
                         () -> new IllegalArgumentException("角色标识不能为空！"));
     }

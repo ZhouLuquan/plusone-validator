@@ -1,4 +1,4 @@
-package xyz.zhouxy.plusone.validator.map;
+package xyz.zhouxy.plusone.validator;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,6 +26,8 @@ public abstract class MapValidator<K, V> {
         this.keys = keys.stream().collect(Collectors.toSet());
     }
 
+    // ========== validate & validateAndCopy ==========
+
     public final Map<K, V> validateAndCopy(Map<K, V> obj) {
         return validateAndCopyInternal(obj, this.keys);
     }
@@ -50,16 +52,46 @@ public abstract class MapValidator<K, V> {
         this.consumers.forEach(consumer -> consumer.accept(obj));
     }
 
-    @SuppressWarnings("unused")
-    protected final <VV extends V> EntryValidator<K, VV> checkValue(K key, Class<VV> clazz) {
-        return checkValue(key);
-    }
+    // ========== ruleFor ==========
 
-    protected final <VV extends V> EntryValidator<K, VV> checkValue(K key) {
-        EntryValidator<K, VV> validator = new EntryValidator<>(key);
+    protected final ObjectValidator<Map<K, V>, V> ruleFor(K key) {
+        ObjectValidator<Map<K, V>, V> validator = new ObjectValidator<>(m -> m.get(key));
         this.consumers.add(validator::validate);
         return validator;
     }
+
+    protected final IntValidator<Map<K, V>> ruleForInt(K key) {
+        IntValidator<Map<K, V>> validator = new IntValidator<>(m -> (Integer) m.get(key));
+        this.consumers.add(validator::validate);
+        return validator;
+    }
+
+    protected final DoubleValidator<Map<K, V>> ruleForDouble(K key) {
+        DoubleValidator<Map<K, V>> validator = new DoubleValidator<>(m -> (Double) m.get(key));
+        this.consumers.add(validator::validate);
+        return validator;
+    }
+
+    protected final BoolValidator<Map<K, V>> ruleForBool(K key) {
+        BoolValidator<Map<K, V>> validator = new BoolValidator<>(m -> (Boolean) m.get(key));
+        this.consumers.add(validator::validate);
+        return validator;
+    }
+
+    protected final StringValidator<Map<K, V>> ruleForString(K key) {
+        StringValidator<Map<K, V>> validator = new StringValidator<>(m -> (String) m.get(key));
+        this.consumers.add(validator::validate);
+        return validator;
+    }
+
+    protected final <E> CollectionValidator<Map<K, V>, E> ruleForCollection(K key) {
+        @SuppressWarnings("unchecked")
+        CollectionValidator<Map<K, V>, E> validator = new CollectionValidator<>(m -> (Collection<E>) m.get(key));
+        this.consumers.add(validator::validate);
+        return validator;
+    }
+
+    // ========== withRule ==========
 
     protected final void withRule(Predicate<? super Map<K, V>> rule, String errMsg) {
         withRule(rule, map -> new IllegalArgumentException(errMsg));
