@@ -9,18 +9,18 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class BaseValidator<T> {
-    private final List<Consumer<T>> rules = new ArrayList<>();
+    private final List<Consumer<? super T>> rules = new ArrayList<>();
 
     protected void withRule(final Predicate<T> rule, final String errorMessage) {
         withRule(rule, () -> new IllegalArgumentException(errorMessage));
     }
 
-    protected <E extends RuntimeException> void withRule(Predicate<T> rule, Supplier<E> exceptionBuilder) {
+    protected <E extends RuntimeException> void withRule(Predicate<? super T> rule, Supplier<E> exceptionBuilder) {
         withRule(rule, value -> exceptionBuilder.get());
     }
 
     protected <E extends RuntimeException> void withRule(
-            Predicate<T> condition, Function<T, E> exceptionBuilder) {
+            Predicate<? super T> condition, Function<T, E> exceptionBuilder) {
         withRule(value -> {
             if (!condition.test(value)) {
                 throw exceptionBuilder.apply(value);
@@ -28,7 +28,7 @@ public class BaseValidator<T> {
         });
     }
 
-    protected void withRule(Consumer<T> rule) {
+    protected void withRule(Consumer<? super T> rule) {
         this.rules.add(rule);
     }
 
