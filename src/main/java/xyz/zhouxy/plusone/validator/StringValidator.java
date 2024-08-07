@@ -119,7 +119,7 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
             return false;
         }
         for (int i = 0; i < cs.length(); i++) {
-            if (!Character.isWhitespace(cs.charAt(i))) {
+            if (Character.isWhitespace(cs.charAt(i))) {
                 return false;
             }
         }
