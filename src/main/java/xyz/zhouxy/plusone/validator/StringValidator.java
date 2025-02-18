@@ -6,22 +6,29 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Preconditions;
-
 import xyz.zhouxy.plusone.commons.constant.PatternConsts;
+import xyz.zhouxy.plusone.commons.util.AssertTools;
 import xyz.zhouxy.plusone.commons.util.RegexTools;
+import xyz.zhouxy.plusone.commons.util.StringTools;
 
+/**
+ * StringValidator
+ *
+ * <p>
+ * 针对文本字段的验证器。
+ * </p>
+ *
+ * @author <a href="http://zhouxy.xyz:3000/ZhouXY108">ZhouXY</a>
+ */
 public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, StringValidator<DTO>> {
 
     StringValidator(Function<DTO, String> getter) {
         super(getter);
     }
 
-    // ====================
-    // ====== String ======
-    // ====================
-
-    // ===== matches =====
+    // ================================
+    // #region - matches
+    // ================================
 
     public StringValidator<DTO> matches(Pattern regex, String errMsg) {
         return matches(regex, convertExceptionCreator(errMsg));
@@ -40,7 +47,13 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
         return this;
     }
 
-    // ===== matchesOne =====
+    // ================================
+    // #endregion - matches
+    // ================================
+
+    // ================================
+    // #region - matchesOne
+    // ================================
 
     public StringValidator<DTO> matchesOne(Pattern[] regexs, String errMsg) {
         return matchesOne(regexs, convertExceptionCreator(errMsg));
@@ -76,7 +89,13 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
         return this;
     }
 
-    // ===== matchesAll =====
+    // ================================
+    // #endregion - matchesOne
+    // ================================
+
+    // ================================
+    // #region - matchesAll
+    // ================================
 
     public StringValidator<DTO> matchesAll(Pattern[] regexs, String errMsg) {
         return matchesAll(regexs, convertExceptionCreator(errMsg));
@@ -112,19 +131,13 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
         return this;
     }
 
-    // ===== notBlank =====
+    // ================================
+    // #endregion - matchesAll
+    // ================================
 
-    static boolean isNotBlank(final String cs) {
-        if (cs == null || cs.isEmpty()) {
-            return false;
-        }
-        for (int i = 0; i < cs.length(); i++) {
-            if (!Character.isWhitespace(cs.charAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // ================================
+    // #region - notBlank
+    // ================================
 
     public StringValidator<DTO> notBlank() {
         return notBlank("This String argument must have text; it must not be null, empty, or blank");
@@ -140,11 +153,17 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
 
     public <E extends RuntimeException> StringValidator<DTO> notBlank(
             Function<String, E> exceptionCreator) {
-        withRule(StringValidator::isNotBlank, exceptionCreator);
+        withRule(StringTools::isNotBlank, exceptionCreator);
         return this;
     }
 
-    // ===== email =====
+    // ================================
+    // #endregion - notBlank
+    // ================================
+
+    // ================================
+    // #region - email
+    // ================================
 
     public StringValidator<DTO> email() {
         return email("The value is not an email address.");
@@ -159,10 +178,17 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
     }
 
     public <E extends RuntimeException> StringValidator<DTO> email(Function<String, E> exceptionCreator) {
+        // TODO [优化] 优化 email 校验
         return matches(PatternConsts.EMAIL, exceptionCreator);
     }
 
-    // ====== notEmpty =====
+    // ================================
+    // #endregion - email
+    // ================================
+
+    // ================================
+    // #region - notEmpty
+    // ================================
 
     public StringValidator<DTO> notEmpty(String errMsg) {
         return notEmpty(convertExceptionCreator(errMsg));
@@ -178,7 +204,13 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
         return this;
     }
 
-    // ====== isNullOrEmpty =====
+    // ================================
+    // #endregion - notEmpty
+    // ================================
+
+    // ================================
+    // #region - isNullOrEmpty
+    // ================================
 
     public StringValidator<DTO> isNullOrEmpty(String errMsg) {
         return isNullOrEmpty(convertExceptionCreator(errMsg));
@@ -194,7 +226,13 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
         return this;
     }
 
-    // ====== length =====
+    // ================================
+    // #endregion - isNullOrEmpty
+    // ================================
+
+    // ================================
+    // #region - length
+    // ================================
 
     public StringValidator<DTO> length(int length, String errMsg) {
         return length(length, convertExceptionCreator(errMsg));
@@ -207,7 +245,7 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
 
     public <E extends RuntimeException> StringValidator<DTO> length(int length,
             Function<String, E> exceptionCreator) {
-        Preconditions.checkArgument(length >= 0, "The minimum value must be less than the maximum value.");
+        AssertTools.checkArgument(length >= 0, "The minimum value must be less than the maximum value.");
         withRule(s -> s != null && s.length() == length, exceptionCreator);
         return this;
     }
@@ -231,11 +269,15 @@ public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, Str
 
     public <E extends RuntimeException> StringValidator<DTO> length(int min, int max,
             Function<String, E> exceptionCreator) {
-        Preconditions.checkArgument(min >= 0, "The minimum value must be greater than equal to 0.");
-        Preconditions.checkArgument(min < max, "The minimum value must be less than the maximum value.");
+        AssertTools.checkArgument(min >= 0, "The minimum value must be greater than equal to 0.");
+        AssertTools.checkArgument(min < max, "The minimum value must be less than the maximum value.");
         withRule(s -> length(s, min, max), exceptionCreator);
         return this;
     }
+
+    // ================================
+    // #endregion - length
+    // ================================
 
     @Override
     protected StringValidator<DTO> thisObject() {

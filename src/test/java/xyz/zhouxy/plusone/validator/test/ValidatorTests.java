@@ -10,10 +10,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import com.google.common.base.Preconditions;
-
 import xyz.zhouxy.plusone.commons.collection.CollectionTools;
 import xyz.zhouxy.plusone.commons.function.PredicateTools;
+import xyz.zhouxy.plusone.commons.util.AssertTools;
 import xyz.zhouxy.plusone.commons.util.RegexTools;
 import xyz.zhouxy.plusone.validator.Validator;
 
@@ -43,14 +42,14 @@ class ValidatorTests {
                 // 传入 rule
                 .addRule(command -> {
                     String code = command.getCode();
-                    Preconditions.checkArgument(Objects.nonNull(code), "验证码不能为空");
-                    Preconditions.checkArgument(RegexTools.matches(code, CAPTCHA), "验证码不符合规范");
+                    AssertTools.checkArgument(Objects.nonNull(code), "验证码不能为空");
+                    AssertTools.checkArgument(RegexTools.matches(code, CAPTCHA), "验证码不符合规范");
                 })
                 // 传入 rule
                 .addRule(command -> {
                     String password = command.getPassword();
-                    Preconditions.checkArgument(StringUtils.isNotEmpty(password), "密码不能为空");
-                    Preconditions.checkArgument(RegexTools.matches(password, PASSWORD), "密码不符合规范");
+                    AssertTools.checkArgument(StringUtils.isNotEmpty(password), "密码不能为空");
+                    AssertTools.checkArgument(RegexTools.matches(password, PASSWORD), "密码不符合规范");
                 })
                 // 传入 predicate 和 Supplier<E extends RuntimeException>
                 .addRule(command -> CollectionTools.isNotEmpty(command.getRoles()),
