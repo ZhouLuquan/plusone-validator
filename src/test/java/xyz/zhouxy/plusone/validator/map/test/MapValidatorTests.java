@@ -28,10 +28,15 @@ class MapValidatorTests {
         params.put(ParamsValidator.PASSWORD2, "99Code108");
         params.put(ParamsValidator.AGE, 18);
         params.put(ParamsValidator.BOOLEAN, true);
-        params.put(ParamsValidator.ROLE_LIST, Arrays.asList("admin", ""));
 
-        Map<String, Object> validedParams = validator.validateAndCopy(params);
-        System.out.println(validedParams);
+        params.put(ParamsValidator.ROLE_LIST, Arrays.asList("admin", ""));
+        assertThrows(IllegalArgumentException.class, () -> {
+            validator.validateAndCopy(params);
+        });
+
+        params.put(ParamsValidator.ROLE_LIST, Arrays.asList("admin", "developer"));
+        Map<String, Object> validatedParams = validator.validateAndCopy(params);
+        System.out.println(validatedParams);
     }
 }
 
