@@ -51,6 +51,12 @@ public abstract class BaseValidator<T> {
         return validator;
     }
 
+    protected final <R extends Comparable<R>> DefaultValidatorOfComparable<T, R> ruleForComparable(Function<T, R> getter) {
+        DefaultValidatorOfComparable<T, R> validator = new DefaultValidatorOfComparable<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
     protected final IntValidator<T> ruleForInt(Function<T, Integer> getter) {
         IntValidator<T> validator = new IntValidator<>(getter);
         this.rules.add(validator::validate);

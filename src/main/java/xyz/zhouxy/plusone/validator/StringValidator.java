@@ -20,7 +20,7 @@ import xyz.zhouxy.plusone.commons.util.StringTools;
  *
  * @author <a href="http://zhouxy.xyz:3000/ZhouXY108">ZhouXY</a>
  */
-public class StringValidator<DTO> extends BasePropertyValidator<DTO, String, StringValidator<DTO>> {
+public class StringValidator<DTO> extends ValidatorOfComparable<DTO, String, StringValidator<DTO>> {
 
     StringValidator(Function<DTO, String> getter) {
         super(getter);
