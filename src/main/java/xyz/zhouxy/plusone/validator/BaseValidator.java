@@ -8,7 +8,20 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class BaseValidator<T> {
+/**
+ * BaseValidator
+ *
+ * <p>
+ * 校验器的基类
+ * </p>
+ *
+ * <p>
+ * <b>NOTE: content.</b>
+ * </p>
+ * @author <a href="http://zhouxy.xyz:3000/ZhouXY108">ZhouXY</a>
+ * @since 0.0.1
+ */
+public abstract class BaseValidator<T> {
     private final List<Consumer<? super T>> rules = new ArrayList<>();
 
     protected void withRule(final Predicate<T> rule, final String errorMessage) {
