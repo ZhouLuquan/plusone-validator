@@ -51,6 +51,10 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
         return ruleForInt(m -> (Integer) m.get(key));
     }
 
+    protected final LongValidator<Map<K, V>> ruleForLong(K key) {
+        return ruleForLong(m -> (Long) m.get(key));
+    }
+
     protected final DoubleValidator<Map<K, V>> ruleForDouble(K key) {
         return ruleForDouble(m -> (Double) m.get(key));
     }

@@ -57,6 +57,12 @@ public abstract class BaseValidator<T> {
         return validator;
     }
 
+    protected final LongValidator<T> ruleForLong(Function<T, Long> getter) {
+        LongValidator<T> validator = new LongValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
     protected final DoubleValidator<T> ruleForDouble(Function<T, Double> getter) {
         DoubleValidator<T> validator = new DoubleValidator<>(getter);
         this.rules.add(validator::validate);
