@@ -11,7 +11,7 @@ import xyz.zhouxy.plusone.commons.constant.PatternConsts;
 import xyz.zhouxy.plusone.commons.function.PredicateTools;
 import xyz.zhouxy.plusone.commons.util.RegexTools;
 import xyz.zhouxy.plusone.validator.BaseValidator;
-import xyz.zhouxy.plusone.validator.ValidateUtil;
+import xyz.zhouxy.plusone.validator.ValidTools;
 
 class BaseValidatorTest {
     @Test
@@ -21,7 +21,7 @@ class BaseValidatorTest {
                 "A1b2C3d4",
                 Arrays.asList(new String[] { "admin", "editor" }));
         RegisterCommandValidator.INSTANCE.validate(registerCommand);
-        ValidateUtil.validate(registerCommand, RegisterCommandValidator.INSTANCE);
+        ValidTools.validate(registerCommand, RegisterCommandValidator.INSTANCE);
         System.out.println(registerCommand);
     }
 

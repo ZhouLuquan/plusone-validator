@@ -12,8 +12,8 @@ package xyz.zhouxy.plusone.validator;
  * @see Validator
  * @see IValidateRequired
  */
-public class ValidateUtil {
-    private ValidateUtil() {
+public class ValidTools {
+    private ValidTools() {
         throw new IllegalStateException("Utility class");
     }
 
