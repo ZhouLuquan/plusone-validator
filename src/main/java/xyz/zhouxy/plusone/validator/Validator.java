@@ -38,22 +38,22 @@ import java.util.function.Supplier;
  * @see BaseValidator
  */
 public final class Validator<T> extends BaseValidator<T> {
-    public final Validator<T> addRule(final Predicate<T> rule, final String errorMessage) {
+    public final Validator<T> addRule(final Predicate<? super T> rule, final String errorMessage) {
         withRule(rule, errorMessage);
         return this;
     }
 
-    public final <E extends RuntimeException> Validator<T> addRule(Predicate<T> rule, Supplier<E> exceptionCreator) {
+    public final <E extends RuntimeException> Validator<T> addRule(Predicate<? super T> rule, Supplier<E> exceptionCreator) {
         withRule(rule, exceptionCreator);
         return this;
     }
 
-    public final <E extends RuntimeException> Validator<T> addRule(Predicate<T> rule, Function<T, E> exceptionCreator) {
+    public final <E extends RuntimeException> Validator<T> addRule(Predicate<? super T> rule, Function<T, E> exceptionCreator) {
         withRule(rule, exceptionCreator);
         return this;
     }
 
-    public final Validator<T> addRule(Consumer<T> rule) {
+    public final Validator<T> addRule(Consumer<? super T> rule) {
         withRule(rule);
         return this;
     }

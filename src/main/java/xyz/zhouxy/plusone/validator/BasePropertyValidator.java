@@ -16,7 +16,7 @@ public abstract class BasePropertyValidator< //
 
     private final Function<TObj, ? extends TProperty> getter;
 
-    private final List<Consumer<TProperty>> consumers = new LinkedList<>();
+    private final List<Consumer<? super TProperty>> consumers = new LinkedList<>();
 
     protected BasePropertyValidator(Function<TObj, ? extends TProperty> getter) {
         this.getter = getter;
@@ -47,7 +47,7 @@ public abstract class BasePropertyValidator< //
     }
 
     public final <T extends TObj> void validate(T obj) {
-        for (Consumer<TProperty> consumer : consumers) {
+        for (Consumer<? super TProperty> consumer : consumers) {
             consumer.accept(getter.apply(obj));
         }
     }
@@ -115,22 +115,22 @@ public abstract class BasePropertyValidator< //
 
     // ===== isTrue =====
 
-    public TPropertyValidator isTrue(Predicate<TProperty> condition) {
+    public TPropertyValidator isTrue(Predicate<? super TProperty> condition) {
         return isTrue(condition, "无效的用户输入");
     }
 
-    public TPropertyValidator isTrue(Predicate<TProperty> condition, String errMsg) {
+    public TPropertyValidator isTrue(Predicate<? super TProperty> condition, String errMsg) {
         return isTrue(condition, convertExceptionCreator(errMsg));
     }
 
     public <E extends RuntimeException> TPropertyValidator isTrue(
-            Predicate<TProperty> condition,
+            Predicate<? super TProperty> condition,
             Supplier<E> exceptionCreator) {
         return isTrue(condition, convertExceptionCreator(exceptionCreator));
     }
 
     public <E extends RuntimeException> TPropertyValidator isTrue(
-            Predicate<TProperty> condition,
+            Predicate<? super TProperty> condition,
             Function<TProperty, E> exceptionCreator) {
         withRule(condition, exceptionCreator);
         return thisObject();
@@ -138,24 +138,24 @@ public abstract class BasePropertyValidator< //
 
     // ===== isTrue =====
 
-    public TPropertyValidator isTrue(Collection<Predicate<TProperty>> conditions) {
+    public TPropertyValidator isTrue(Collection<Predicate<? super TProperty>> conditions) {
         return isTrue(conditions, "无效的用户输入");
     }
 
-    public TPropertyValidator isTrue(Collection<Predicate<TProperty>> conditions, String errMsg) {
+    public TPropertyValidator isTrue(Collection<Predicate<? super TProperty>> conditions, String errMsg) {
         return isTrue(conditions, convertExceptionCreator(errMsg));
     }
 
     public <E extends RuntimeException> TPropertyValidator isTrue(
-            Collection<Predicate<TProperty>> conditions,
+            Collection<Predicate<? super TProperty>> conditions,
             Supplier<E> exceptionCreator) {
         return isTrue(conditions, convertExceptionCreator(exceptionCreator));
     }
 
     public <E extends RuntimeException> TPropertyValidator isTrue(
-            Collection<Predicate<TProperty>> conditions,
+            Collection<Predicate<? super TProperty>> conditions,
             Function<TProperty, E> exceptionCreator) {
-        for (Predicate<TProperty> condition : conditions) {
+        for (Predicate<? super TProperty> condition : conditions) {
             withRule(condition, exceptionCreator);
         }
         return thisObject();

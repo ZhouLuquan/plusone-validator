@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 public abstract class BaseValidator<T> {
     private final List<Consumer<? super T>> rules = new ArrayList<>();
 
-    protected void withRule(final Predicate<T> rule, final String errorMessage) {
+    protected void withRule(final Predicate<? super T> rule, final String errorMessage) {
         withRule(rule, () -> new IllegalArgumentException(errorMessage));
     }
 
