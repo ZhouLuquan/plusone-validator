@@ -5,11 +5,11 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.Range;
 
-public abstract class ValidatorOfComparable<
-        TObj,
-        TProperty extends Comparable<TProperty>,
-        TPropertyValidator extends ValidatorOfComparable<TObj, TProperty, TPropertyValidator>
-    > extends BasePropertyValidator<TObj, TProperty, TPropertyValidator> {
+public abstract
+class ValidatorOfComparable<TObj,
+                            TProperty extends Comparable<TProperty>,
+                            TPropertyValidator extends ValidatorOfComparable<TObj, TProperty, TPropertyValidator>>
+    extends BasePropertyValidator<TObj, TProperty, TPropertyValidator> {
 
     ValidatorOfComparable(Function<TObj, ? extends TProperty> getter) {
         super(getter);
