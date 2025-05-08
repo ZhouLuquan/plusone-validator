@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>xyz.zhouxy.plusone</groupId>
+    <artifactId>plusone-validator-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>plusone-validator</artifactId>
+  <name>plusone-validator</name>
+  <url>http://zhouxy.xyz</url>
+
+  <description>
+    Plusone Validator 是一个参数校验框架，可针对 DTO 创建对应的校验器，并复用该校验器实例，对 DTO 进行校验。
+  </description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>xyz.zhouxy.plusone</groupId>
+      <artifactId>plusone-commons</artifactId>
+      <version>1.1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import xyz.zhouxy.plusone.commons.constant.PatternConsts;
+import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.validator.MapValidator;
 
 public //
@@ -80,7 +80,7 @@ class ParamsValidator extends MapValidator<String, Object> {
 
         this.<String>ruleForCollection(ROLE_LIST)
                 .notEmpty("角色列表不能为空！")
-                .withRule(l -> l.stream().allMatch(StringUtils::isNotBlank),
+                .withRule(l -> l.stream().allMatch(StringTools::isNotBlank),
                         () -> new IllegalArgumentException("角色标识不能为空！"));
     }
 }

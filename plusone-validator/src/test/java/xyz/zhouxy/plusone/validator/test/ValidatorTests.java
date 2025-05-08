@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import xyz.zhouxy.plusone.commons.collection.CollectionTools;
 import xyz.zhouxy.plusone.commons.function.PredicateTools;
 import xyz.zhouxy.plusone.commons.util.AssertTools;
 import xyz.zhouxy.plusone.commons.util.RegexTools;
+import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.validator.Validator;
 
 class ValidatorTests {
@@ -29,8 +29,8 @@ class ValidatorTests {
                 .addRule(command -> {
                     String username = command.getUsername();
                     return Objects.nonNull(username)
-                            && StringUtils.isNotEmpty(username)
-                            && StringUtils.isNotBlank(username)
+                            && StringTools.isNotEmpty(username)
+                            && StringTools.isNotBlank(username)
                             && RegexTools.matches(username, USERNAME);
                 }, command -> new IllegalArgumentException(String.format("用户名【%s】不符合规范", command.getUsername())))
                 // 传入 predicate 和 error message
@@ -48,7 +48,7 @@ class ValidatorTests {
                 // 传入 rule
                 .addRule(command -> {
                     String password = command.getPassword();
-                    AssertTools.checkArgument(StringUtils.isNotEmpty(password), "密码不能为空");
+                    AssertTools.checkArgument(StringTools.isNotEmpty(password), "密码不能为空");
                     AssertTools.checkArgument(RegexTools.matches(password, PASSWORD), "密码不符合规范");
                 })
                 // 传入 predicate 和 Supplier<E extends RuntimeException>

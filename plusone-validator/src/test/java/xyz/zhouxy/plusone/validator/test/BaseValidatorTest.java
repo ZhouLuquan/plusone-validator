@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Range;
@@ -13,6 +12,7 @@ import com.google.common.collect.Range;
 import xyz.zhouxy.plusone.commons.constant.PatternConsts;
 import xyz.zhouxy.plusone.commons.function.PredicateTools;
 import xyz.zhouxy.plusone.commons.util.RegexTools;
+import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.ValidTools;
 
@@ -38,8 +38,8 @@ class BaseValidatorTest {
 
             ruleForString(RegisterCommand::getUsername)
                     .isTrue(PredicateTools.<String>from(Objects::nonNull)
-                            .and(StringUtils::isNotEmpty)
-                            .and(StringUtils::isNotBlank)
+                            .and(StringTools::isNotEmpty)
+                            .and(StringTools::isNotBlank)
                             .and(username -> RegexTools.matches(username, PatternConsts.USERNAME)),
                             username -> new IllegalArgumentException(String.format("用户名【%s】不符合规范", username)));
             ruleForString(RegisterCommand::getAccount)
