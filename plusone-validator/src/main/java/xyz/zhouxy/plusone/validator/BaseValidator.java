@@ -45,50 +45,50 @@ public abstract class BaseValidator<T> {
         this.rules.add(rule);
     }
 
-    protected final <R> ObjectValidator<T, R> ruleFor(Function<T, R> getter) {
-        ObjectValidator<T, R> validator = new ObjectValidator<>(getter);
+    protected final <R> ObjectPropertyValidator<T, R> ruleFor(Function<T, R> getter) {
+        ObjectPropertyValidator<T, R> validator = new ObjectPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final <R extends Comparable<R>> DefaultValidatorOfComparable<T, R> ruleForComparable(Function<T, R> getter) {
-        DefaultValidatorOfComparable<T, R> validator = new DefaultValidatorOfComparable<>(getter);
+    protected final <R extends Comparable<R>> DefaultComparablePropertyValidator<T, R> ruleForComparable(Function<T, R> getter) {
+        DefaultComparablePropertyValidator<T, R> validator = new DefaultComparablePropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final IntValidator<T> ruleForInt(Function<T, Integer> getter) {
-        IntValidator<T> validator = new IntValidator<>(getter);
+    protected final IntPropertyValidator<T> ruleForInt(Function<T, Integer> getter) {
+        IntPropertyValidator<T> validator = new IntPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final LongValidator<T> ruleForLong(Function<T, Long> getter) {
-        LongValidator<T> validator = new LongValidator<>(getter);
+    protected final LongPropertyValidator<T> ruleForLong(Function<T, Long> getter) {
+        LongPropertyValidator<T> validator = new LongPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final DoubleValidator<T> ruleForDouble(Function<T, Double> getter) {
-        DoubleValidator<T> validator = new DoubleValidator<>(getter);
+    protected final DoublePropertyValidator<T> ruleForDouble(Function<T, Double> getter) {
+        DoublePropertyValidator<T> validator = new DoublePropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final BoolValidator<T> ruleForBool(Function<T, Boolean> getter) {
-        BoolValidator<T> validator = new BoolValidator<>(getter);
+    protected final BoolPropertyValidator<T> ruleForBool(Function<T, Boolean> getter) {
+        BoolPropertyValidator<T> validator = new BoolPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final StringValidator<T> ruleForString(Function<T, String> getter) {
-        StringValidator<T> validator = new StringValidator<>(getter);
+    protected final StringPropertyValidator<T> ruleForString(Function<T, String> getter) {
+        StringPropertyValidator<T> validator = new StringPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final <E> CollectionValidator<T, E> ruleForCollection(Function<T, Collection<E>> getter) {
-        CollectionValidator<T, E> validator = new CollectionValidator<>(getter);
+    protected final <E> CollectionPropertyValidator<T, E> ruleForCollection(Function<T, Collection<E>> getter) {
+        CollectionPropertyValidator<T, E> validator = new CollectionPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }

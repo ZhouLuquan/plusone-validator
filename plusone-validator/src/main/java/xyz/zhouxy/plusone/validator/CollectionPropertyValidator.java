@@ -6,24 +6,24 @@ import java.util.function.Supplier;
 
 import xyz.zhouxy.plusone.commons.collection.CollectionTools;
 
-public class CollectionValidator<DTO, T>
-        extends BasePropertyValidator<DTO, Collection<T>, CollectionValidator<DTO, T>> {
+public class CollectionPropertyValidator<DTO, T>
+        extends BasePropertyValidator<DTO, Collection<T>, CollectionPropertyValidator<DTO, T>> {
 
-    CollectionValidator(Function<DTO, Collection<T>> getter) {
+    CollectionPropertyValidator(Function<DTO, Collection<T>> getter) {
         super(getter);
     }
 
     // ====== notEmpty =====
 
-    public CollectionValidator<DTO, T> notEmpty(String errMsg) {
+    public CollectionPropertyValidator<DTO, T> notEmpty(String errMsg) {
         return notEmpty(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> CollectionValidator<DTO, T> notEmpty(Supplier<E> exceptionCreator) {
+    public <E extends RuntimeException> CollectionPropertyValidator<DTO, T> notEmpty(Supplier<E> exceptionCreator) {
         return notEmpty(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> CollectionValidator<DTO, T> notEmpty(
+    public <E extends RuntimeException> CollectionPropertyValidator<DTO, T> notEmpty(
             Function<Collection<T>, E> exceptionCreator) {
         withRule(CollectionTools::isNotEmpty, exceptionCreator);
         return this;
@@ -31,22 +31,22 @@ public class CollectionValidator<DTO, T>
 
     // ====== isEmpty =====
 
-    public CollectionValidator<DTO, T> isEmpty(String errMsg) {
+    public CollectionPropertyValidator<DTO, T> isEmpty(String errMsg) {
         return isEmpty(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> CollectionValidator<DTO, T> isEmpty(Supplier<E> exceptionCreator) {
+    public <E extends RuntimeException> CollectionPropertyValidator<DTO, T> isEmpty(Supplier<E> exceptionCreator) {
         return isEmpty(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> CollectionValidator<DTO, T> isEmpty(
+    public <E extends RuntimeException> CollectionPropertyValidator<DTO, T> isEmpty(
             Function<Collection<T>, E> exceptionCreator) {
         withRule(CollectionTools::isEmpty, exceptionCreator);
         return this;
     }
 
     @Override
-    protected CollectionValidator<DTO, T> thisObject() {
+    protected CollectionPropertyValidator<DTO, T> thisObject() {
         return this;
     }
 }

@@ -43,31 +43,31 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 
     // ========== ruleFor ==========
 
-    protected final ObjectValidator<Map<K, V>, V> ruleFor(K key) {
+    protected final ObjectPropertyValidator<Map<K, V>, V> ruleFor(K key) {
         return ruleFor(m -> m.get(key));
     }
 
-    protected final IntValidator<Map<K, V>> ruleForInt(K key) {
+    protected final IntPropertyValidator<Map<K, V>> ruleForInt(K key) {
         return ruleForInt(m -> (Integer) m.get(key));
     }
 
-    protected final LongValidator<Map<K, V>> ruleForLong(K key) {
+    protected final LongPropertyValidator<Map<K, V>> ruleForLong(K key) {
         return ruleForLong(m -> (Long) m.get(key));
     }
 
-    protected final DoubleValidator<Map<K, V>> ruleForDouble(K key) {
+    protected final DoublePropertyValidator<Map<K, V>> ruleForDouble(K key) {
         return ruleForDouble(m -> (Double) m.get(key));
     }
 
-    protected final BoolValidator<Map<K, V>> ruleForBool(K key) {
+    protected final BoolPropertyValidator<Map<K, V>> ruleForBool(K key) {
         return ruleForBool(m -> (Boolean) m.get(key));
     }
 
-    protected final StringValidator<Map<K, V>> ruleForString(K key) {
+    protected final StringPropertyValidator<Map<K, V>> ruleForString(K key) {
         return ruleForString(m -> (String) m.get(key));
     }
 
-    protected final <E> CollectionValidator<Map<K, V>, E> ruleForCollection(K key) {
+    protected final <E> CollectionPropertyValidator<Map<K, V>, E> ruleForCollection(K key) {
         @SuppressWarnings("unchecked")
         Function<Map<K, V>, Collection<E>> getter = m -> (Collection<E>) m.get(key);
         return ruleForCollection(getter);
