@@ -9,41 +9,43 @@ public class BoolPropertyValidator<DTO> extends BasePropertyValidator<DTO, Boole
         super(getter);
     }
 
-    // ====== isTrue ======
+    // ====== isTrueValue ======
 
-    public BoolPropertyValidator<DTO> isTrue() {
-        return isTrue("The value must be true.");
+    public BoolPropertyValidator<DTO> isTrueValue() {
+        return isTrueValue("The value must be true.");
     }
 
-    public BoolPropertyValidator<DTO> isTrue(String errMsg) {
-        return isTrue(convertExceptionCreator(errMsg));
+    public BoolPropertyValidator<DTO> isTrueValue(String errMsg) {
+        return isTrueValue(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> BoolPropertyValidator<DTO> isTrue(Supplier<E> exceptionCreator) {
-        return isTrue(convertExceptionCreator(exceptionCreator));
+    public <E extends RuntimeException> BoolPropertyValidator<DTO> isTrueValue(
+            Supplier<E> exceptionCreator) {
+        return isTrueValue(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> BoolPropertyValidator<DTO> isTrue(
+    public <E extends RuntimeException> BoolPropertyValidator<DTO> isTrueValue(
             Function<Boolean, E> exceptionCreator) {
         withRule(Boolean.TRUE::equals, exceptionCreator);
         return this;
     }
 
-    // ====== isFalse ======
+    // ====== isFalseValue ======
 
-    public BoolPropertyValidator<DTO> isFalse() {
-        return isFalse("The value must be false.");
+    public BoolPropertyValidator<DTO> isFalseValue() {
+        return isFalseValue("The value must be false.");
     }
 
-    public BoolPropertyValidator<DTO> isFalse(String errMsg) {
-        return isFalse(convertExceptionCreator(errMsg));
+    public BoolPropertyValidator<DTO> isFalseValue(String errMsg) {
+        return isFalseValue(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> BoolPropertyValidator<DTO> isFalse(Supplier<E> exceptionCreator) {
-        return isFalse(convertExceptionCreator(exceptionCreator));
+    public <E extends RuntimeException> BoolPropertyValidator<DTO> isFalseValue(
+            Supplier<E> exceptionCreator) {
+        return isFalseValue(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> BoolPropertyValidator<DTO> isFalse(
+    public <E extends RuntimeException> BoolPropertyValidator<DTO> isFalseValue(
             Function<Boolean, E> exceptionCreator) {
         withRule(Boolean.FALSE::equals, exceptionCreator);
         return this;

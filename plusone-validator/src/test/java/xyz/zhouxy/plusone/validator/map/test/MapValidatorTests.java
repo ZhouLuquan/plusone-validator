@@ -76,7 +76,7 @@ class ParamsValidator extends MapValidator<String, Object> {
 
         ruleForBool(BOOLEAN)
                 .notNull("Boolean property could not be null.")
-                .isTrue("Boolean property must be true.");
+                .isTrueValue("Boolean property must be true.");
 
         this.<String>ruleForCollection(ROLE_LIST)
                 .notEmpty("角色列表不能为空！")
