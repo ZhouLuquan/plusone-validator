@@ -22,6 +22,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Strings;
+
 import xyz.zhouxy.plusone.commons.constant.PatternConsts;
 import xyz.zhouxy.plusone.commons.util.AssertTools;
 import xyz.zhouxy.plusone.commons.util.RegexTools;
@@ -239,7 +241,7 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
 
     public <E extends RuntimeException> StringPropertyValidator<DTO> isNullOrEmpty(
             Function<String, E> exceptionCreator) {
-        withRule(s -> s == null || s.isEmpty(), exceptionCreator);
+        withRule(Strings::isNullOrEmpty, exceptionCreator);
         return this;
     }
 
