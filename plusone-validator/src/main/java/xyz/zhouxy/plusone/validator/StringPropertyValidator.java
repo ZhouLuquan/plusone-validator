@@ -178,28 +178,29 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // ================================
 
     // ================================
-    // #region - email
+    // #region - emailAddress
     // ================================
 
-    public StringPropertyValidator<DTO> email() {
-        return email("The value is not an email address.");
+    public StringPropertyValidator<DTO> emailAddress() {
+        return emailAddress("The value is not an email address.");
     }
 
-    public StringPropertyValidator<DTO> email(String errMsg) {
-        return email(convertExceptionCreator(errMsg));
+    public StringPropertyValidator<DTO> emailAddress(String errMsg) {
+        return emailAddress(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> email(Supplier<E> exceptionCreator) {
-        return email(convertExceptionCreator(exceptionCreator));
+    public <E extends RuntimeException> StringPropertyValidator<DTO> emailAddress(
+            Supplier<E> exceptionCreator) {
+        return emailAddress(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> email(Function<String, E> exceptionCreator) {
-        // TODO [优化] 优化 email 校验
+    public <E extends RuntimeException> StringPropertyValidator<DTO> emailAddress(
+            Function<String, E> exceptionCreator) {
         return matches(PatternConsts.EMAIL, exceptionCreator);
     }
 
     // ================================
-    // #endregion - email
+    // #endregion - emailAddress
     // ================================
 
     // ================================
