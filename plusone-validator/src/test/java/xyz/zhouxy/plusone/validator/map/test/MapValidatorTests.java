@@ -14,7 +14,6 @@ import xyz.zhouxy.plusone.commons.constant.PatternConsts;
 import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.validator.MapValidator;
 
-public //
 class MapValidatorTests {
 
     private static final MapValidator<String, Object> validator = ParamsValidator.INSTANCE;
@@ -72,7 +71,8 @@ class ParamsValidator extends MapValidator<String, Object> {
 
         ruleForInt(AGE)
                 .withRule(Objects::nonNull)
-                .between(18, 61);
+                .ge(18)
+                .le(60);
 
         ruleForBool(BOOLEAN)
                 .notNull("Boolean property could not be null.")
