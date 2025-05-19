@@ -262,7 +262,8 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
 
     public <E extends RuntimeException> StringPropertyValidator<DTO> length(int length,
             Function<String, E> exceptionCreator) {
-        AssertTools.checkArgument(length >= 0, "The minimum value must be less than the maximum value.");
+        AssertTools.checkArgument(length >= 0,
+                "The required length must be greater than or equal to 0.");
         withRule(s -> s != null && s.length() == length, exceptionCreator);
         return this;
     }
