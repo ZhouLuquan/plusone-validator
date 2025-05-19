@@ -67,8 +67,8 @@ public abstract class BaseValidator<T> {
         return validator;
     }
 
-    protected final <R extends Comparable<R>> DefaultComparablePropertyValidator<T, R> ruleForComparable(Function<T, R> getter) {
-        DefaultComparablePropertyValidator<T, R> validator = new DefaultComparablePropertyValidator<>(getter);
+    protected final <R extends Comparable<R>> ComparablePropertyValidator<T, R> ruleForComparable(Function<T, R> getter) {
+        ComparablePropertyValidator<T, R> validator = new ComparablePropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
