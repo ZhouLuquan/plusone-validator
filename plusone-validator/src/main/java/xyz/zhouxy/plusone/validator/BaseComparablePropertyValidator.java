@@ -25,33 +25,34 @@ public abstract
 class BaseComparablePropertyValidator<TObj,
                                       TProperty extends Comparable<TProperty>,
                                       TPropertyValidator extends BaseComparablePropertyValidator<TObj, TProperty, TPropertyValidator>>
-    extends BasePropertyValidator<TObj, TProperty, TPropertyValidator> {
+        extends BasePropertyValidator<TObj, TProperty, TPropertyValidator> {
 
     BaseComparablePropertyValidator(Function<TObj, ? extends TProperty> getter) {
         super(getter);
     }
 
-    public TPropertyValidator between(Range<TProperty> range) {
-        withRule(range::contains, convertExceptionCreator("The value is not in " + range.toString()));
+    public TPropertyValidator inRange(Range<TProperty> range) {
+        withRule(value -> value != null && range.contains(value),
+                convertExceptionCreator("The value is not in " + range.toString()));
         return thisObject();
     }
 
-    public TPropertyValidator between(Range<TProperty> range, String errMsg) {
-        withRule(range::contains, convertExceptionCreator(errMsg));
+    public TPropertyValidator inRange(Range<TProperty> range, String errMsg) {
+        withRule(value -> value != null && range.contains(value), convertExceptionCreator(errMsg));
         return thisObject();
     }
 
-    public <E extends RuntimeException> TPropertyValidator between(
+    public <E extends RuntimeException> TPropertyValidator inRange(
             Range<TProperty> range,
             Supplier<E> exceptionCreator) {
-        withRule(range::contains, exceptionCreator);
+        withRule(value -> value != null && range.contains(value), exceptionCreator);
         return thisObject();
     }
 
-    public <E extends RuntimeException> TPropertyValidator between(
+    public <E extends RuntimeException> TPropertyValidator inRange(
             Range<TProperty> range,
             Function<TProperty, E> exceptionCreator) {
-        withRule(range::contains, exceptionCreator);
+        withRule(value -> value != null && range.contains(value), exceptionCreator);
         return thisObject();
     }
 

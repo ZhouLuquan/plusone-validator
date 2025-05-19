@@ -56,11 +56,11 @@ class BaseValidatorTest {
 
             ruleForComparable(RegisterCommand::getYearOfBirth)
                     .notNull()
-                    .between(Range.closed(thisYear - 60, thisYear - 18));
+                    .inRange(Range.closed(thisYear - 60, thisYear - 18));
 
             ruleForInt(RegisterCommand::getYearOfBirth)
                     .notNull()
-                    .between(Range.closed(thisYear - 60, thisYear - 18));
+                    .inRange(Range.closed(thisYear - 60, thisYear - 18));
 
             withRule(registerCommand -> Objects.equals(registerCommand.getPassword(), registerCommand.getPassword2()),
                     "两次输入的密码不一致");
