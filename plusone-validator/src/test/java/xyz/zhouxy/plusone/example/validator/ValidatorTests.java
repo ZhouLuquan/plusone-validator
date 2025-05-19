@@ -1,4 +1,4 @@
-package xyz.zhouxy.plusone.validator.test;
+package xyz.zhouxy.plusone.example.validator;
 
 import static xyz.zhouxy.plusone.commons.constant.PatternConsts.*;
 

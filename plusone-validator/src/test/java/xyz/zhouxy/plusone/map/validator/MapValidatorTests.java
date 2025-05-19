@@ -1,4 +1,4 @@
-package xyz.zhouxy.plusone.validator.map.test;
+package xyz.zhouxy.plusone.map.validator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
