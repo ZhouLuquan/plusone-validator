@@ -19,7 +19,7 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class DoublePropertyValidator<DTO> extends ComparablePropertyValidator<DTO, Double, DoublePropertyValidator<DTO>> {
+public class DoublePropertyValidator<DTO> extends BaseComparablePropertyValidator<DTO, Double, DoublePropertyValidator<DTO>> {
 
     DoublePropertyValidator(Function<DTO, Double> getter) {
         super(getter);

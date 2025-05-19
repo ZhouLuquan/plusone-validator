@@ -22,12 +22,12 @@ import java.util.function.Supplier;
 import com.google.common.collect.Range;
 
 public abstract
-class ComparablePropertyValidator<TObj,
-                                  TProperty extends Comparable<TProperty>,
-                                  TPropertyValidator extends ComparablePropertyValidator<TObj, TProperty, TPropertyValidator>>
+class BaseComparablePropertyValidator<TObj,
+                                      TProperty extends Comparable<TProperty>,
+                                      TPropertyValidator extends BaseComparablePropertyValidator<TObj, TProperty, TPropertyValidator>>
     extends BasePropertyValidator<TObj, TProperty, TPropertyValidator> {
 
-    ComparablePropertyValidator(Function<TObj, ? extends TProperty> getter) {
+    BaseComparablePropertyValidator(Function<TObj, ? extends TProperty> getter) {
         super(getter);
     }
 
