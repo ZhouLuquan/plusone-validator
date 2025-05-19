@@ -37,7 +37,7 @@ class BaseValidatorTest {
            int thisYear = Year.now().getValue();
 
             ruleForString(RegisterCommand::getUsername)
-                    .isTrue(PredicateTools.<String>from(Objects::nonNull)
+                    .must(PredicateTools.<String>from(Objects::nonNull)
                             .and(StringTools::isNotEmpty)
                             .and(StringTools::isNotBlank)
                             .and(username -> RegexTools.matches(username, PatternConsts.USERNAME)),

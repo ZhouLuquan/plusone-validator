@@ -129,46 +129,46 @@ public abstract class BasePropertyValidator< //
         return thisObject();
     }
 
-    // ===== isTrue =====
+    // ===== must =====
 
-    public TPropertyValidator isTrue(Predicate<? super TProperty> condition) {
-        return isTrue(condition, "无效的用户输入");
+    public TPropertyValidator must(Predicate<? super TProperty> condition) {
+        return must(condition, "无效的用户输入");
     }
 
-    public TPropertyValidator isTrue(Predicate<? super TProperty> condition, String errMsg) {
-        return isTrue(condition, convertExceptionCreator(errMsg));
+    public TPropertyValidator must(Predicate<? super TProperty> condition, String errMsg) {
+        return must(condition, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> TPropertyValidator isTrue(
+    public <E extends RuntimeException> TPropertyValidator must(
             Predicate<? super TProperty> condition,
             Supplier<E> exceptionCreator) {
-        return isTrue(condition, convertExceptionCreator(exceptionCreator));
+        return must(condition, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> TPropertyValidator isTrue(
+    public <E extends RuntimeException> TPropertyValidator must(
             Predicate<? super TProperty> condition,
             Function<TProperty, E> exceptionCreator) {
         withRule(condition, exceptionCreator);
         return thisObject();
     }
 
-    // ===== isTrue =====
+    // ===== must =====
 
-    public TPropertyValidator isTrue(Collection<Predicate<? super TProperty>> conditions) {
-        return isTrue(conditions, "无效的用户输入");
+    public TPropertyValidator must(Collection<Predicate<? super TProperty>> conditions) {
+        return must(conditions, "无效的用户输入");
     }
 
-    public TPropertyValidator isTrue(Collection<Predicate<? super TProperty>> conditions, String errMsg) {
-        return isTrue(conditions, convertExceptionCreator(errMsg));
+    public TPropertyValidator must(Collection<Predicate<? super TProperty>> conditions, String errMsg) {
+        return must(conditions, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> TPropertyValidator isTrue(
+    public <E extends RuntimeException> TPropertyValidator must(
             Collection<Predicate<? super TProperty>> conditions,
             Supplier<E> exceptionCreator) {
-        return isTrue(conditions, convertExceptionCreator(exceptionCreator));
+        return must(conditions, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> TPropertyValidator isTrue(
+    public <E extends RuntimeException> TPropertyValidator must(
             Collection<Predicate<? super TProperty>> conditions,
             Function<TProperty, E> exceptionCreator) {
         for (Predicate<? super TProperty> condition : conditions) {
