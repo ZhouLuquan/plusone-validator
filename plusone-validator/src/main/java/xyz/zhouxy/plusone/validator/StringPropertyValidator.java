@@ -275,7 +275,7 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
             return false;
         }
         final int len = str.length();
-        return len >= min && len < max;
+        return len >= min && len <= max;
     }
 
     public StringPropertyValidator<DTO> length(int min, int max, String errMsg) {
