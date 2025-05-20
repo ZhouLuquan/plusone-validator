@@ -59,7 +59,7 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     public <E extends RuntimeException> StringPropertyValidator<DTO> matches(
             Pattern regex,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexTools.matches(input, regex), exceptionCreator);
+        withRule(input -> (input == null || RegexTools.matches(input, regex)), exceptionCreator);
         return this;
     }
 
@@ -101,7 +101,7 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     public <E extends RuntimeException> StringPropertyValidator<DTO> matchesOne(
             List<Pattern> regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
+        withRule(input -> input == null || RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
@@ -143,7 +143,7 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     public <E extends RuntimeException> StringPropertyValidator<DTO> matchesAll(
             Collection<Pattern> regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
+        withRule(input -> input == null || RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
         return this;
     }
 
@@ -246,13 +246,13 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
             Function<String, E> exceptionCreator) {
         AssertTools.checkArgument(length >= 0,
                 "The required length must be greater than or equal to 0.");
-        withRule(s -> s != null && s.length() == length, exceptionCreator);
+        withRule(s -> s == null || s.length() == length, exceptionCreator);
         return this;
     }
 
     static boolean length(String str, int min, int max) {
         if (str == null) {
-            return false;
+            return true;
         }
         final int len = str.length();
         return len >= min && len <= max;
