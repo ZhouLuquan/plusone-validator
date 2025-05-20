@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.google.common.collect.Lists;
 
@@ -32,6 +34,12 @@ import xyz.zhouxy.plusone.validator.BaseValidator;
 public class StringPropertyValidatorTests {
 
     private static final String MESSAGE_SHOULD_MATCH = "Input should match pattern";
+    private static final String MESSAGE_NOT_BLANK = "Input cannot be blank";
+    private static final String MESSAGE_NOT_EMPTY = "Input cannot be empty";
+    private static final String MESSAGE_NOT_EMAIL = "Input should be an email address";
+
+    private static final int MIN_LENGTH = 6;
+    private static final int MAX_LENGTH = 8;
 
     // ================================
     // #region - matches
@@ -112,10 +120,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -128,10 +133,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -145,10 +147,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals("Input should match pattern, but it is null", e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     // ================================
@@ -729,47 +728,460 @@ public class StringPropertyValidatorTests {
     // #region - notBlank
     // ================================
 
-    // TODO
+    @Test
+    void notBlank_all_validInput() {
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notBlank()
+                        .notBlank(MESSAGE_NOT_BLANK)
+                        .notBlank(() -> ExampleException.withMessage(MESSAGE_NOT_BLANK))
+                        .notBlank(str -> ExampleException.withMessage("The stringProperty cannot be blank, but is was %s", StringTools.toQuotedString(str)));
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringProperty("abcd");
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "", " ", "  ", "\t", "\n" })
+    void notBlank_invalidInput(String value) {
+        ExampleCommand command = exampleCommandWithStringProperty(value);
+
+        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notBlank();
+            }
+        };
+        IllegalArgumentException eWithDefaultMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> defaultRule.validate(command));
+        assertEquals("The value must have text; it must not be null, empty, or blank.", eWithDefaultMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notBlank(MESSAGE_NOT_BLANK);
+            }
+        };
+        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals(MESSAGE_NOT_BLANK, eWithSpecifiedMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notBlank(() -> ExampleException.withMessage(MESSAGE_NOT_BLANK));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals(MESSAGE_NOT_BLANK, specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                .notBlank(str -> ExampleException.withMessage("The stringProperty cannot be blank, but is was %s", StringTools.toQuotedString(str)));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals("The stringProperty cannot be blank, but is was " + StringTools.toQuotedString(value),
+                specifiedException2.getMessage());
+    }
+
+    @Test
+    void notBlank_nullInput() {
+        ExampleCommand command = exampleCommandWithStringProperty(null);
+
+        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notBlank();
+            }
+        };
+        IllegalArgumentException eWithDefaultMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> defaultRule.validate(command));
+        assertEquals("The value must have text; it must not be null, empty, or blank.", eWithDefaultMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notBlank(MESSAGE_NOT_BLANK);
+            }
+        };
+        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals(MESSAGE_NOT_BLANK, eWithSpecifiedMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notBlank(() -> ExampleException.withMessage(MESSAGE_NOT_BLANK));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals(MESSAGE_NOT_BLANK, specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                .notBlank(str -> ExampleException.withMessage("The stringProperty cannot be blank, but is was %s", StringTools.toQuotedString(str)));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals("The stringProperty cannot be blank, but is was null",
+                specifiedException2.getMessage());
+    }
 
     // ================================
     // #endregion - notBlank
     // ================================
 
     // ================================
-    // #region - email
+    // #region - emailAddress
     // ================================
 
-    // TODO
+    @Test
+    void emailAddress_validInput() {
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .emailAddress()
+                        .emailAddress(MESSAGE_NOT_EMAIL)
+                        .emailAddress(() -> ExampleException.withMessage(MESSAGE_NOT_EMAIL))
+                        .emailAddress(str -> ExampleException.withMessage("Input should be an email address, but it was \"%s\"", str));
+            }
+        };
+        ExampleCommand validCommand = exampleCommandWithStringProperty("abc@example.com");
+        assertDoesNotThrow(() -> validator.validate(validCommand));
+
+        ExampleCommand commandWithNullStringProperty = exampleCommandWithStringProperty(null);
+        assertDoesNotThrow(() -> validator.validate(commandWithNullStringProperty));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "", "abc", "abc@def@example.com" })
+    void emailAddress_invalidInput(String value) {
+        ExampleCommand command = exampleCommandWithStringProperty(value);
+
+        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .emailAddress();
+            }
+        };
+        IllegalArgumentException eWithDefaultMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> defaultRule.validate(command));
+        assertEquals("The value is not an email address.", eWithDefaultMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .emailAddress(MESSAGE_NOT_EMAIL);
+            }
+        };
+        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals(MESSAGE_NOT_EMAIL, eWithSpecifiedMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .emailAddress(() -> ExampleException.withMessage(MESSAGE_NOT_EMAIL));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals(MESSAGE_NOT_EMAIL, specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .emailAddress(str -> ExampleException.withMessage("Input should be an email address, but it was \"%s\"", str));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals(String.format("Input should be an email address, but it was \"%s\"", value), specifiedException2.getMessage());
+    }
 
     // ================================
-    // #endregion - email
+    // #endregion - emailAddress
     // ================================
 
     // ================================
     // #region - notEmpty
     // ================================
 
-    // TODO
+    @ParameterizedTest
+    @ValueSource(strings = { "abcd", " ", "  ", "\t", "\n" })
+    void notEmpty_all_validInput() {
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty()
+                        .notEmpty(MESSAGE_NOT_EMPTY)
+                        .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY))
+                        .notEmpty(str -> ExampleException.withMessage("The stringProperty cannot be empty, but is was %s", StringTools.toQuotedString(str)));
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringProperty("abcd");
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void notEmpty_invalidInput() {
+        final String value = "";
+        ExampleCommand command = exampleCommandWithStringProperty(value);
+
+        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty();
+            }
+        };
+        IllegalArgumentException eWithDefaultMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> defaultRule.validate(command));
+        assertEquals("The value must not be empty.", eWithDefaultMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty(MESSAGE_NOT_EMPTY);
+            }
+        };
+        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals(MESSAGE_NOT_EMPTY, eWithSpecifiedMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals(MESSAGE_NOT_EMPTY, specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                .notEmpty(str -> ExampleException.withMessage("The stringProperty cannot be empty, but is was %s", StringTools.toQuotedString(str)));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals("The stringProperty cannot be empty, but is was " + StringTools.toQuotedString(value),
+                specifiedException2.getMessage());
+    }
+
+    @Test
+    void notEmpty_nullInput() {
+        ExampleCommand command = exampleCommandWithStringProperty(null);
+
+        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty();
+            }
+        };
+        IllegalArgumentException eWithDefaultMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> defaultRule.validate(command));
+        assertEquals("The value must not be empty.", eWithDefaultMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty(MESSAGE_NOT_EMPTY);
+            }
+        };
+        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals(MESSAGE_NOT_EMPTY, eWithSpecifiedMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals(MESSAGE_NOT_EMPTY, specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEmpty(str -> ExampleException.withMessage("The stringProperty cannot be empty, but is was %s", StringTools.toQuotedString(str)));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals("The stringProperty cannot be empty, but is was null",
+                specifiedException2.getMessage());
+    }
 
     // ================================
     // #endregion - notEmpty
     // ================================
 
     // ================================
-    // #region - isNullOrEmpty
-    // ================================
-
-    // TODO
-
-    // ================================
-    // #endregion - isNullOrEmpty
-    // ================================
-
-    // ================================
     // #region - length
     // ================================
 
-    // TODO
+    @Test
+    void length_specifiedLength_validLength() {
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, "The length of the string must be 6")
+                        .length(MIN_LENGTH, () -> ExampleException.withMessage("The length of the string must be 6"))
+                        .length(MIN_LENGTH, str -> ExampleException.withMessage("The length of the string must be 6, but it was %d", str.length()));
+            }
+        };
+        ExampleCommand validCommand = exampleCommandWithStringProperty("123456");
+        assertDoesNotThrow(() -> validator.validate(validCommand));
+
+        ExampleCommand commandWithNullStringProperty = exampleCommandWithStringProperty(null);
+        assertDoesNotThrow(() -> validator.validate(commandWithNullStringProperty));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "", "12345", "1234567" })
+    void length_specifiedLength_invalidLength(String value) {
+        ExampleCommand command = exampleCommandWithStringProperty(value);
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, "The length of the string must be 6");
+            }
+        };
+        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals("The length of the string must be 6", eWithSpecifiedMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, () -> ExampleException.withMessage("The length of the string must be 6"));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+                ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals("The length of the string must be 6", specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, str -> ExampleException.withMessage("The length of the string must be 6, but it was %d", str.length()));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+                ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals(
+                String.format("The length of the string must be 6, but it was %d", value.length()),
+                specifiedException2.getMessage());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "123456", "1234567", "12345678" })
+    void length_specifiedMinLengthAndMaxLength_validLength(String value) {
+        ExampleCommand command = exampleCommandWithStringProperty(value);
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, () -> ExampleException.withMessage("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, str -> ExampleException.withMessage("Length of StringProperty is %d, min length is %d, max length is %d", str.length(), MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void length_specifiedMinLengthAndMaxLength_null() {
+        ExampleCommand command = exampleCommandWithStringProperty(null);
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, () -> ExampleException.withMessage("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, str -> ExampleException.withMessage("Length of StringProperty is %d, min length is %d, max length is %d", str.length(), MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "", "12345", "123456789" })
+    void length_specifiedMinLengthAndMaxLength_invalidLength(String value) {
+        ExampleCommand command = exampleCommandWithStringProperty(value);
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
+                IllegalArgumentException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals("Min length is 6, max length is 8", eWithSpecifiedMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, () -> ExampleException.withMessage("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals("Min length is 6, max length is 8", specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, str -> ExampleException.withMessage("Length of StringProperty is %d, min length is %d, max length is %d", str.length(), MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals(
+                String.format("Length of StringProperty is %d, min length is %d, max length is %d", value.length(), MIN_LENGTH, MAX_LENGTH),
+                specifiedException2.getMessage());
+    }
 
     // ================================
     // #endregion - length

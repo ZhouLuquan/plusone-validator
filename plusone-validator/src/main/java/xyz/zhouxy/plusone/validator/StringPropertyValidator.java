@@ -22,8 +22,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Strings;
-
 import xyz.zhouxy.plusone.commons.constant.PatternConsts;
 import xyz.zhouxy.plusone.commons.util.AssertTools;
 import xyz.zhouxy.plusone.commons.util.RegexTools;
@@ -158,7 +156,7 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // ================================
 
     public StringPropertyValidator<DTO> notBlank() {
-        return notBlank("This String argument must have text; it must not be null, empty, or blank");
+        return notBlank("The value must have text; it must not be null, empty, or blank.");
     }
 
     public StringPropertyValidator<DTO> notBlank(String errMsg) {
@@ -209,6 +207,10 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - notEmpty
     // ================================
 
+    public StringPropertyValidator<DTO> notEmpty() {
+        return notEmpty("The value must not be empty.");
+    }
+
     public StringPropertyValidator<DTO> notEmpty(String errMsg) {
         return notEmpty(convertExceptionCreator(errMsg));
     }
@@ -225,28 +227,6 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
 
     // ================================
     // #endregion - notEmpty
-    // ================================
-
-    // ================================
-    // #region - isNullOrEmpty
-    // ================================
-
-    public StringPropertyValidator<DTO> isNullOrEmpty(String errMsg) {
-        return isNullOrEmpty(convertExceptionCreator(errMsg));
-    }
-
-    public <E extends RuntimeException> StringPropertyValidator<DTO> isNullOrEmpty(Supplier<E> exceptionCreator) {
-        return isNullOrEmpty(convertExceptionCreator(exceptionCreator));
-    }
-
-    public <E extends RuntimeException> StringPropertyValidator<DTO> isNullOrEmpty(
-            Function<String, E> exceptionCreator) {
-        withRule(Strings::isNullOrEmpty, exceptionCreator);
-        return this;
-    }
-
-    // ================================
-    // #endregion - isNullOrEmpty
     // ================================
 
     // ================================
