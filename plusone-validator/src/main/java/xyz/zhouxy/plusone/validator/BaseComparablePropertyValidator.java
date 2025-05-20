@@ -33,7 +33,7 @@ class BaseComparablePropertyValidator<TObj,
 
     public TPropertyValidator inRange(Range<TProperty> range) {
         withRule(value -> value != null && range.contains(value),
-                convertExceptionCreator("The value is not in " + range.toString()));
+                convertExceptionCreator("The value is not in the interval " + range.toString()));
         return thisObject();
     }
 
