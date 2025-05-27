@@ -19,10 +19,10 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class DoublePropertyValidator<DTO>
-        extends BaseComparablePropertyValidator<DTO, Double, DoublePropertyValidator<DTO>> {
+public class DoublePropertyValidator<T>
+        extends BaseComparablePropertyValidator<T, Double, DoublePropertyValidator<T>> {
 
-    DoublePropertyValidator(Function<DTO, Double> getter) {
+    DoublePropertyValidator(Function<T, Double> getter) {
         super(getter);
     }
 
@@ -30,20 +30,20 @@ public class DoublePropertyValidator<DTO>
     // #region - greater than
     // ================================
 
-    public DoublePropertyValidator<DTO> gt(double min) {
+    public DoublePropertyValidator<T> gt(double min) {
         return gt(min, String.format("The value should be greater than %s", min));
     }
 
-    public DoublePropertyValidator<DTO> gt(double min, String errMsg) {
+    public DoublePropertyValidator<T> gt(double min, String errMsg) {
         return gt(min, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> gt(
+    public <E extends RuntimeException> DoublePropertyValidator<T> gt(
             double min, Supplier<E> exceptionCreator) {
         return gt(min, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> gt(
+    public <E extends RuntimeException> DoublePropertyValidator<T> gt(
             double min, Function<Double, E> exceptionCreator) {
         withRule(value -> (value != null && value > min), exceptionCreator);
         return this;
@@ -57,20 +57,20 @@ public class DoublePropertyValidator<DTO>
     // #region - greater than or equal to
     // ================================
 
-    public DoublePropertyValidator<DTO> ge(double min) {
+    public DoublePropertyValidator<T> ge(double min) {
         return ge(min, String.format("The value should be greater than or equal to %s", min));
     }
 
-    public DoublePropertyValidator<DTO> ge(double min, String errMsg) {
+    public DoublePropertyValidator<T> ge(double min, String errMsg) {
         return ge(min, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> ge(
+    public <E extends RuntimeException> DoublePropertyValidator<T> ge(
             double min, Supplier<E> exceptionCreator) {
         return ge(min, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> ge(
+    public <E extends RuntimeException> DoublePropertyValidator<T> ge(
             double min, Function<Double, E> exceptionCreator) {
         withRule(value -> (value != null && value >= min), exceptionCreator);
         return this;
@@ -84,20 +84,20 @@ public class DoublePropertyValidator<DTO>
     // #region - less than
     // ================================
 
-    public DoublePropertyValidator<DTO> lt(double max) {
+    public DoublePropertyValidator<T> lt(double max) {
         return lt(max, String.format("The value should be less than %s", max));
     }
 
-    public DoublePropertyValidator<DTO> lt(double max, String errMsg) {
+    public DoublePropertyValidator<T> lt(double max, String errMsg) {
         return lt(max, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> lt(
+    public <E extends RuntimeException> DoublePropertyValidator<T> lt(
             double max, Supplier<E> exceptionCreator) {
         return lt(max, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> lt(
+    public <E extends RuntimeException> DoublePropertyValidator<T> lt(
             double max, Function<Double, E> exceptionCreator) {
         withRule(value -> (value != null && value < max), exceptionCreator);
         return this;
@@ -111,20 +111,20 @@ public class DoublePropertyValidator<DTO>
     // #region - less than or equal to
     // ================================
 
-    public DoublePropertyValidator<DTO> le(double max) {
+    public DoublePropertyValidator<T> le(double max) {
         return le(max, String.format("The value should be less than or equal to %s", max));
     }
 
-    public DoublePropertyValidator<DTO> le(double max, String errMsg) {
+    public DoublePropertyValidator<T> le(double max, String errMsg) {
         return le(max, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> le(
+    public <E extends RuntimeException> DoublePropertyValidator<T> le(
             double max, Supplier<E> exceptionCreator) {
         return le(max, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> DoublePropertyValidator<DTO> le(
+    public <E extends RuntimeException> DoublePropertyValidator<T> le(
             double max, Function<Double, E> exceptionCreator) {
         withRule(value -> (value != null && value <= max), exceptionCreator);
         return this;
@@ -135,7 +135,7 @@ public class DoublePropertyValidator<DTO>
     // ================================
 
     @Override
-    protected DoublePropertyValidator<DTO> thisObject() {
+    protected DoublePropertyValidator<T> thisObject() {
         return this;
     }
 }

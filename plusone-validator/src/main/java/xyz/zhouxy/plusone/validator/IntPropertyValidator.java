@@ -19,10 +19,10 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class IntPropertyValidator<DTO>
-        extends BaseComparablePropertyValidator<DTO, Integer, IntPropertyValidator<DTO>> {
+public class IntPropertyValidator<T>
+        extends BaseComparablePropertyValidator<T, Integer, IntPropertyValidator<T>> {
 
-    IntPropertyValidator(Function<DTO, Integer> getter) {
+    IntPropertyValidator(Function<T, Integer> getter) {
         super(getter);
     }
 
@@ -30,20 +30,20 @@ public class IntPropertyValidator<DTO>
     // #region - greater than
     // ================================
 
-    public IntPropertyValidator<DTO> gt(int min) {
+    public IntPropertyValidator<T> gt(int min) {
         return gt(min, String.format("The value should be greater than %d", min));
     }
 
-    public IntPropertyValidator<DTO> gt(int min, String errMsg) {
+    public IntPropertyValidator<T> gt(int min, String errMsg) {
         return gt(min, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> gt(
+    public <E extends RuntimeException> IntPropertyValidator<T> gt(
             int min, Supplier<E> exceptionCreator) {
         return gt(min, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> gt(
+    public <E extends RuntimeException> IntPropertyValidator<T> gt(
             int min, Function<Integer, E> exceptionCreator) {
         withRule(value -> (value != null && value > min), exceptionCreator);
         return this;
@@ -57,20 +57,20 @@ public class IntPropertyValidator<DTO>
     // #region - greater than or equal to
     // ================================
 
-    public IntPropertyValidator<DTO> ge(int min) {
+    public IntPropertyValidator<T> ge(int min) {
         return ge(min, String.format("The value should be greater than or equal to %d", min));
     }
 
-    public IntPropertyValidator<DTO> ge(int min, String errMsg) {
+    public IntPropertyValidator<T> ge(int min, String errMsg) {
         return ge(min, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> ge(
+    public <E extends RuntimeException> IntPropertyValidator<T> ge(
             int min, Supplier<E> exceptionCreator) {
         return ge(min, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> ge(
+    public <E extends RuntimeException> IntPropertyValidator<T> ge(
             int min, Function<Integer, E> exceptionCreator) {
         withRule(value -> (value != null && value >= min), exceptionCreator);
         return this;
@@ -84,20 +84,20 @@ public class IntPropertyValidator<DTO>
     // #region - less than
     // ================================
 
-    public IntPropertyValidator<DTO> lt(int max) {
+    public IntPropertyValidator<T> lt(int max) {
         return lt(max, String.format("The value should be less than %d", max));
     }
 
-    public IntPropertyValidator<DTO> lt(int max, String errMsg) {
+    public IntPropertyValidator<T> lt(int max, String errMsg) {
         return lt(max, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> lt(
+    public <E extends RuntimeException> IntPropertyValidator<T> lt(
             int max, Supplier<E> exceptionCreator) {
         return lt(max, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> lt(
+    public <E extends RuntimeException> IntPropertyValidator<T> lt(
             int max, Function<Integer, E> exceptionCreator) {
         withRule(value -> (value != null && value < max), exceptionCreator);
         return this;
@@ -111,20 +111,20 @@ public class IntPropertyValidator<DTO>
     // #region - less than or equal to
     // ================================
 
-    public IntPropertyValidator<DTO> le(int max) {
+    public IntPropertyValidator<T> le(int max) {
         return le(max, String.format("The value should be less than or equal to %d", max));
     }
 
-    public IntPropertyValidator<DTO> le(int max, String errMsg) {
+    public IntPropertyValidator<T> le(int max, String errMsg) {
         return le(max, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> le(
+    public <E extends RuntimeException> IntPropertyValidator<T> le(
             int max, Supplier<E> exceptionCreator) {
         return le(max, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> IntPropertyValidator<DTO> le(
+    public <E extends RuntimeException> IntPropertyValidator<T> le(
             int max, Function<Integer, E> exceptionCreator) {
         withRule(value -> (value != null && value <= max), exceptionCreator);
         return this;
@@ -135,7 +135,7 @@ public class IntPropertyValidator<DTO>
     // ================================
 
     @Override
-    protected IntPropertyValidator<DTO> thisObject() {
+    protected IntPropertyValidator<T> thisObject() {
         return this;
     }
 }

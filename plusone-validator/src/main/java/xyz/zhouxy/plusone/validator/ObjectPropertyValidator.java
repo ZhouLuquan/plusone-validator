@@ -18,14 +18,14 @@ package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
 
-public class ObjectPropertyValidator<DTO, T> extends BasePropertyValidator<DTO, T, ObjectPropertyValidator<DTO, T>> {
+public class ObjectPropertyValidator<T, TProperty> extends BasePropertyValidator<T, TProperty, ObjectPropertyValidator<T, TProperty>> {
 
-    ObjectPropertyValidator(Function<DTO, T> getter) {
+    ObjectPropertyValidator(Function<T, TProperty> getter) {
         super(getter);
     }
 
     @Override
-    protected ObjectPropertyValidator<DTO, T> thisObject() {
+    protected ObjectPropertyValidator<T, TProperty> thisObject() {
         return this;
     }
 }

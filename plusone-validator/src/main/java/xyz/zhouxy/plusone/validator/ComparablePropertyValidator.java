@@ -18,15 +18,15 @@ package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
 
-public class ComparablePropertyValidator<TObj, TProperty extends Comparable<TProperty>>
-        extends BaseComparablePropertyValidator<TObj, TProperty, ComparablePropertyValidator<TObj, TProperty>> {
+public class ComparablePropertyValidator<T, TProperty extends Comparable<TProperty>>
+        extends BaseComparablePropertyValidator<T, TProperty, ComparablePropertyValidator<T, TProperty>> {
 
-    ComparablePropertyValidator(Function<TObj, ? extends TProperty> getter) {
+    ComparablePropertyValidator(Function<T, ? extends TProperty> getter) {
         super(getter);
     }
 
     @Override
-    protected ComparablePropertyValidator<TObj, TProperty> thisObject() {
+    protected ComparablePropertyValidator<T, TProperty> thisObject() {
         return this;
     }
 }

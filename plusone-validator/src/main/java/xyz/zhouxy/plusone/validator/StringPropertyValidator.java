@@ -36,9 +36,9 @@ import xyz.zhouxy.plusone.commons.util.StringTools;
  *
  * @author <a href="http://zhouxy.xyz:3000/ZhouXY108">ZhouXY</a>
  */
-public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidator<DTO, String, StringPropertyValidator<DTO>> {
+public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<T, String, StringPropertyValidator<T>> {
 
-    StringPropertyValidator(Function<DTO, String> getter) {
+    StringPropertyValidator(Function<T, String> getter) {
         super(getter);
     }
 
@@ -46,17 +46,17 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - matches
     // ================================
 
-    public StringPropertyValidator<DTO> matches(Pattern regex, String errMsg) {
+    public StringPropertyValidator<T> matches(Pattern regex, String errMsg) {
         return matches(regex, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matches(
+    public <E extends RuntimeException> StringPropertyValidator<T> matches(
             Pattern regex,
             Supplier<E> exceptionCreator) {
         return matches(regex, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matches(
+    public <E extends RuntimeException> StringPropertyValidator<T> matches(
             Pattern regex,
             Function<String, E> exceptionCreator) {
         withRule(input -> (input == null || RegexTools.matches(input, regex)), exceptionCreator);
@@ -71,34 +71,34 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - matchesOne
     // ================================
 
-    public StringPropertyValidator<DTO> matchesOne(Pattern[] regexs, String errMsg) {
+    public StringPropertyValidator<T> matchesOne(Pattern[] regexs, String errMsg) {
         return matchesOne(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesOne(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
             Pattern[] regexs,
             Supplier<E> exceptionCreator) {
         return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesOne(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
             Pattern[] regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> RegexTools.matchesOne(input, regexs), exceptionCreator);
         return this;
     }
 
-    public StringPropertyValidator<DTO> matchesOne(List<Pattern> regexs, String errMsg) {
+    public StringPropertyValidator<T> matchesOne(List<Pattern> regexs, String errMsg) {
         return matchesOne(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesOne(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
             List<Pattern> regexs,
             Supplier<E> exceptionCreator) {
         return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesOne(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
             List<Pattern> regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> input == null || RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
@@ -113,34 +113,34 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - matchesAll
     // ================================
 
-    public StringPropertyValidator<DTO> matchesAll(Pattern[] regexs, String errMsg) {
+    public StringPropertyValidator<T> matchesAll(Pattern[] regexs, String errMsg) {
         return matchesAll(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesAll(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
             Pattern[] regexs,
             Supplier<E> exceptionCreator) {
         return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesAll(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
             Pattern[] regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> RegexTools.matchesAll(input, regexs), exceptionCreator);
         return this;
     }
 
-    public StringPropertyValidator<DTO> matchesAll(Collection<Pattern> regexs, String errMsg) {
+    public StringPropertyValidator<T> matchesAll(Collection<Pattern> regexs, String errMsg) {
         return matchesAll(regexs, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesAll(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
             Collection<Pattern> regexs,
             Supplier<E> exceptionCreator) {
         return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> matchesAll(
+    public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
             Collection<Pattern> regexs,
             Function<String, E> exceptionCreator) {
         withRule(input -> input == null || RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
@@ -155,19 +155,19 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - notBlank
     // ================================
 
-    public StringPropertyValidator<DTO> notBlank() {
+    public StringPropertyValidator<T> notBlank() {
         return notBlank("The value must have text; it must not be null, empty, or blank.");
     }
 
-    public StringPropertyValidator<DTO> notBlank(String errMsg) {
+    public StringPropertyValidator<T> notBlank(String errMsg) {
         return notBlank(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> notBlank(Supplier<E> exceptionCreator) {
+    public <E extends RuntimeException> StringPropertyValidator<T> notBlank(Supplier<E> exceptionCreator) {
         return notBlank(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> notBlank(
+    public <E extends RuntimeException> StringPropertyValidator<T> notBlank(
             Function<String, E> exceptionCreator) {
         withRule(StringTools::isNotBlank, exceptionCreator);
         return this;
@@ -181,20 +181,20 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - emailAddress
     // ================================
 
-    public StringPropertyValidator<DTO> emailAddress() {
+    public StringPropertyValidator<T> emailAddress() {
         return emailAddress("The value is not an email address.");
     }
 
-    public StringPropertyValidator<DTO> emailAddress(String errMsg) {
+    public StringPropertyValidator<T> emailAddress(String errMsg) {
         return emailAddress(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> emailAddress(
+    public <E extends RuntimeException> StringPropertyValidator<T> emailAddress(
             Supplier<E> exceptionCreator) {
         return emailAddress(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> emailAddress(
+    public <E extends RuntimeException> StringPropertyValidator<T> emailAddress(
             Function<String, E> exceptionCreator) {
         return matches(PatternConsts.EMAIL, exceptionCreator);
     }
@@ -207,19 +207,19 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - notEmpty
     // ================================
 
-    public StringPropertyValidator<DTO> notEmpty() {
+    public StringPropertyValidator<T> notEmpty() {
         return notEmpty("The value must not be empty.");
     }
 
-    public StringPropertyValidator<DTO> notEmpty(String errMsg) {
+    public StringPropertyValidator<T> notEmpty(String errMsg) {
         return notEmpty(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> notEmpty(Supplier<E> exceptionCreator) {
+    public <E extends RuntimeException> StringPropertyValidator<T> notEmpty(Supplier<E> exceptionCreator) {
         return notEmpty(convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> notEmpty(
+    public <E extends RuntimeException> StringPropertyValidator<T> notEmpty(
             Function<String, E> exceptionCreator) {
         withRule(s -> s != null && !s.isEmpty(), exceptionCreator);
         return this;
@@ -233,16 +233,16 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // #region - length
     // ================================
 
-    public StringPropertyValidator<DTO> length(int length, String errMsg) {
+    public StringPropertyValidator<T> length(int length, String errMsg) {
         return length(length, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> length(int length,
+    public <E extends RuntimeException> StringPropertyValidator<T> length(int length,
             Supplier<E> exceptionCreator) {
         return length(length, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> length(int length,
+    public <E extends RuntimeException> StringPropertyValidator<T> length(int length,
             Function<String, E> exceptionCreator) {
         AssertTools.checkArgument(length >= 0,
                 "The required length must be greater than or equal to 0.");
@@ -258,16 +258,16 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
         return len >= min && len <= max;
     }
 
-    public StringPropertyValidator<DTO> length(int min, int max, String errMsg) {
+    public StringPropertyValidator<T> length(int min, int max, String errMsg) {
         return length(min, max, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> length(int min, int max,
+    public <E extends RuntimeException> StringPropertyValidator<T> length(int min, int max,
             Supplier<E> exceptionCreator) {
         return length(min, max, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<DTO> length(int min, int max,
+    public <E extends RuntimeException> StringPropertyValidator<T> length(int min, int max,
             Function<String, E> exceptionCreator) {
         AssertTools.checkArgument(min >= 0, "The minimum value must be greater than equal to 0.");
         AssertTools.checkArgument(min < max, "The minimum value must be less than the maximum value.");
@@ -280,7 +280,7 @@ public class StringPropertyValidator<DTO> extends BaseComparablePropertyValidato
     // ================================
 
     @Override
-    protected StringPropertyValidator<DTO> thisObject() {
+    protected StringPropertyValidator<T> thisObject() {
         return this;
     }
 }

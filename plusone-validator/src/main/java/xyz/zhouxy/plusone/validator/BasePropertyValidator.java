@@ -25,16 +25,13 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public abstract class BasePropertyValidator< //
-        TObj, //
-        TProperty, //
-        TPropertyValidator extends BasePropertyValidator<TObj, TProperty, TPropertyValidator>> {
+public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator extends BasePropertyValidator<T, TProperty, TPropertyValidator>> {
 
-    private final Function<TObj, ? extends TProperty> getter;
+    private final Function<T, ? extends TProperty> getter;
 
     private final List<Consumer<? super TProperty>> consumers = new LinkedList<>();
 
-    protected BasePropertyValidator(Function<TObj, ? extends TProperty> getter) {
+    protected BasePropertyValidator(Function<T, ? extends TProperty> getter) {
         this.getter = getter;
     }
 
@@ -62,7 +59,7 @@ public abstract class BasePropertyValidator< //
         return thisObject();
     }
 
-    public final <T extends TObj> void validate(T obj) {
+    public final void validate(T obj) {
         for (Consumer<? super TProperty> consumer : consumers) {
             consumer.accept(getter.apply(obj));
         }
