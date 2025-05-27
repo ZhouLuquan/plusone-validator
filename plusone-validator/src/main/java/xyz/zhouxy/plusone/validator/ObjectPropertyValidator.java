@@ -18,7 +18,8 @@ package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
 
-public class ObjectPropertyValidator<T, TProperty> extends BasePropertyValidator<T, TProperty, ObjectPropertyValidator<T, TProperty>> {
+public class ObjectPropertyValidator<T, TProperty>
+        extends BasePropertyValidator<T, TProperty, ObjectPropertyValidator<T, TProperty>> {
 
     ObjectPropertyValidator(Function<T, TProperty> getter) {
         super(getter);
