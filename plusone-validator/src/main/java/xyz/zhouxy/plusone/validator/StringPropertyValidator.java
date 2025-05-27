@@ -84,7 +84,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
             Pattern[] regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexTools.matchesOne(input, regexs), exceptionCreator);
+        withRule(input -> input == null || RegexTools.matchesOne(input, regexs), exceptionCreator);
         return this;
     }
 
@@ -126,7 +126,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
             Pattern[] regexs,
             Function<String, E> exceptionCreator) {
-        withRule(input -> RegexTools.matchesAll(input, regexs), exceptionCreator);
+        withRule(input -> input == null || RegexTools.matchesAll(input, regexs), exceptionCreator);
         return this;
     }
 
@@ -269,8 +269,8 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
 
     public <E extends RuntimeException> StringPropertyValidator<T> length(int min, int max,
             Function<String, E> exceptionCreator) {
-        AssertTools.checkArgument(min >= 0, "The minimum value must be greater than equal to 0.");
-        AssertTools.checkArgument(min < max, "The minimum value must be less than the maximum value.");
+        AssertTools.checkArgument(min >= 0, "The 'min' must be greater than or equal to 0.");
+        AssertTools.checkArgument(min <= max, "The 'min' must be less than or equal to the 'max'.");
         withRule(s -> length(s, min, max), exceptionCreator);
         return this;
     }
