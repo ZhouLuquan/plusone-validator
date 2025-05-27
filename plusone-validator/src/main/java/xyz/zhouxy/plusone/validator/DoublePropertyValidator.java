@@ -31,7 +31,8 @@ public class DoublePropertyValidator<T>
     // ================================
 
     public DoublePropertyValidator<T> gt(double min) {
-        return gt(min, String.format("The value should be greater than %s", min));
+        return gt(min, () -> new IllegalArgumentException(
+                String.format("The input must be greater than '%s'.", min)));
     }
 
     public DoublePropertyValidator<T> gt(double min, String errMsg) {
@@ -58,7 +59,8 @@ public class DoublePropertyValidator<T>
     // ================================
 
     public DoublePropertyValidator<T> ge(double min) {
-        return ge(min, String.format("The value should be greater than or equal to %s", min));
+        return ge(min, () -> new IllegalArgumentException(
+                String.format("The input must be greater than or equal to '%s'.", min)));
     }
 
     public DoublePropertyValidator<T> ge(double min, String errMsg) {
@@ -85,7 +87,8 @@ public class DoublePropertyValidator<T>
     // ================================
 
     public DoublePropertyValidator<T> lt(double max) {
-        return lt(max, String.format("The value should be less than %s", max));
+        return lt(max, () -> new IllegalArgumentException(
+                String.format("The input must be less than '%s'.", max)));
     }
 
     public DoublePropertyValidator<T> lt(double max, String errMsg) {
@@ -112,7 +115,8 @@ public class DoublePropertyValidator<T>
     // ================================
 
     public DoublePropertyValidator<T> le(double max) {
-        return le(max, String.format("The value should be less than or equal to %s", max));
+        return le(max, () -> new IllegalArgumentException(
+                String.format("The input must be less than or equal to '%s'.", max)));
     }
 
     public DoublePropertyValidator<T> le(double max, String errMsg) {

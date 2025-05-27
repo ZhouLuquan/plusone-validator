@@ -71,10 +71,12 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // ====== Object ======
     // ====================
 
-    // ====== notNull =====
+    // ================================
+    // #region - notNull
+    // ================================
 
     public TPropertyValidator notNull() {
-        return notNull("Value could not be null.");
+        return notNull("The input must not be null.");
     }
 
     public TPropertyValidator notNull(String errMsg) {
@@ -90,7 +92,13 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
         return thisObject();
     }
 
-    // ====== isNull =====
+    // ================================
+    // #endregion - notNull
+    // ================================
+
+    // ================================
+    // #region - isNull
+    // ================================
 
     public TPropertyValidator isNull(String errMsg) {
         return isNull(convertExceptionCreator(errMsg));
@@ -105,10 +113,17 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
         return thisObject();
     }
 
-    // ===== equals =====
+    // ================================
+    // #endregion - isNull
+    // ================================
+
+    // ================================
+    // #region - equals
+    // ================================
 
     public TPropertyValidator equalsThat(Object that) {
-        return equalsThat(that, value -> new IllegalArgumentException(String.format("(%s) 必须与 (%s) 相等", value, that)));
+        return equalsThat(that,
+                value -> new IllegalArgumentException(String.format("The input must be equal to '%s'.", that)));
     }
 
     public TPropertyValidator equalsThat(Object that, String errMsg) {
@@ -126,10 +141,16 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
         return thisObject();
     }
 
-    // ===== must =====
+    // ================================
+    // #endregion - equals
+    // ================================
+
+    // ================================
+    // #region - must
+    // ================================
 
     public TPropertyValidator must(Predicate<? super TProperty> condition) {
-        return must(condition, "无效的用户输入");
+        return must(condition, "The specified condition was not met for the input.");
     }
 
     public TPropertyValidator must(Predicate<? super TProperty> condition, String errMsg) {
@@ -149,10 +170,8 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
         return thisObject();
     }
 
-    // ===== must =====
-
     public TPropertyValidator must(Collection<Predicate<? super TProperty>> conditions) {
-        return must(conditions, "无效的用户输入");
+        return must(conditions, "The specified conditions were not met for the input.");
     }
 
     public TPropertyValidator must(Collection<Predicate<? super TProperty>> conditions, String errMsg) {
@@ -173,6 +192,10 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
         }
         return thisObject();
     }
+
+    // ================================
+    // #endregion - must
+    // ================================
 
     static <V> Function<V, IllegalArgumentException> convertExceptionCreator(String errMsg) {
         return value -> new IllegalArgumentException(errMsg);

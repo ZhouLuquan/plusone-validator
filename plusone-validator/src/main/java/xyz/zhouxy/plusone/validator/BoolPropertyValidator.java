@@ -28,7 +28,7 @@ public class BoolPropertyValidator<T> extends BasePropertyValidator<T, Boolean, 
     // ====== isTrueValue ======
 
     public BoolPropertyValidator<T> isTrueValue() {
-        return isTrueValue("The value must be true.");
+        return isTrueValue("The input must be true.");
     }
 
     public BoolPropertyValidator<T> isTrueValue(String errMsg) {
@@ -49,7 +49,7 @@ public class BoolPropertyValidator<T> extends BasePropertyValidator<T, Boolean, 
     // ====== isFalseValue ======
 
     public BoolPropertyValidator<T> isFalseValue() {
-        return isFalseValue("The value must be false.");
+        return isFalseValue("The input must be false.");
     }
 
     public BoolPropertyValidator<T> isFalseValue(String errMsg) {

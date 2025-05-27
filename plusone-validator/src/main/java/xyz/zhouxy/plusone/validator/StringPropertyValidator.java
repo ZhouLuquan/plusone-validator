@@ -156,7 +156,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // ================================
 
     public StringPropertyValidator<T> notBlank() {
-        return notBlank("The value must have text; it must not be null, empty, or blank.");
+        return notBlank("The input must not be blank.");
     }
 
     public StringPropertyValidator<T> notBlank(String errMsg) {
@@ -182,7 +182,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // ================================
 
     public StringPropertyValidator<T> emailAddress() {
-        return emailAddress("The value is not an email address.");
+        return emailAddress("The input is not a valid email address.");
     }
 
     public StringPropertyValidator<T> emailAddress(String errMsg) {
@@ -208,7 +208,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // ================================
 
     public StringPropertyValidator<T> notEmpty() {
-        return notEmpty("The value must not be empty.");
+        return notEmpty("The input must not be empty.");
     }
 
     public StringPropertyValidator<T> notEmpty(String errMsg) {
@@ -245,7 +245,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     public <E extends RuntimeException> StringPropertyValidator<T> length(int length,
             Function<String, E> exceptionCreator) {
         AssertTools.checkArgument(length >= 0,
-                "The required length must be greater than or equal to 0.");
+                "The expected length must be greater than or equal to 0.");
         withRule(s -> s == null || s.length() == length, exceptionCreator);
         return this;
     }

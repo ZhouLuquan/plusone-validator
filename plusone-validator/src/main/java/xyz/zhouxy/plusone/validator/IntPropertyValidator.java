@@ -31,7 +31,8 @@ public class IntPropertyValidator<T>
     // ================================
 
     public IntPropertyValidator<T> gt(int min) {
-        return gt(min, String.format("The value should be greater than %d", min));
+        return gt(min, () -> new IllegalArgumentException(
+                String.format("The input must be greater than '%d'.", min)));
     }
 
     public IntPropertyValidator<T> gt(int min, String errMsg) {
@@ -58,7 +59,8 @@ public class IntPropertyValidator<T>
     // ================================
 
     public IntPropertyValidator<T> ge(int min) {
-        return ge(min, String.format("The value should be greater than or equal to %d", min));
+        return ge(min, () -> new IllegalArgumentException(
+                String.format("The input must be greater than or equal to '%d'.", min)));
     }
 
     public IntPropertyValidator<T> ge(int min, String errMsg) {
@@ -85,7 +87,8 @@ public class IntPropertyValidator<T>
     // ================================
 
     public IntPropertyValidator<T> lt(int max) {
-        return lt(max, String.format("The value should be less than %d", max));
+        return lt(max, () -> new IllegalArgumentException(
+                String.format("The input must be less than '%d'.", max)));
     }
 
     public IntPropertyValidator<T> lt(int max, String errMsg) {
@@ -112,7 +115,8 @@ public class IntPropertyValidator<T>
     // ================================
 
     public IntPropertyValidator<T> le(int max) {
-        return le(max, String.format("The value should be less than or equal to %d", max));
+        return le(max, () -> new IllegalArgumentException(
+                String.format("The input must be less than or equal to '%d'.", max)));
     }
 
     public IntPropertyValidator<T> le(int max, String errMsg) {
