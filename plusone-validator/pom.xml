@@ -16,7 +16,7 @@
   <url>http://zhouxy.xyz</url>
 
   <description>
-    Plusone Validator 是一个参数校验框架，可针对 DTO 创建对应的校验器，并复用该校验器实例，对 DTO 进行校验。
+    Plusone Validator 是一个校验库，用于构建校验规则对对象（尤其是入参）进行校验。API 参考自 .NET 的 FluentValidation。
   </description>
 
   <properties>
