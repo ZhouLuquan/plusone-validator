@@ -1,5 +1,6 @@
 package xyz.zhouxy.plusone.example.validator;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static xyz.zhouxy.plusone.commons.constant.PatternConsts.*;
 
 import java.util.Arrays;
@@ -57,8 +58,7 @@ class ValidatorTests {
                 // 传入 predicate 和 error message
                 .addRule(command -> Objects.equals(command.getPassword(), command.getPassword2()),
                         "两次输入的密码不一致");
-        registerCommandValidator.validate(registerCommand);
-        System.out.println(registerCommand);
+        assertDoesNotThrow(() -> registerCommandValidator.validate(registerCommand));
     }
 
     /**

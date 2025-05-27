@@ -15,6 +15,8 @@
  */
 package xyz.zhouxy.plusone.example;
 
+import java.util.Objects;
+
 public class Foo {
     private Integer intProperty;
     private String stringProperty;
@@ -46,5 +48,20 @@ public class Foo {
     @Override
     public String toString() {
         return "Foo [intProperty=" + intProperty + ", stringProperty=" + stringProperty + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(intProperty, stringProperty);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Foo))
+            return false;
+        Foo other = (Foo) obj;
+        return Objects.equals(intProperty, other.intProperty) && Objects.equals(stringProperty, other.stringProperty);
     }
 }

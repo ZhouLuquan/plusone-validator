@@ -27,6 +27,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.google.common.collect.Lists;
 
+import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
@@ -253,10 +254,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -273,10 +271,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -294,10 +289,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals("Input should match pattern, but it is null", e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -390,10 +382,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -409,10 +398,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -429,10 +415,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals("Input should match pattern, but it is null", e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     // ================================
@@ -538,10 +521,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -558,10 +538,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -579,10 +556,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals("Input should match pattern, but it is null", e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -675,10 +649,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -694,10 +665,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     @Test
@@ -714,10 +682,7 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-        assertEquals("Input should match pattern, but it is null", e.getMessage());
+        assertDoesNotThrow(() -> validator.validate(command));
     }
 
     // ================================
@@ -758,7 +723,7 @@ public class StringPropertyValidatorTests {
         IllegalArgumentException eWithDefaultMessage = assertThrows(
                 IllegalArgumentException.class,
                 () -> defaultRule.validate(command));
-        assertEquals("The value must have text; it must not be null, empty, or blank.", eWithDefaultMessage.getMessage());
+        assertEquals("The input must not be blank.", eWithDefaultMessage.getMessage());
 
         BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
@@ -808,7 +773,7 @@ public class StringPropertyValidatorTests {
         IllegalArgumentException eWithDefaultMessage = assertThrows(
                 IllegalArgumentException.class,
                 () -> defaultRule.validate(command));
-        assertEquals("The value must have text; it must not be null, empty, or blank.", eWithDefaultMessage.getMessage());
+        assertEquals("The input must not be blank.", eWithDefaultMessage.getMessage());
 
         BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
@@ -885,7 +850,7 @@ public class StringPropertyValidatorTests {
         IllegalArgumentException eWithDefaultMessage = assertThrows(
                 IllegalArgumentException.class,
                 () -> defaultRule.validate(command));
-        assertEquals("The value is not an email address.", eWithDefaultMessage.getMessage());
+        assertEquals("The input is not a valid email address.", eWithDefaultMessage.getMessage());
 
         BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
@@ -960,7 +925,7 @@ public class StringPropertyValidatorTests {
         IllegalArgumentException eWithDefaultMessage = assertThrows(
                 IllegalArgumentException.class,
                 () -> defaultRule.validate(command));
-        assertEquals("The value must not be empty.", eWithDefaultMessage.getMessage());
+        assertEquals("The input must not be empty.", eWithDefaultMessage.getMessage());
 
         BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
@@ -1010,7 +975,7 @@ public class StringPropertyValidatorTests {
         IllegalArgumentException eWithDefaultMessage = assertThrows(
                 IllegalArgumentException.class,
                 () -> defaultRule.validate(command));
-        assertEquals("The value must not be empty.", eWithDefaultMessage.getMessage());
+        assertEquals("The input must not be empty.", eWithDefaultMessage.getMessage());
 
         BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {

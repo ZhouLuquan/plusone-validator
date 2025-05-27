@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.zhouxy.plusone.example.validator;
+package xyz.zhouxy.plusone;
 
 import xyz.zhouxy.plusone.commons.annotation.StaticFactoryMethod;
 

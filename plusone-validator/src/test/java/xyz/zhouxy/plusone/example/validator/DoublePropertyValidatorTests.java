@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 
@@ -30,11 +31,11 @@ public class DoublePropertyValidatorTests {
     static final double MIN = 1.0;
     static final double MAX = 5.0;
 
-    static final String MESSAGE_GT = "The value should be greater than " + MIN;
-    static final String MESSAGE_GE = "The value should be greater than or equal to " + MIN;
+    static final String MESSAGE_GT = "The input must be greater than " + MIN;
+    static final String MESSAGE_GE = "The input must be greater than or equal to " + MIN;
 
-    static final String MESSAGE_LT = "The value should be less than " + MAX;
-    static final String MESSAGE_LE = "The value should be less than or equal to " + MAX;
+    static final String MESSAGE_LT = "The input must be less than " + MAX;
+    static final String MESSAGE_LE = "The input must be less than or equal to " + MAX;
 
     // ================================
     // #region - gt_validValue
@@ -84,7 +85,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be greater than " + MIN, e.getMessage());
+        assertEquals(String.format("The input must be greater than '%s'.", MIN), e.getMessage());
     }
 
     @ParameterizedTest
@@ -161,7 +162,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be greater than " + MIN, e.getMessage());
+        assertEquals(String.format("The input must be greater than '%s'.", MIN), e.getMessage());
     }
 
     @Test
@@ -266,7 +267,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be greater than or equal to " + MIN, e.getMessage());
+        assertEquals(String.format("The input must be greater than or equal to '%s'.", MIN), e.getMessage());
     }
 
     @ParameterizedTest
@@ -343,7 +344,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be greater than or equal to " + MIN, e.getMessage());
+        assertEquals(String.format("The input must be greater than or equal to '%s'.", MIN), e.getMessage());
     }
 
     @Test
@@ -448,7 +449,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be less than " + MAX, e.getMessage());
+        assertEquals(String.format("The input must be less than '%s'.", MAX), e.getMessage());
     }
 
     @ParameterizedTest
@@ -525,7 +526,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be less than " + MAX, e.getMessage());
+        assertEquals(String.format("The input must be less than '%s'.", MAX), e.getMessage());
     }
 
     @Test
@@ -630,7 +631,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be less than or equal to " + MAX, e.getMessage());
+        assertEquals(String.format("The input must be less than or equal to '%s'.", MAX), e.getMessage());
     }
 
     @ParameterizedTest
@@ -707,7 +708,7 @@ public class DoublePropertyValidatorTests {
 
         IllegalArgumentException e = assertThrows(
                 IllegalArgumentException.class, () -> validator.validate(command));
-        assertEquals("The value should be less than or equal to " + MAX, e.getMessage());
+        assertEquals(String.format("The input must be less than or equal to '%s'.", MAX), e.getMessage());
     }
 
     @Test

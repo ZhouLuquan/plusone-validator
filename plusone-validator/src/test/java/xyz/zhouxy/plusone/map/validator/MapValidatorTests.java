@@ -2,16 +2,19 @@ package xyz.zhouxy.plusone.map.validator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import xyz.zhouxy.plusone.commons.constant.PatternConsts;
-import xyz.zhouxy.plusone.commons.util.StringTools;
+import com.google.common.collect.ImmutableSet;
+
+import xyz.zhouxy.plusone.ExampleException;
+import xyz.zhouxy.plusone.example.Foo;
 import xyz.zhouxy.plusone.validator.MapValidator;
 
 class MapValidatorTests {
@@ -21,66 +24,98 @@ class MapValidatorTests {
     @Test
     void testValidateAndCopy() {
         Map<String, Object> params = new HashMap<>();
-        params.put(ParamsValidator.USERNAME, "ZhouXY");
-        params.put(ParamsValidator.ACCOUNT, "zhouxy@code108.cn");
-        params.put(ParamsValidator.PASSWORD, "99Code108");
-        params.put(ParamsValidator.PASSWORD2, "99Code108");
-        params.put(ParamsValidator.AGE, 18);
-        params.put(ParamsValidator.BOOLEAN, true);
+        params.put(ParamsValidator.BOOL_PROPERTY, true);
+        params.put(ParamsValidator.INT_PROPERTY, Integer.MAX_VALUE);
+        params.put(ParamsValidator.LONG_PROPERTY, Long.MAX_VALUE);
+        params.put(ParamsValidator.DOUBLE_PROPERTY, Double.MAX_VALUE);
+        params.put(ParamsValidator.STRING_PROPERTY, "Foo");
+        params.put(ParamsValidator.STRING_PROPERTY2, "Bar");
+        params.put(ParamsValidator.DATE_TIME_PROPERTY, LocalDateTime.of(2008, 8, 8, 20, 8));
+        params.put(ParamsValidator.OBJECT_PROPERTY, new Foo(1, "Foo"));
+        params.put(ParamsValidator.STRING_LIST_PROPERTY, Collections.emptyList());
 
-        params.put(ParamsValidator.ROLE_LIST, Arrays.asList("admin", ""));
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
             validator.validateAndCopy(params);
         });
+        assertEquals("'stringProperty' must be equal to 'stringProperty2'.", e.getMessage());
 
-        params.put(ParamsValidator.ROLE_LIST, Arrays.asList("admin", "developer"));
-        Map<String, Object> validatedParams = validator.validateAndCopy(params);
-        System.out.println(validatedParams);
+        params.put(ParamsValidator.STRING_PROPERTY2, "Foo");
+        assertAll(() -> {
+            Map<String, Object> validatedParams = validator.validateAndCopy(params);
+            assertEquals(ParamsValidator.keySet(), validatedParams.keySet());
+
+            assertEquals(true, validatedParams.get(ParamsValidator.BOOL_PROPERTY));
+            assertEquals(Integer.MAX_VALUE, validatedParams.get(ParamsValidator.INT_PROPERTY));
+            assertEquals(Long.MAX_VALUE, validatedParams.get(ParamsValidator.LONG_PROPERTY));
+            assertEquals(Double.MAX_VALUE, validatedParams.get(ParamsValidator.DOUBLE_PROPERTY));
+            assertEquals("Foo", validatedParams.get(ParamsValidator.STRING_PROPERTY));
+            assertEquals(LocalDateTime.of(2008, 8, 8, 20, 8), validatedParams.get(ParamsValidator.DATE_TIME_PROPERTY));
+            assertEquals(new Foo(1, "Foo"), validatedParams.get(ParamsValidator.OBJECT_PROPERTY));
+            assertEquals(Collections.emptyList(), validatedParams.get(ParamsValidator.STRING_LIST_PROPERTY));
+        });
+
+        assertAll(() -> {
+            Map<String, Object> validatedParams = validator.validateAndCopy(params,
+                    ParamsValidator.LONG_PROPERTY, ParamsValidator.STRING_PROPERTY2);
+            assertEquals(ImmutableSet.of(ParamsValidator.LONG_PROPERTY, ParamsValidator.STRING_PROPERTY2),
+                    validatedParams.keySet());
+
+            assertEquals(Long.MAX_VALUE, validatedParams.get(ParamsValidator.LONG_PROPERTY));
+            assertEquals("Foo", validatedParams.get(ParamsValidator.STRING_PROPERTY2));
+
+        });
+
+        assertAll(() -> {
+            Set<String> keySet = ImmutableSet.of(ParamsValidator.LONG_PROPERTY, ParamsValidator.STRING_PROPERTY2);
+            Map<String, Object> validatedParams = validator.validateAndCopy(params, keySet);
+            assertEquals(keySet, validatedParams.keySet());
+
+            assertEquals(Long.MAX_VALUE, validatedParams.get(ParamsValidator.LONG_PROPERTY));
+            assertEquals("Foo", validatedParams.get(ParamsValidator.STRING_PROPERTY2));
+        });
     }
 }
 
 class ParamsValidator extends MapValidator<String, Object> {
-    public static final String USERNAME = "username";
-    public static final String ACCOUNT = "account";
-    public static final String PASSWORD = "password";
-    public static final String PASSWORD2 = "password2";
-    public static final String AGE = "age";
-    public static final String BOOLEAN = "boolean";
-    public static final String ROLE_LIST = "roleList";
+    public static final String BOOL_PROPERTY = "boolProperty";
+    public static final String INT_PROPERTY = "intProperty";
+    public static final String LONG_PROPERTY = "longProperty";
+    public static final String DOUBLE_PROPERTY = "doubleProperty";
+    public static final String STRING_PROPERTY = "stringProperty";
+    public static final String STRING_PROPERTY2 = "stringProperty2";
+    public static final String DATE_TIME_PROPERTY = "dateTimeProperty";
+    public static final String OBJECT_PROPERTY = "objectProperty";
+    public static final String STRING_LIST_PROPERTY = "stringListProperty";
 
     public static final ParamsValidator INSTANCE = new ParamsValidator();
 
     private ParamsValidator() {
-        super(new String[] { USERNAME, ACCOUNT, PASSWORD, AGE, BOOLEAN, ROLE_LIST });
-        ruleForString(USERNAME)
-                .notBlank("用户名不能为空")
-                .matches(PatternConsts.USERNAME,
-                        username -> new IllegalArgumentException(String.format("用户名【%s】不符合规范", username)));
-
-        ruleForString(ACCOUNT)
-                .notBlank("账号不能为空")
-                .matchesOne(new Pattern[] { PatternConsts.EMAIL, PatternConsts.MOBILE_PHONE }, "请输入正确的邮箱地址或手机号");
-
-        ruleForString(PASSWORD)
-                .notEmpty("密码不能为空")
-                .matches(PatternConsts.PASSWORD, "密码不符合规范");
+        super(new String[] { BOOL_PROPERTY, INT_PROPERTY, LONG_PROPERTY, DOUBLE_PROPERTY, STRING_PROPERTY,
+                DATE_TIME_PROPERTY, OBJECT_PROPERTY, STRING_LIST_PROPERTY });
+        ruleForBool(BOOL_PROPERTY)
+                .notNull();
+        ruleForInt(INT_PROPERTY)
+                .notNull("The intProperty cannot be null");
+        ruleForLong(LONG_PROPERTY)
+                .notNull(() -> ExampleException.withMessage("The longProperty cannot be null"));
+        ruleForDouble(DOUBLE_PROPERTY)
+                .notNull(d -> ExampleException.withMessage("The doubleProperty cannot be null, but it was %s", d));
+        ruleForString(STRING_PROPERTY)
+                .notNull();
+        ruleFor(DATE_TIME_PROPERTY)
+                .notNull("The dateTimeProperty cannot be null");
+        ruleFor(OBJECT_PROPERTY)
+                .notNull(() -> ExampleException.withMessage("The objectProperty cannot be null"));
+        ruleForCollection(STRING_LIST_PROPERTY)
+                .notNull(d -> ExampleException.withMessage("The stringListProperty cannot be null, but it was %s", d));
 
         // 校验到多个属性，只能针对 map 本身进行校验
-        withRule(m -> Objects.equals(m.get(PASSWORD), m.get(PASSWORD2)),
-                "两次输入的密码不一样！");
+        withRule(m -> Objects.equals(m.get(STRING_PROPERTY), m.get(STRING_PROPERTY2)),
+                "'stringProperty' must be equal to 'stringProperty2'.");
+    }
 
-        ruleForInt(AGE)
-                .withRule(Objects::nonNull)
-                .ge(18)
-                .le(60);
-
-        ruleForBool(BOOLEAN)
-                .notNull("Boolean property could not be null.")
-                .isTrueValue("Boolean property must be true.");
-
-        this.<String>ruleForCollection(ROLE_LIST)
-                .notEmpty("角色列表不能为空！")
-                .withRule(l -> l.stream().allMatch(StringTools::isNotBlank),
-                        () -> new IllegalArgumentException("角色标识不能为空！"));
+    public static Set<String> keySet() {
+        return ImmutableSet.of(BOOL_PROPERTY, INT_PROPERTY, LONG_PROPERTY, DOUBLE_PROPERTY, STRING_PROPERTY,
+                DATE_TIME_PROPERTY, OBJECT_PROPERTY, STRING_LIST_PROPERTY);
     }
 }

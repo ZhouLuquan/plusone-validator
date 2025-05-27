@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 
@@ -62,7 +63,7 @@ public class BoolPropertyValidatorTests {
                 IllegalArgumentException.class,
                 () -> validator.validate(command));
 
-        assertEquals("The value must be true.", exception.getMessage());
+        assertEquals("The input must be true.", exception.getMessage());
     }
 
     @Test
@@ -136,7 +137,7 @@ public class BoolPropertyValidatorTests {
                 IllegalArgumentException.class,
                 () -> validator.validate(command));
 
-        assertEquals("The value must be true.", exception.getMessage());
+        assertEquals("The input must be true.", exception.getMessage());
     }
 
     @Test
@@ -238,7 +239,7 @@ public class BoolPropertyValidatorTests {
                 IllegalArgumentException.class,
                 () -> validator.validate(command));
 
-        assertEquals("The value must be false.", exception.getMessage());
+        assertEquals("The input must be false.", exception.getMessage());
     }
 
     @Test
@@ -312,7 +313,7 @@ public class BoolPropertyValidatorTests {
                 IllegalArgumentException.class,
                 () -> validator.validate(command));
 
-        assertEquals("The value must be false.", exception.getMessage());
+        assertEquals("The input must be false.", exception.getMessage());
     }
 
     @Test

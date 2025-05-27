@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Range;
 
+import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 
@@ -89,7 +90,7 @@ public class ComparablePropertyValidatorTests {
                 IllegalArgumentException.class,
                 () -> validator.validate(command));
 
-        final String expected = String.format("The value is not in the interval %s", DATE_TIME_RANGE);
+        final String expected = String.format("The input must in the interval %s. You entered %s.", DATE_TIME_RANGE, MAX);
         assertEquals(expected, e.getMessage());
     }
 
@@ -172,7 +173,7 @@ public class ComparablePropertyValidatorTests {
                 IllegalArgumentException.class,
                 () -> validator.validate(command));
 
-        final String expected = String.format("The value is not in the interval %s", DATE_TIME_RANGE);
+        final String expected = String.format("The input must in the interval %s. You entered null.", DATE_TIME_RANGE);
         assertEquals(expected, e.getMessage());
     }
 

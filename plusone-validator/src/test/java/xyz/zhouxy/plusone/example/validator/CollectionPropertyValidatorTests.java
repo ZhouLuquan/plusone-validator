@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Lists;
 
+import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 
@@ -43,6 +44,7 @@ public class CollectionPropertyValidatorTests {
     void notEmpty_stringListIsNotEmpty() {
         BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
+                ruleForCollection(ExampleCommand::getStringListProperty).notEmpty();
                 ruleForCollection(ExampleCommand::getStringListProperty).notEmpty(MESSAGE_NOT_EMPTY);
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY));
@@ -54,6 +56,20 @@ public class CollectionPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("A", "B", "C"));
         assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void notEmpty_default_stringListIsEmpty() {
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty).notEmpty();
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringListProperty(Collections.emptyList());
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> validator.validate(command));
+        assertEquals("The input must not be empty.", e.getMessage());
     }
 
     @Test
@@ -158,6 +174,7 @@ public class CollectionPropertyValidatorTests {
     void isEmpty_stringListIsEmpty() {
         BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
+                ruleForCollection(ExampleCommand::getStringListProperty).isEmpty();
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty(MESSAGE_EMPTY);
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .isEmpty(() -> ExampleException.withMessage(MESSAGE_EMPTY));
@@ -175,6 +192,7 @@ public class CollectionPropertyValidatorTests {
     void isEmpty_stringListIsNull() {
         BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
+                ruleForCollection(ExampleCommand::getStringListProperty).isEmpty();
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty(MESSAGE_EMPTY);
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .isEmpty(() -> ExampleException.withMessage(MESSAGE_EMPTY));
@@ -186,6 +204,20 @@ public class CollectionPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithStringListProperty(null);
         assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void isEmpty_default_stringListIsNotEmpty() {
+        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty).isEmpty();
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("A", "B", "C"));
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> validator.validate(command));
+        assertEquals("The input must be empty.", e.getMessage());
     }
 
     @Test
