@@ -31,11 +31,16 @@ public class CollectionPropertyValidator<T, TElement>
 
     // ====== notEmpty =====
 
+    public CollectionPropertyValidator<T, TElement> notEmpty() {
+        return notEmpty("The input must not be empty.");
+    }
+
     public CollectionPropertyValidator<T, TElement> notEmpty(String errMsg) {
         return notEmpty(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> notEmpty(Supplier<E> exceptionCreator) {
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> notEmpty(
+            Supplier<E> exceptionCreator) {
         return notEmpty(convertExceptionCreator(exceptionCreator));
     }
 
@@ -47,11 +52,16 @@ public class CollectionPropertyValidator<T, TElement>
 
     // ====== isEmpty =====
 
+    public CollectionPropertyValidator<T, TElement> isEmpty() {
+        return isEmpty("The input must be empty.");
+    }
+
     public CollectionPropertyValidator<T, TElement> isEmpty(String errMsg) {
         return isEmpty(convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> isEmpty(Supplier<E> exceptionCreator) {
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> isEmpty(
+            Supplier<E> exceptionCreator) {
         return isEmpty(convertExceptionCreator(exceptionCreator));
     }
 

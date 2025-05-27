@@ -100,6 +100,10 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // #region - isNull
     // ================================
 
+    public TPropertyValidator isNull() {
+        return isNull("The input must be null.");
+    }
+
     public TPropertyValidator isNull(String errMsg) {
         return isNull(convertExceptionCreator(errMsg));
     }
