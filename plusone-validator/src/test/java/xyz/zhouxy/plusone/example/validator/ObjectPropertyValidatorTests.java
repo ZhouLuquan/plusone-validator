@@ -18,6 +18,7 @@ package xyz.zhouxy.plusone.example.validator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.DateTimeException;
@@ -44,12 +45,12 @@ public class ObjectPropertyValidatorTests {
     // ================================
 
     @Test
-    void withRule() {
+    void withRule_validInput() {
         BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleFor(ExampleCommand::getBoolProperty)
                         .notNull("The boolProperty cannot be null.")
-                        .withRule(Boolean.TRUE::equals, "The boolProperty should be true.");
+                        .withRule(Boolean.TRUE::equals);
 
                 ruleFor(ExampleCommand::getIntProperty)
                         .withRule(intProperty -> intProperty > 0, "The intProperty should be greater than 0.");
@@ -97,6 +98,50 @@ public class ObjectPropertyValidatorTests {
                 Lists.newArrayList("ABC", "DEF"));
 
         assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void withRule_invalidInputs() {
+        ExampleCommand command = new ExampleCommand();
+        BaseValidator<ExampleCommand> ruleWithDefaultMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleFor(ExampleCommand::getObjectProperty)
+                        .withRule(x -> false);
+            }
+        };
+        IllegalArgumentException eWithDefaultMessage = assertThrows(
+                IllegalArgumentException.class, () -> ruleWithDefaultMessage.validate(command));
+        assertNull(eWithDefaultMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleFor(ExampleCommand::getObjectProperty)
+                        .withRule(x -> false, "invalid input.");
+            }
+        };
+        IllegalArgumentException eWithMessage = assertThrows(
+                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        assertEquals("invalid input.", eWithMessage.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleFor(ExampleCommand::getObjectProperty)
+                        .withRule(x -> false, () -> ExampleException.withMessage("invalid input."));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+                ExampleException.class, () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals("invalid input.", specifiedException.getMessage());
+
+        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleFor(ExampleCommand::getObjectProperty)
+                        .withRule(x -> false, x -> ExampleException.withMessage("invalid input: [%s].", x));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+                ExampleException.class, () -> ruleWithExceptionFunction.validate(command));
+        assertEquals("invalid input: [null].", specifiedException2.getMessage());
     }
 
     // ================================
