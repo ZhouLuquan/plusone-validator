@@ -21,6 +21,18 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.Range;
 
+/**
+ * 针对 {@code Comparable} 类型的属性校验器基类
+ *
+ * <p>
+ * 内置了判断属性是否在给定区间内的校验规则。
+ *
+ * @param <T> 待校验对象类型
+ * @param <TProperty> 属性类型
+ * @param <TPropertyValidator> 当前属性校验器类型，用于链式调用
+ * @see Range
+ * @author ZhouXY
+ */
 public abstract class BaseComparablePropertyValidator<T, TProperty extends Comparable<TProperty>, TPropertyValidator extends BaseComparablePropertyValidator<T, TProperty, TPropertyValidator>>
         extends BasePropertyValidator<T, TProperty, TPropertyValidator> {
 
@@ -28,6 +40,12 @@ public abstract class BaseComparablePropertyValidator<T, TProperty extends Compa
         super(getter);
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     *
+     * @param range 区间
+     * @return 属性校验器
+     */
     public TPropertyValidator inRange(Range<TProperty> range) {
         withRule(value -> value != null && range.contains(value),
                 value -> new IllegalArgumentException(
@@ -35,30 +53,41 @@ public abstract class BaseComparablePropertyValidator<T, TProperty extends Compa
         return thisObject();
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     *
+     * @param range 区间
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public TPropertyValidator inRange(Range<TProperty> range, String errMsg) {
-        withRule(value -> value != null && range.contains(value), convertExceptionCreator(errMsg));
+        withRule(value -> value != null && range.contains(value), convertToExceptionFunction(errMsg));
         return thisObject();
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     *
+     * @param range 区间
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator inRange(
-            Range<TProperty> range,
-            Supplier<E> exceptionCreator) {
-        withRule(value -> value != null && range.contains(value), exceptionCreator);
+            Range<TProperty> range, Supplier<E> e) {
+        withRule(value -> value != null && range.contains(value), e);
         return thisObject();
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     *
+     * @param range 区间
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator inRange(
-            Range<TProperty> range,
-            Function<TProperty, E> exceptionCreator) {
-        withRule(value -> value != null && range.contains(value), exceptionCreator);
+            Range<TProperty> range, Function<TProperty, E> e) {
+        withRule(value -> value != null && range.contains(value), e);
         return thisObject();
-    }
-
-    static <V> Function<V, IllegalArgumentException> convertExceptionCreator(String errMsg) {
-        return value -> new IllegalArgumentException(errMsg);
-    }
-
-    static <V, E extends RuntimeException> Function<V, E> convertExceptionCreator(Supplier<E> exceptionSupplier) {
-        return value -> exceptionSupplier.get();
     }
 }

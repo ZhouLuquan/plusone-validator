@@ -22,5 +22,10 @@ package xyz.zhouxy.plusone.validator;
  */
 public interface IValidator<T> {
 
+    /**
+     * 校验对象
+     *
+     * @param obj
+     */
     void validate(T obj);
 }

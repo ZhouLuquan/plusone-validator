@@ -18,6 +18,11 @@ package xyz.zhouxy.plusone.validator.function;
 import java.io.Serializable;
 import java.util.function.Function;
 
+/**
+ * Function&lt;T, Boolean&gt;
+ *
+ * @author ZhouXY
+ */
 @FunctionalInterface
 public interface ToBoolObjectFunction<T> extends Function<T, Boolean>, Serializable {
 }

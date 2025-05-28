@@ -27,120 +27,226 @@ import java.util.function.Supplier;
 import xyz.zhouxy.plusone.validator.function.*;
 
 /**
- * BaseValidator
- *
- * <p>
  * 校验器的基类
- * </p>
  *
  * <p>
- * <b>NOTE: content.</b>
- * </p>
+ * 通过继承 {@code BaseValidator}，可以自定义一个针对特定类型的校验器，包含对该类型的校验逻辑。
+ *
  * @author ZhouXY
- * @since 0.0.1
  */
 public abstract class BaseValidator<T> implements IValidator<T> {
+
+    /**
+     * 规则集合
+     */
     private final List<Consumer<? super T>> rules = new ArrayList<>();
 
+    /**
+     * 添加一个校验规则
+     *
+     * @param rule 校验规则
+     * @param errorMessage 错误信息
+     */
     protected final void withRule(final Predicate<? super T> rule, final String errorMessage) {
         withRule(rule, () -> new IllegalArgumentException(errorMessage));
     }
 
-    protected final <E extends RuntimeException> void withRule(Predicate<? super T> rule, Supplier<E> exceptionBuilder) {
-        withRule(rule, value -> exceptionBuilder.get());
+    /**
+     * 添加一个校验规则
+     *
+     * @param <E> 自定义异常类型
+     * @param rule 校验规则
+     * @param e 自定义异常
+     */
+    protected final <E extends RuntimeException> void withRule(
+            final Predicate<? super T> rule, final Supplier<E> e) {
+        withRule(rule, value -> e.get());
     }
 
+    /**
+     * 添加一个校验规则
+     *
+     * @param <E> 自定义异常类型
+     * @param condition 校验条件
+     * @param e 自定义异常
+     */
     protected final <E extends RuntimeException> void withRule(
-            Predicate<? super T> condition, Function<T, E> exceptionBuilder) {
+            final Predicate<? super T> condition, final Function<T, E> e) {
         withRule(value -> {
             if (!condition.test(value)) {
-                throw exceptionBuilder.apply(value);
+                throw e.apply(value);
             }
         });
     }
 
+    /**
+     * 添加一个校验规则
+     *
+     * @param rule 校验规则。内部包含断言条件，如果条件不满足，则抛出异常。
+     */
     protected final void withRule(Consumer<? super T> rule) {
         this.rules.add(rule);
     }
 
+    /**
+     * 添加一个属性校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final <R> ObjectPropertyValidator<T, R> ruleFor(Function<T, R> getter) {
         ObjectPropertyValidator<T, R> validator = new ObjectPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
-    protected final <R extends Comparable<R>> ComparablePropertyValidator<T, R> ruleForComparable(Function<T, R> getter) {
+    /**
+     * 添加一个针对 {@code Comparable} 属性的校验器
+     *
+     * @param <R> 属性类型
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
+    protected final <R extends Comparable<R>> ComparablePropertyValidator<T, R> ruleForComparable(
+            Function<T, R> getter) {
         ComparablePropertyValidator<T, R> validator = new ComparablePropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Integer} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final IntPropertyValidator<T> ruleForInt(Function<T, Integer> getter) {
         IntPropertyValidator<T> validator = new IntPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Integer} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final IntPropertyValidator<T> ruleFor(ToIntegerFunction<T> getter) {
         IntPropertyValidator<T> validator = new IntPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Long} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final LongPropertyValidator<T> ruleForLong(Function<T, Long> getter) {
         LongPropertyValidator<T> validator = new LongPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Long} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final LongPropertyValidator<T> ruleFor(ToLongObjectFunction<T> getter) {
         LongPropertyValidator<T> validator = new LongPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Double} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final DoublePropertyValidator<T> ruleForDouble(Function<T, Double> getter) {
         DoublePropertyValidator<T> validator = new DoublePropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Double} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final DoublePropertyValidator<T> ruleFor(ToDoubleObjectFunction<T> getter) {
         DoublePropertyValidator<T> validator = new DoublePropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Boolean} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final BoolPropertyValidator<T> ruleForBool(Function<T, Boolean> getter) {
         BoolPropertyValidator<T> validator = new BoolPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Boolean} 属性的校验器
+     *
+     * @param getter 属性获取函数
+     * @return 属性校验器
+     */
     protected final BoolPropertyValidator<T> ruleFor(ToBoolObjectFunction<T> getter) {
         BoolPropertyValidator<T> validator = new BoolPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code String} 属性的校验器
+     *
+     * @param getter 获取属性值的函数
+     * @return 属性校验器
+     */
     protected final StringPropertyValidator<T> ruleForString(Function<T, String> getter) {
         StringPropertyValidator<T> validator = new StringPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code String} 属性的校验器
+     *
+     * @param getter 获取属性值的函数
+     * @return 属性校验器
+     */
     protected final StringPropertyValidator<T> ruleFor(ToStringFunction<T> getter) {
         StringPropertyValidator<T> validator = new StringPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /**
+     * 添加一个针对 {@code Collection} 属性的校验器
+     *
+     * @param getter 获取属性值的函数
+     * @return 集合属性校验器
+     */
     protected final <E> CollectionPropertyValidator<T, E> ruleForCollection(Function<T, Collection<E>> getter) {
         CollectionPropertyValidator<T, E> validator = new CollectionPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void validate(T obj) {
         this.rules.forEach(rule -> rule.accept(obj));

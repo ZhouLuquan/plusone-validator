@@ -18,6 +18,11 @@ package xyz.zhouxy.plusone.validator.function;
 import java.io.Serializable;
 import java.util.function.Function;
 
+/**
+ * Function&lt;T, Long&gt;
+ *
+ * @author ZhouXY
+ */
 @FunctionalInterface
 public interface ToLongObjectFunction<T> extends Function<T, Long>, Serializable {
 }

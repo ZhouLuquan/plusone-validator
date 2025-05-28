@@ -18,6 +18,11 @@ package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
 
+/**
+ * 通用类型属性校验器。继承自 {@link BasePropertyValidator}，包含针对属性的校验规则。
+ *
+ * @author ZhouXY
+ */
 public class ObjectPropertyValidator<T, TProperty>
         extends BasePropertyValidator<T, TProperty, ObjectPropertyValidator<T, TProperty>> {
 

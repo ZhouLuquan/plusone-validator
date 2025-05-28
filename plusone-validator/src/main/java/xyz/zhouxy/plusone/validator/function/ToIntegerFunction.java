@@ -18,6 +18,11 @@ package xyz.zhouxy.plusone.validator.function;
 import java.io.Serializable;
 import java.util.function.Function;
 
+/**
+ * Function&lt;T, Integer&gt;
+ *
+ * @author ZhouXY
+ */
 @FunctionalInterface
 public interface ToIntegerFunction<T> extends Function<T, Integer>, Serializable {
 }

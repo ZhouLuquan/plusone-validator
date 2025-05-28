@@ -31,7 +31,7 @@ import xyz.zhouxy.plusone.commons.util.StringTools;
  * StringPropertyValidator
  *
  * <p>
- * 针对文本字段的验证器。
+ * 针对文本字段的校验器。
  * </p>
  *
  * @author ZhouXY
@@ -46,20 +46,41 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // #region - matches
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配正则表达式
+     *
+     * @param regex 正则表达式
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> matches(Pattern regex, String errMsg) {
-        return matches(regex, convertExceptionCreator(errMsg));
+        return matches(regex, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配正则表达式
+     *
+     * @param <E> 异常类型
+     * @param regex 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matches(
-            Pattern regex,
-            Supplier<E> exceptionCreator) {
-        return matches(regex, convertExceptionCreator(exceptionCreator));
+            Pattern regex, Supplier<E> e) {
+        return matches(regex, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配正则表达式
+     *
+     * @param <E> 异常类型
+     * @param regex 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matches(
-            Pattern regex,
-            Function<String, E> exceptionCreator) {
-        withRule(input -> (input == null || RegexTools.matches(input, regex)), exceptionCreator);
+            Pattern regex, Function<String, E> e) {
+        withRule(input -> (input == null || RegexTools.matches(input, regex)), e);
         return this;
     }
 
@@ -71,37 +92,79 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // #region - matchesOne
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     *
+     * @param regexs 正则表达式
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> matchesOne(Pattern[] regexs, String errMsg) {
-        return matchesOne(regexs, convertExceptionCreator(errMsg));
+        return matchesOne(regexs, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
-            Pattern[] regexs,
-            Supplier<E> exceptionCreator) {
-        return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
+            Pattern[] regexs, Supplier<E> e) {
+        return matchesOne(regexs, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
-            Pattern[] regexs,
-            Function<String, E> exceptionCreator) {
-        withRule(input -> input == null || RegexTools.matchesOne(input, regexs), exceptionCreator);
+            Pattern[] regexs, Function<String, E> e) {
+        withRule(input -> input == null || RegexTools.matchesOne(input, regexs), e);
         return this;
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     *
+     * @param regexs 正则表达式
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> matchesOne(List<Pattern> regexs, String errMsg) {
-        return matchesOne(regexs, convertExceptionCreator(errMsg));
+        return matchesOne(regexs, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
-            List<Pattern> regexs,
-            Supplier<E> exceptionCreator) {
-        return matchesOne(regexs, convertExceptionCreator(exceptionCreator));
+            List<Pattern> regexs, Supplier<E> e) {
+        return matchesOne(regexs, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
-            List<Pattern> regexs,
-            Function<String, E> exceptionCreator) {
-        withRule(input -> input == null || RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
+            List<Pattern> regexs, Function<String, E> e) {
+        withRule(input -> input == null || RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), e);
         return this;
     }
 
@@ -113,37 +176,79 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // #region - matchesAll
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
+     *
+     * @param regexs 正则表达式
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> matchesAll(Pattern[] regexs, String errMsg) {
-        return matchesAll(regexs, convertExceptionCreator(errMsg));
+        return matchesAll(regexs, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
-            Pattern[] regexs,
-            Supplier<E> exceptionCreator) {
-        return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
+            Pattern[] regexs, Supplier<E> e) {
+        return matchesAll(regexs, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
-            Pattern[] regexs,
-            Function<String, E> exceptionCreator) {
-        withRule(input -> input == null || RegexTools.matchesAll(input, regexs), exceptionCreator);
+            Pattern[] regexs, Function<String, E> e) {
+        withRule(input -> input == null || RegexTools.matchesAll(input, regexs), e);
         return this;
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
+     *
+     * @param regexs 正则表达式
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> matchesAll(Collection<Pattern> regexs, String errMsg) {
-        return matchesAll(regexs, convertExceptionCreator(errMsg));
+        return matchesAll(regexs, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
-            Collection<Pattern> regexs,
-            Supplier<E> exceptionCreator) {
-        return matchesAll(regexs, convertExceptionCreator(exceptionCreator));
+            Collection<Pattern> regexs, Supplier<E> e) {
+        return matchesAll(regexs, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
+     *
+     * @param <E> 异常类型
+     * @param regexs 正则表达式
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
-            Collection<Pattern> regexs,
-            Function<String, E> exceptionCreator) {
-        withRule(input -> input == null || RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), exceptionCreator);
+            Collection<Pattern> regexs, Function<String, E> e) {
+        withRule(input -> input == null || RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), e);
         return this;
     }
 
@@ -155,21 +260,45 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // #region - notBlank
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空白字符串
+     *
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> notBlank() {
         return notBlank("The input must not be blank.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空白字符串
+     *
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> notBlank(String errMsg) {
-        return notBlank(convertExceptionCreator(errMsg));
+        return notBlank(convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<T> notBlank(Supplier<E> exceptionCreator) {
-        return notBlank(convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空白字符串
+     *
+     * @param <E> 异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> StringPropertyValidator<T> notBlank(Supplier<E> e) {
+        return notBlank(convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<T> notBlank(
-            Function<String, E> exceptionCreator) {
-        withRule(StringTools::isNotBlank, exceptionCreator);
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空白字符串
+     *
+     * @param <E> 异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> StringPropertyValidator<T> notBlank(Function<String, E> e) {
+        withRule(StringTools::isNotBlank, e);
         return this;
     }
 
@@ -181,22 +310,46 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // #region - emailAddress
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     *
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> emailAddress() {
         return emailAddress("The input is not a valid email address.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     *
+     * @param errMsg 校验失败的错误信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> emailAddress(String errMsg) {
-        return emailAddress(convertExceptionCreator(errMsg));
+        return emailAddress(convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<T> emailAddress(
-            Supplier<E> exceptionCreator) {
-        return emailAddress(convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     *
+     * @param <E> 异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> StringPropertyValidator<T> emailAddress(Supplier<E> e) {
+        return emailAddress(convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     *
+     * @param <E> 异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> emailAddress(
-            Function<String, E> exceptionCreator) {
-        return matches(PatternConsts.EMAIL, exceptionCreator);
+            Function<String, E> e) {
+        return matches(PatternConsts.EMAIL, e);
     }
 
     // ================================
@@ -207,21 +360,46 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // #region - notEmpty
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验字符串属性是否不为空
+     *
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> notEmpty() {
         return notEmpty("The input must not be empty.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验字符串属性是否不为空
+     *
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> notEmpty(String errMsg) {
-        return notEmpty(convertExceptionCreator(errMsg));
+        return notEmpty(convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<T> notEmpty(Supplier<E> exceptionCreator) {
-        return notEmpty(convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验字符串属性是否不为空
+     *
+     * @param <E> 异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> StringPropertyValidator<T> notEmpty(Supplier<E> e) {
+        return notEmpty(convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验字符串属性是否不为空
+     *
+     * @param <E> 异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> notEmpty(
-            Function<String, E> exceptionCreator) {
-        withRule(s -> s != null && !s.isEmpty(), exceptionCreator);
+            Function<String, E> e) {
+        withRule(s -> s != null && !s.isEmpty(), e);
         return this;
     }
 
@@ -233,20 +411,41 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     // #region - length
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性长度是否等于指定长度
+     *
+     * @param length 指定长度
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> length(int length, String errMsg) {
-        return length(length, convertExceptionCreator(errMsg));
+        return length(length, convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<T> length(int length,
-            Supplier<E> exceptionCreator) {
-        return length(length, convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性长度是否等于指定长度
+     *
+     * @param <E> 异常类型
+     * @param length 指定长度
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> StringPropertyValidator<T> length(int length, Supplier<E> e) {
+        return length(length, convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> StringPropertyValidator<T> length(int length,
-            Function<String, E> exceptionCreator) {
+    /**
+     * 添加一条校验属性的规则，校验属性长度是否等于指定长度
+     *
+     * @param <E> 异常类型
+     * @param length 指定长度
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> StringPropertyValidator<T> length(int length, Function<String, E> e) {
         AssertTools.checkArgument(length >= 0,
                 "The expected length must be greater than or equal to 0.");
-        withRule(s -> s == null || s.length() == length, exceptionCreator);
+        withRule(s -> s == null || s.length() == length, e);
         return this;
     }
 
@@ -258,20 +457,44 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
         return len >= min && len <= max;
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性的长度范围
+     *
+     * @param min 最小长度
+     * @param max 最大长度
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public StringPropertyValidator<T> length(int min, int max, String errMsg) {
-        return length(min, max, convertExceptionCreator(errMsg));
+        return length(min, max, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性的长度范围
+     *
+     * @param min 最小长度
+     * @param max 最大长度
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> length(int min, int max,
-            Supplier<E> exceptionCreator) {
-        return length(min, max, convertExceptionCreator(exceptionCreator));
+            Supplier<E> e) {
+        return length(min, max, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性的长度范围
+     *
+     * @param min 最小长度
+     * @param max 最大长度
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> StringPropertyValidator<T> length(int min, int max,
-            Function<String, E> exceptionCreator) {
+            Function<String, E> e) {
         AssertTools.checkArgument(min >= 0, "min must be non-negative.");
         AssertTools.checkArgument(min <= max, "min must be less than or equal to max.");
-        withRule(s -> length(s, min, max), exceptionCreator);
+        withRule(s -> length(s, min, max), e);
         return this;
     }
 

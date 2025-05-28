@@ -22,6 +22,14 @@ import java.util.function.Supplier;
 
 import xyz.zhouxy.plusone.commons.collection.CollectionTools;
 
+/**
+ * 针对集合类型的属性校验器
+ *
+ * <p>
+ * 内置判断集合是否为空的校验规则。
+ *
+ * @author ZhouXY
+ */
 public class CollectionPropertyValidator<T, TElement>
         extends BasePropertyValidator<T, Collection<TElement>, CollectionPropertyValidator<T, TElement>> {
 
@@ -31,43 +39,91 @@ public class CollectionPropertyValidator<T, TElement>
 
     // ====== notEmpty =====
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否非空
+     *
+     * @return 属性校验器
+     */
     public CollectionPropertyValidator<T, TElement> notEmpty() {
         return notEmpty("The input must not be empty.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否非空
+     *
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public CollectionPropertyValidator<T, TElement> notEmpty(String errMsg) {
-        return notEmpty(convertExceptionCreator(errMsg));
+        return notEmpty(convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否非空
+     *
+     * @param <E> 自定义异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> notEmpty(
-            Supplier<E> exceptionCreator) {
-        return notEmpty(convertExceptionCreator(exceptionCreator));
+            Supplier<E> e) {
+        return notEmpty(convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否非空
+     *
+     * @param <E> 自定义异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> notEmpty(
-            Function<Collection<TElement>, E> exceptionCreator) {
-        withRule(CollectionTools::isNotEmpty, exceptionCreator);
+            Function<Collection<TElement>, E> e) {
+        withRule(CollectionTools::isNotEmpty, e);
         return this;
     }
 
     // ====== isEmpty =====
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @return 属性校验器
+     */
     public CollectionPropertyValidator<T, TElement> isEmpty() {
         return isEmpty("The input must be empty.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
     public CollectionPropertyValidator<T, TElement> isEmpty(String errMsg) {
-        return isEmpty(convertExceptionCreator(errMsg));
+        return isEmpty(convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> isEmpty(
-            Supplier<E> exceptionCreator) {
-        return isEmpty(convertExceptionCreator(exceptionCreator));
+            Supplier<E> e) {
+        return isEmpty(convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> isEmpty(
-            Function<Collection<TElement>, E> exceptionCreator) {
-        withRule(CollectionTools::isEmpty, exceptionCreator);
+            Function<Collection<TElement>, E> e) {
+        withRule(CollectionTools::isEmpty, e);
         return this;
     }
 

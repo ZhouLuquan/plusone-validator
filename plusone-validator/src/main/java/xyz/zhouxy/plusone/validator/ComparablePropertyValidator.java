@@ -18,6 +18,18 @@ package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
 
+/**
+ * 针对 {@code Comparable} 类型的默认属性校验器
+ *
+ * <p>
+ * 继承自 {@link BaseComparablePropertyValidator}，内置了判断属性是否在给定区间内的校验规则。
+ *
+ * @param <T> 待校验对象类型
+ * @param <TProperty> 属性类型
+ * @param <TPropertyValidator> 当前属性校验器类型，用于链式调用
+ * @see Range
+ * @author ZhouXY
+ */
 public class ComparablePropertyValidator<T, TProperty extends Comparable<TProperty>>
         extends BaseComparablePropertyValidator<T, TProperty, ComparablePropertyValidator<T, TProperty>> {
 

@@ -25,6 +25,15 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+/**
+ * 属性校验器。包含针对属性的校验规则。
+ *
+ * <p>
+ * <i>内置基础的校验规则。</i>
+ * </p>
+ *
+ * @author ZhouXY
+ */
 public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator extends BasePropertyValidator<T, TProperty, TPropertyValidator>> {
 
     private final Function<T, ? extends TProperty> getter;
@@ -35,20 +44,47 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
         this.getter = getter;
     }
 
+    /**
+     * 添加一条校验属性的规则
+     *
+     * @param rule 校验规则
+     * @return 属性校验器
+     */
     public final TPropertyValidator withRule(Predicate<? super TProperty> rule) {
         return withRule(rule, v -> new IllegalArgumentException());
     }
 
+    /**
+     * 添加一条校验属性的规则
+     *
+     * @param rule 校验规则
+     * @param errMsg 校验失败的错误信息
+     * @return 属性校验器
+     */
     public final TPropertyValidator withRule(
             Predicate<? super TProperty> rule, String errMsg) {
-        return withRule(rule, convertExceptionCreator(errMsg));
+        return withRule(rule, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则
+     *
+     * @param rule 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public final <E extends RuntimeException> TPropertyValidator withRule(
             Predicate<? super TProperty> rule, Supplier<E> e) {
-        return withRule(rule, convertExceptionCreator(e));
+        return withRule(rule, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则
+     *
+     * @param rule 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public final <E extends RuntimeException> TPropertyValidator withRule(
             Predicate<? super TProperty> rule, Function<TProperty, E> e) {
         this.consumers.add(v -> {
@@ -59,9 +95,13 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
         return thisObject();
     }
 
-    public final void validate(T obj) {
+    /**
+     * 校验属性
+     * @param propertyValue 属性值
+     */
+    public final void validate(T propertyValue) {
         for (Consumer<? super TProperty> consumer : consumers) {
-            consumer.accept(getter.apply(obj));
+            consumer.accept(getter.apply(propertyValue));
         }
     }
 
@@ -75,20 +115,45 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // #region - notNull
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空
+     *
+     * @return 属性校验器
+     */
     public TPropertyValidator notNull() {
         return notNull("The input must not be null.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空
+     *
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public TPropertyValidator notNull(String errMsg) {
-        return notNull(convertExceptionCreator(errMsg));
+        return notNull(convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> TPropertyValidator notNull(Supplier<E> exceptionCreator) {
-        return notNull(convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空
+     *
+     * @param <E> 自定义异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> TPropertyValidator notNull(Supplier<E> e) {
+        return notNull(convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> TPropertyValidator notNull(Function<TProperty, E> exceptionCreator) {
-        withRule(Objects::nonNull, exceptionCreator);
+    /**
+     * 添加一条校验属性的规则，校验属性是否不为空
+     *
+     * @param <E> 自定义异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> TPropertyValidator notNull(Function<TProperty, E> e) {
+        withRule(Objects::nonNull, e);
         return thisObject();
     }
 
@@ -100,20 +165,45 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // #region - isNull
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @return 属性校验器
+     */
     public TPropertyValidator isNull() {
         return isNull("The input must be null.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public TPropertyValidator isNull(String errMsg) {
-        return isNull(convertExceptionCreator(errMsg));
+        return isNull(convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> TPropertyValidator isNull(Supplier<E> exceptionCreator) {
-        return isNull(convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @param <E> 自定义异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> TPropertyValidator isNull(Supplier<E> e) {
+        return isNull(convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> TPropertyValidator isNull(Function<TProperty, E> exceptionCreator) {
-        withRule(Objects::isNull, exceptionCreator);
+    /**
+     * 添加一条校验属性的规则，校验属性是否为空
+     *
+     * @param <E> 自定义异常类型
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> TPropertyValidator isNull(Function<TProperty, E> e) {
+        withRule(Objects::isNull, e);
         return thisObject();
     }
 
@@ -125,23 +215,52 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // #region - equalTo
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param that 给定值
+     * @return 属性校验器
+     */
     public TPropertyValidator equalTo(Object that) {
         return equalTo(that,
                 value -> new IllegalArgumentException(String.format("The input must be equal to '%s'.", that)));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param that 给定值
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public TPropertyValidator equalTo(Object that, String errMsg) {
-        return equalTo(that, convertExceptionCreator(errMsg));
+        return equalTo(that, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param <E> 自定义异常类型
+     * @param that 给定值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator equalTo(
-            Object that, Supplier<E> exceptionCreator) {
-        return equalTo(that, convertExceptionCreator(exceptionCreator));
+            Object that, Supplier<E> e) {
+        return equalTo(that, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param <E> 自定义异常类型
+     * @param that 给定值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator equalTo(
-            Object that, Function<TProperty, E> exceptionCreator) {
-        withRule(value -> Objects.equals(value, that), exceptionCreator);
+            Object that, Function<TProperty, E> e) {
+        withRule(value -> Objects.equals(value, that), e);
         return thisObject();
     }
 
@@ -153,46 +272,103 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // #region - must
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否满足给定的条件
+     *
+     * @param condition 校验规则
+     * @return 属性校验器
+     */
     public TPropertyValidator must(Predicate<? super TProperty> condition) {
         return must(condition, "The specified condition was not met for the input.");
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否满足给定的条件
+     *
+     * @param condition 校验规则
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public TPropertyValidator must(Predicate<? super TProperty> condition, String errMsg) {
-        return must(condition, convertExceptionCreator(errMsg));
+        return must(condition, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否满足给定的条件
+     *
+     * @param <E> 自定义异常类型
+     * @param condition 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator must(
             Predicate<? super TProperty> condition,
-            Supplier<E> exceptionCreator) {
-        return must(condition, convertExceptionCreator(exceptionCreator));
+            Supplier<E> e) {
+        return must(condition, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否满足给定的条件
+     *
+     * @param <E> 自定义异常类型
+     * @param condition 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator must(
             Predicate<? super TProperty> condition,
-            Function<TProperty, E> exceptionCreator) {
-        withRule(condition, exceptionCreator);
+            Function<TProperty, E> e) {
+        withRule(condition, e);
         return thisObject();
     }
 
+    /**
+     * 添加多条校验属性的规则，校验属性是否满足给定的所有条件
+     *
+     * @param conditions 校验规则
+     * @return 属性校验器
+     */
     public TPropertyValidator must(Collection<Predicate<? super TProperty>> conditions) {
         return must(conditions, "The specified conditions were not met for the input.");
     }
 
+    /**
+     * 添加多条校验属性的规则，校验属性是否满足给定的所有条件
+     *
+     * @param conditions 校验规则
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public TPropertyValidator must(Collection<Predicate<? super TProperty>> conditions, String errMsg) {
-        return must(conditions, convertExceptionCreator(errMsg));
+        return must(conditions, convertToExceptionFunction(errMsg));
     }
 
+    /**
+     * 添加多条校验属性的规则，校验属性是否满足给定的所有条件
+     *
+     * @param <E> 自定义异常类型
+     * @param conditions 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator must(
-            Collection<Predicate<? super TProperty>> conditions,
-            Supplier<E> exceptionCreator) {
-        return must(conditions, convertExceptionCreator(exceptionCreator));
+            Collection<Predicate<? super TProperty>> conditions, Supplier<E> e) {
+        return must(conditions, convertToExceptionFunction(e));
     }
 
+    /**
+     * 添加多条校验属性的规则，校验属性是否满足给定的所有条件
+     *
+     * @param <E> 自定义异常类型
+     * @param conditions 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
     public <E extends RuntimeException> TPropertyValidator must(
             Collection<Predicate<? super TProperty>> conditions,
-            Function<TProperty, E> exceptionCreator) {
+            Function<TProperty, E> e) {
         for (Predicate<? super TProperty> condition : conditions) {
-            withRule(condition, exceptionCreator);
+            withRule(condition, e);
         }
         return thisObject();
     }
@@ -201,11 +377,12 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // #endregion - must
     // ================================
 
-    static <V> Function<V, IllegalArgumentException> convertExceptionCreator(String errMsg) {
+    static <V> Function<V, IllegalArgumentException> convertToExceptionFunction(String errMsg) {
         return value -> new IllegalArgumentException(errMsg);
     }
 
-    static <V, E extends RuntimeException> Function<V, E> convertExceptionCreator(Supplier<E> exceptionSupplier) {
+    static <V, E extends RuntimeException> Function<V, E> convertToExceptionFunction(
+            Supplier<E> exceptionSupplier) {
         return value -> exceptionSupplier.get();
     }
 }

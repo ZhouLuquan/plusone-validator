@@ -19,6 +19,14 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * 长整数属性校验器
+ *
+ * <p>
+ * 内置对 {@code Long} 类型常用的校验规则。
+ *
+ * @author ZhouXY
+ */
 public class LongPropertyValidator<T>
         extends BaseComparablePropertyValidator<T, Long, LongPropertyValidator<T>> {
 
@@ -30,23 +38,50 @@ public class LongPropertyValidator<T>
     // #region - greater than
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于给定值
+     *
+     * @param min 最小值
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> gt(long min) {
         return gt(min, () -> new IllegalArgumentException(
                 String.format("The input must be greater than '%d'.", min)));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于给定值
+     *
+     * @param min 最小值
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> gt(long min, String errMsg) {
-        return gt(min, convertExceptionCreator(errMsg));
+        return gt(min, convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> gt(
-            long min, Supplier<E> exceptionCreator) {
-        return gt(min, convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于给定值
+     *
+     * @param <E> 异常类型
+     * @param min 最小值
+     * @param e 错误信息
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> gt(long min, Supplier<E> e) {
+        return gt(min, convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> gt(
-            long min, Function<Long, E> exceptionCreator) {
-        withRule(value -> (value != null && value > min), exceptionCreator);
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于给定值
+     *
+     * @param <E> 异常类型
+     * @param min 最小值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> gt(long min, Function<Long, E> e) {
+        withRule(value -> (value != null && value > min), e);
         return this;
     }
 
@@ -58,23 +93,50 @@ public class LongPropertyValidator<T>
     // #region - greater than or equal to
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于等于给定值
+     *
+     * @param min 最小值
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> ge(long min) {
         return ge(min, () -> new IllegalArgumentException(
                 String.format("The input must be greater than or equal to '%d'.", min)));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于等于给定值
+     *
+     * @param min 最小值
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> ge(long min, String errMsg) {
-        return ge(min, convertExceptionCreator(errMsg));
+        return ge(min, convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> ge(
-            long min, Supplier<E> exceptionCreator) {
-        return ge(min, convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于等于给定值
+     *
+     * @param <E> 异常类型
+     * @param min 最小值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> ge(long min, Supplier<E> e) {
+        return ge(min, convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> ge(
-            long min, Function<Long, E> exceptionCreator) {
-        withRule(value -> (value != null && value >= min), exceptionCreator);
+    /**
+     * 添加一条校验属性的规则，校验属性是否大于等于给定值
+     *
+     * @param <E> 异常类型
+     * @param min 最小值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> ge(long min, Function<Long, E> e) {
+        withRule(value -> (value != null && value >= min), e);
         return this;
     }
 
@@ -86,23 +148,50 @@ public class LongPropertyValidator<T>
     // #region - less than
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于给定值
+     *
+     * @param max 最大值
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> lt(long max) {
         return lt(max, () -> new IllegalArgumentException(
                 String.format("The input must be less than '%d'.", max)));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于给定值
+     *
+     * @param max 最大值
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> lt(long max, String errMsg) {
-        return lt(max, convertExceptionCreator(errMsg));
+        return lt(max, convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> lt(
-            long max, Supplier<E> exceptionCreator) {
-        return lt(max, convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于给定值
+     *
+     * @param <E> 异常类型
+     * @param max 最大值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> lt(long max, Supplier<E> e) {
+        return lt(max, convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> lt(
-            long max, Function<Long, E> exceptionCreator) {
-        withRule(value -> (value != null && value < max), exceptionCreator);
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于给定值
+     *
+     * @param <E> 异常类型
+     * @param max 最大值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> lt(long max, Function<Long, E> e) {
+        withRule(value -> (value != null && value < max), e);
         return this;
     }
 
@@ -114,23 +203,50 @@ public class LongPropertyValidator<T>
     // #region - less than or equal to
     // ================================
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于等于给定值
+     *
+     * @param max 最大值
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> le(long max) {
         return le(max, () -> new IllegalArgumentException(
                 String.format("The input must be less than or equal to '%d'.", max)));
     }
 
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于等于给定值
+     *
+     * @param max 最大值
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
     public LongPropertyValidator<T> le(long max, String errMsg) {
-        return le(max, convertExceptionCreator(errMsg));
+        return le(max, convertToExceptionFunction(errMsg));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> le(
-            long max, Supplier<E> exceptionCreator) {
-        return le(max, convertExceptionCreator(exceptionCreator));
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于等于给定值
+     *
+     * @param <E> 异常类型
+     * @param max 最大值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> le(long max, Supplier<E> e) {
+        return le(max, convertToExceptionFunction(e));
     }
 
-    public <E extends RuntimeException> LongPropertyValidator<T> le(
-            long max, Function<Long, E> exceptionCreator) {
-        withRule(value -> (value != null && value <= max), exceptionCreator);
+    /**
+     * 添加一条校验属性的规则，校验属性是否小于等于给定值
+     *
+     * @param <E> 异常类型
+     * @param max 最大值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> LongPropertyValidator<T> le(long max, Function<Long, E> e) {
+        withRule(value -> (value != null && value <= max), e);
         return this;
     }
 
