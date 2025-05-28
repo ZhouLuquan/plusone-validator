@@ -21,7 +21,6 @@ package xyz.zhouxy.plusone.validator;
  *
  * @author <a href="https://gitee.com/zhouxy108">ZhouXY</a>
  *
- * @see ValidTools
  * @see BaseValidator
  */
 public interface IValidateRequired {

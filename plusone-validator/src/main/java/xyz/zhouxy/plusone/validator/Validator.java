@@ -35,22 +35,16 @@ import java.util.function.Supplier;
  * </pre>
  *
  * <p>
- * 然后通过校验器的 {@link #validate} 方法，或
- * {@link ValidTools#validate(Object, Validator)} 对指定对象进行校验。
+ * 然后通过校验器的 {@link #validate} 方法对指定对象进行校验。
  * </p>
  *
  * <pre>
  * validator.validate(666);
  * </pre>
- *
- * <pre>
- * ValidTools.validate(255, validator);
- * </pre>
  * </p>
  *
  * @author <a href="https://gitee.com/zhouxy108">ZhouXY</a>
  * @see IValidateRequired
- * @see ValidTools
  * @see BaseValidator
  */
 public final class Validator<T> extends BaseValidator<T> {
