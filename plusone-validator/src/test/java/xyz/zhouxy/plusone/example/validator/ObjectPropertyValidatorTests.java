@@ -318,19 +318,19 @@ public class ObjectPropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - equalsThat
+    // #region - equalTo
     // ================================
 
     @Test
-    void equalsThat_validInput() {
+    void equalTo_validInput() {
         BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .equalsThat("Foo")
-                        .equalsThat("Foo", "The stringProperty should be equal to 'Foo'.")
-                        .equalsThat("Foo", () ->
+                        .equalTo("Foo")
+                        .equalTo("Foo", "The stringProperty should be equal to 'Foo'.")
+                        .equalTo("Foo", () ->
                                 ExampleException.withMessage("The stringProperty should be equal to 'Foo'."))
-                        .equalsThat("Foo", str ->
+                        .equalTo("Foo", str ->
                                 ExampleException.withMessage("The stringProperty should be equal to 'Foo', but is was '%s'.", str));
             }
         };
@@ -341,13 +341,13 @@ public class ObjectPropertyValidatorTests {
     }
 
     @Test
-    void equalsThat_invalidInput() {
+    void equalTo_invalidInput() {
         ExampleCommand command = new ExampleCommand();
         command.setStringProperty("Bar");
 
         BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo");
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo");
             }
         };
         IllegalArgumentException eWithDefaultMessage = assertThrows(
@@ -356,7 +356,7 @@ public class ObjectPropertyValidatorTests {
 
         BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
                         "The stringProperty should be equal to 'Foo'.");
             }
         };
@@ -366,7 +366,7 @@ public class ObjectPropertyValidatorTests {
 
         BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
                         () -> ExampleException.withMessage("The stringProperty should be equal to 'Foo'."));
             }
         };
@@ -376,7 +376,7 @@ public class ObjectPropertyValidatorTests {
 
         BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
                         str -> ExampleException.withMessage("The stringProperty should be equal to 'Foo', but is was '%s'.", str));
             }
         };
@@ -386,12 +386,12 @@ public class ObjectPropertyValidatorTests {
     }
 
     @Test
-    void equalsThat_nullInput() {
+    void equalTo_nullInput() {
         ExampleCommand command = new ExampleCommand();
 
         BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo");
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo");
             }
         };
         IllegalArgumentException eWithDefaultMessage = assertThrows(
@@ -400,7 +400,7 @@ public class ObjectPropertyValidatorTests {
 
         BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
                         "The stringProperty should be equal to 'Foo'.");
             }
         };
@@ -410,7 +410,7 @@ public class ObjectPropertyValidatorTests {
 
         BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
                         () -> ExampleException.withMessage("The stringProperty should be equal to 'Foo'."));
             }
         };
@@ -420,7 +420,7 @@ public class ObjectPropertyValidatorTests {
 
         BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalsThat("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
                         str -> ExampleException.withMessage("The stringProperty should be equal to 'Foo', but is was '%s'.", str));
             }
         };
@@ -430,7 +430,7 @@ public class ObjectPropertyValidatorTests {
     }
 
     // ================================
-    // #endregion - equalsThat
+    // #endregion - equalTo
     // ================================
 
     // ================================

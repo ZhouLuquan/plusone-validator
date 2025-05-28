@@ -122,31 +122,31 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // ================================
 
     // ================================
-    // #region - equals
+    // #region - equalTo
     // ================================
 
-    public TPropertyValidator equalsThat(Object that) {
-        return equalsThat(that,
+    public TPropertyValidator equalTo(Object that) {
+        return equalTo(that,
                 value -> new IllegalArgumentException(String.format("The input must be equal to '%s'.", that)));
     }
 
-    public TPropertyValidator equalsThat(Object that, String errMsg) {
-        return equalsThat(that, convertExceptionCreator(errMsg));
+    public TPropertyValidator equalTo(Object that, String errMsg) {
+        return equalTo(that, convertExceptionCreator(errMsg));
     }
 
-    public <E extends RuntimeException> TPropertyValidator equalsThat(
+    public <E extends RuntimeException> TPropertyValidator equalTo(
             Object that, Supplier<E> exceptionCreator) {
-        return equalsThat(that, convertExceptionCreator(exceptionCreator));
+        return equalTo(that, convertExceptionCreator(exceptionCreator));
     }
 
-    public <E extends RuntimeException> TPropertyValidator equalsThat(
+    public <E extends RuntimeException> TPropertyValidator equalTo(
             Object that, Function<TProperty, E> exceptionCreator) {
         withRule(value -> Objects.equals(value, that), exceptionCreator);
         return thisObject();
     }
 
     // ================================
-    // #endregion - equals
+    // #endregion - equalTo
     // ================================
 
     // ================================
