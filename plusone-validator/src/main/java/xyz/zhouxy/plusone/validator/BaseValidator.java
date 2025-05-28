@@ -24,6 +24,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import xyz.zhouxy.plusone.validator.function.*;
+
 /**
  * BaseValidator
  *
@@ -79,7 +81,19 @@ public abstract class BaseValidator<T> {
         return validator;
     }
 
+    protected final IntPropertyValidator<T> ruleFor(ToIntegerFunction<T> getter) {
+        IntPropertyValidator<T> validator = new IntPropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
     protected final LongPropertyValidator<T> ruleForLong(Function<T, Long> getter) {
+        LongPropertyValidator<T> validator = new LongPropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
+    protected final LongPropertyValidator<T> ruleFor(ToLongObjectFunction<T> getter) {
         LongPropertyValidator<T> validator = new LongPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
@@ -91,13 +105,31 @@ public abstract class BaseValidator<T> {
         return validator;
     }
 
+    protected final DoublePropertyValidator<T> ruleFor(ToDoubleObjectFunction<T> getter) {
+        DoublePropertyValidator<T> validator = new DoublePropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
     protected final BoolPropertyValidator<T> ruleForBool(Function<T, Boolean> getter) {
         BoolPropertyValidator<T> validator = new BoolPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }
 
+    protected final BoolPropertyValidator<T> ruleFor(ToBoolObjectFunction<T> getter) {
+        BoolPropertyValidator<T> validator = new BoolPropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
     protected final StringPropertyValidator<T> ruleForString(Function<T, String> getter) {
+        StringPropertyValidator<T> validator = new StringPropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
+    protected final StringPropertyValidator<T> ruleFor(ToStringFunction<T> getter) {
         StringPropertyValidator<T> validator = new StringPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;

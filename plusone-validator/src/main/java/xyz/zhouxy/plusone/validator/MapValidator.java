@@ -60,7 +60,8 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
     // ========== ruleFor ==========
 
     protected final ObjectPropertyValidator<Map<K, V>, V> ruleFor(K key) {
-        return ruleFor(m -> m.get(key));
+        final Function<Map<K, V>, V> func = m -> m.get(key);
+        return ruleFor(func);
     }
 
     protected final IntPropertyValidator<Map<K, V>> ruleForInt(K key) {
