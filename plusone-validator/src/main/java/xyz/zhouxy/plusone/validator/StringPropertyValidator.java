@@ -34,7 +34,7 @@ import xyz.zhouxy.plusone.commons.util.StringTools;
  * 针对文本字段的验证器。
  * </p>
  *
- * @author <a href="http://zhouxy.xyz:3000/ZhouXY108">ZhouXY</a>
+ * @author ZhouXY
  */
 public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<T, String, StringPropertyValidator<T>> {
 

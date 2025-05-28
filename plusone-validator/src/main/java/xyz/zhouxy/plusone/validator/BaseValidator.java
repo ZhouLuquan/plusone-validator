@@ -36,7 +36,7 @@ import xyz.zhouxy.plusone.validator.function.*;
  * <p>
  * <b>NOTE: content.</b>
  * </p>
- * @author <a href="http://zhouxy.xyz:3000/ZhouXY108">ZhouXY</a>
+ * @author ZhouXY
  * @since 0.0.1
  */
 public abstract class BaseValidator<T> {

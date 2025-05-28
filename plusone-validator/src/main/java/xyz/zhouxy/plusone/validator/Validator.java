@@ -43,7 +43,7 @@ import java.util.function.Supplier;
  * </pre>
  * </p>
  *
- * @author <a href="https://gitee.com/zhouxy108">ZhouXY</a>
+ * @author ZhouXY
  * @see IValidateRequired
  * @see BaseValidator
  */
