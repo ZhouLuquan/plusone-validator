@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
+import xyz.zhouxy.plusone.validator.IValidator;
 
 class BaseValidatorTest {
 
@@ -33,7 +34,7 @@ class BaseValidatorTest {
         ExampleCommand exampleCommand = new ExampleCommand();
         exampleCommand.setStringProperty("Foo");
 
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 withRule(command -> Objects.equals(command.getStringProperty(), "Foo"),
                         "The stringProperty must be equal to 'Foo'");
@@ -56,7 +57,7 @@ class BaseValidatorTest {
     void withRule_invalidInput() {
         ExampleCommand command = new ExampleCommand();
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 withRule(command -> Objects.equals(command.getStringProperty(), "Foo"),
                         "The stringProperty must be equal to 'Foo'");
@@ -66,7 +67,7 @@ class BaseValidatorTest {
                 IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The stringProperty must be equal to 'Foo'", eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 withRule(command -> Objects.equals(command.getStringProperty(), "Foo"),
                         () -> ExampleException.withMessage("The stringProperty must be equal to 'Foo'"));
@@ -77,7 +78,7 @@ class BaseValidatorTest {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals("The stringProperty must be equal to 'Foo'", specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 withRule(command -> Objects.equals(command.getStringProperty(), "Foo"), command -> ExampleException
                         .withMessage("The stringProperty must be equal to 'Foo', but is was '%s'.", command.getStringProperty()));
@@ -88,7 +89,7 @@ class BaseValidatorTest {
                 () -> ruleWithExceptionFunction.validate(command));
         assertEquals("The stringProperty must be equal to 'Foo', but is was 'null'.", specifiedException2.getMessage());
 
-        BaseValidator<ExampleCommand> rule = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> rule = new BaseValidator<ExampleCommand>() {
             {
                 withRule(command -> {
                     final String stringProperty = command.getStringProperty();

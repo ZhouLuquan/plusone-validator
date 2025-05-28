@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
+import xyz.zhouxy.plusone.validator.IValidator;
 
 public class BoolPropertyValidatorTests {
 
@@ -31,7 +32,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isTrueValue_trueProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty).isTrueValue();
                 ruleForBool(ExampleCommand::getBoolProperty)
@@ -51,7 +52,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isTrueValue_default_falseProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty).isTrueValue();
             }
@@ -69,7 +70,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isTrueValue_message_falseProperty() {
         final String message = "The boolProperty should be true.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isTrueValue(message);
@@ -88,7 +89,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isTrueValue_exceptionSupplier_falseProperty() {
         final String message = "The boolProperty should be true.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isTrueValue(() -> ExampleException.withMessage(message));
@@ -106,7 +107,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isTrueValue_exceptionFunction_falseProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isTrueValue(property -> ExampleException.withMessage(
@@ -125,7 +126,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isTrueValue_default_nullProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty).isTrueValue();
             }
@@ -143,7 +144,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isTrueValue_message_nullProperty() {
         final String message = "The boolProperty should be true.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isTrueValue(message);
@@ -162,7 +163,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isTrueValue_exceptionSupplier_nullProperty() {
         final String message = "The boolProperty should be true.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isTrueValue(() -> ExampleException.withMessage(message));
@@ -180,7 +181,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isTrueValue_exceptionFunction_nullProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isTrueValue(property -> ExampleException.withMessage(
@@ -207,7 +208,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isFalseValue_falseProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty).isFalseValue();
                 ruleForBool(ExampleCommand::getBoolProperty)
@@ -227,7 +228,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isFalseValue_default_trueProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty).isFalseValue();
             }
@@ -245,7 +246,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isFalseValue_message_trueProperty() {
         final String message = "The boolProperty should be false.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isFalseValue(message);
@@ -264,7 +265,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isFalseValue_exceptionSupplier_trueProperty() {
         final String message = "The boolProperty should be false.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isFalseValue(() -> ExampleException.withMessage(message));
@@ -282,7 +283,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isFalseValue_exceptionFunction_trueProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isFalseValue(property -> ExampleException.withMessage(
@@ -301,7 +302,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isFalseValue_default_nullProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty).isFalseValue();
             }
@@ -319,7 +320,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isFalseValue_message_nullProperty() {
         final String message = "The boolProperty should be false.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isFalseValue(message);
@@ -338,7 +339,7 @@ public class BoolPropertyValidatorTests {
     @Test
     void isFalseValue_exceptionSupplier_nullProperty() {
         final String message = "The boolProperty should be false.";
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isFalseValue(() -> ExampleException.withMessage(message));
@@ -356,7 +357,7 @@ public class BoolPropertyValidatorTests {
 
     @Test
     void isFalseValue_exceptionFunction_nullProperty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForBool(ExampleCommand::getBoolProperty)
                         .isFalseValue(property -> ExampleException.withMessage(

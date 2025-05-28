@@ -39,18 +39,18 @@ import xyz.zhouxy.plusone.validator.function.*;
  * @author ZhouXY
  * @since 0.0.1
  */
-public abstract class BaseValidator<T> {
+public abstract class BaseValidator<T> implements IValidator<T> {
     private final List<Consumer<? super T>> rules = new ArrayList<>();
 
-    protected void withRule(final Predicate<? super T> rule, final String errorMessage) {
+    protected final void withRule(final Predicate<? super T> rule, final String errorMessage) {
         withRule(rule, () -> new IllegalArgumentException(errorMessage));
     }
 
-    protected <E extends RuntimeException> void withRule(Predicate<? super T> rule, Supplier<E> exceptionBuilder) {
+    protected final <E extends RuntimeException> void withRule(Predicate<? super T> rule, Supplier<E> exceptionBuilder) {
         withRule(rule, value -> exceptionBuilder.get());
     }
 
-    protected <E extends RuntimeException> void withRule(
+    protected final <E extends RuntimeException> void withRule(
             Predicate<? super T> condition, Function<T, E> exceptionBuilder) {
         withRule(value -> {
             if (!condition.test(value)) {
@@ -59,7 +59,7 @@ public abstract class BaseValidator<T> {
         });
     }
 
-    protected void withRule(Consumer<? super T> rule) {
+    protected final void withRule(Consumer<? super T> rule) {
         this.rules.add(rule);
     }
 
@@ -141,6 +141,7 @@ public abstract class BaseValidator<T> {
         return validator;
     }
 
+    @Override
     public void validate(T obj) {
         this.rules.forEach(rule -> rule.accept(obj));
     }

@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
 import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
+import xyz.zhouxy.plusone.validator.IValidator;
 
 public class CollectionPropertyValidatorTests {
 
@@ -42,7 +43,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_stringListIsNotEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).notEmpty();
                 ruleForCollection(ExampleCommand::getStringListProperty).notEmpty(MESSAGE_NOT_EMPTY);
@@ -60,7 +61,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_default_stringListIsEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).notEmpty();
             }
@@ -74,7 +75,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_message_stringListIsEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).notEmpty(MESSAGE_NOT_EMPTY);
             }
@@ -88,7 +89,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_exceptionSupplier_stringListIsEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY));
@@ -103,7 +104,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_exceptionFunction_stringListIsEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .notEmpty(strList -> ExampleException.withMessage(
@@ -119,7 +120,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_message_stringListIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).notEmpty(MESSAGE_NOT_EMPTY);
             }
@@ -133,7 +134,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_exceptionSupplier_stringListIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY));
@@ -148,7 +149,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void notEmpty_exceptionFunction_stringListIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .notEmpty(strList -> ExampleException.withMessage(
@@ -172,7 +173,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void isEmpty_stringListIsEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty();
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty(MESSAGE_EMPTY);
@@ -190,7 +191,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void isEmpty_stringListIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty();
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty(MESSAGE_EMPTY);
@@ -208,7 +209,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void isEmpty_default_stringListIsNotEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty();
             }
@@ -222,7 +223,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void isEmpty_message_stringListIsNotEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty).isEmpty(MESSAGE_EMPTY);
             }
@@ -236,7 +237,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void isEmpty_exceptionSupplier_stringListIsNotEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .isEmpty(() -> ExampleException.withMessage(MESSAGE_EMPTY));
@@ -251,7 +252,7 @@ public class CollectionPropertyValidatorTests {
 
     @Test
     void isEmpty_exceptionFunction_stringListIsNotEmpty() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForCollection(ExampleCommand::getStringListProperty)
                         .isEmpty(strList -> ExampleException.withMessage(

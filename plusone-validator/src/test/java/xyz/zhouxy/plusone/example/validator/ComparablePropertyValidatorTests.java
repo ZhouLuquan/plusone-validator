@@ -28,6 +28,7 @@ import com.google.common.collect.Range;
 import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
+import xyz.zhouxy.plusone.validator.IValidator;
 
 public class ComparablePropertyValidatorTests {
 
@@ -43,7 +44,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_valueIsInTheInterval() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE);
@@ -77,7 +78,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_default_valueIsNotInTheInterval() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE);
@@ -96,7 +97,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_message_valueIsNotInTheInterval() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE, MESSAGE);
@@ -114,7 +115,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_exceptionSupplier_valueIsNotInTheInterval() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE, () -> ExampleException.withMessage(MESSAGE));
@@ -132,7 +133,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_exceptionFunction_valueIsNotInTheInterval() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE, property -> ExampleException.withMessage(
@@ -160,7 +161,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_default_valueIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE);
@@ -179,7 +180,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_message_valueIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE, MESSAGE);
@@ -197,7 +198,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_exceptionSupplier_valueIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE, () -> ExampleException.withMessage(MESSAGE));
@@ -215,7 +216,7 @@ public class ComparablePropertyValidatorTests {
 
     @Test
     void inRange_exceptionFunction_valueIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForComparable(ExampleCommand::getDateTimeProperty)
                         .inRange(DATE_TIME_RANGE, property -> ExampleException.withMessage(

@@ -31,6 +31,7 @@ import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
+import xyz.zhouxy.plusone.validator.IValidator;
 
 public class StringPropertyValidatorTests {
 
@@ -48,7 +49,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void matches_InputMatchesPattern() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matches(Pattern.compile("\\w{3,6}"), MESSAGE_SHOULD_MATCH)
@@ -64,7 +65,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void matches_message_InputDoesNotMatchPattern() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matches(Pattern.compile("\\w{3,6}"), MESSAGE_SHOULD_MATCH);
@@ -80,7 +81,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void matches_exceptionSupplier_InputDoesNotMatchPattern() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matches(Pattern.compile("\\w{3,6}"), () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -96,7 +97,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void matches_exceptionFunction_InputDoesNotMatchPattern() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matches(Pattern.compile("\\w{3,6}"), str -> ExampleException.withMessage(
@@ -113,7 +114,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void matches_message_InputIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matches(Pattern.compile("\\w{3,6}"), MESSAGE_SHOULD_MATCH);
@@ -126,7 +127,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void matches_exceptionSupplier_InputIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matches(Pattern.compile("\\w{3,6}"), () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -139,7 +140,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void matches_exceptionFunction_InputIsNull() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matches(Pattern.compile("\\w{3,6}"), str -> ExampleException.withMessage(
@@ -165,7 +166,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, MESSAGE_SHOULD_MATCH)
@@ -185,7 +186,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
@@ -205,7 +206,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -225,7 +226,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, str -> ExampleException.withMessage(
@@ -246,7 +247,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
@@ -263,7 +264,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -280,7 +281,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, str -> ExampleException.withMessage(
@@ -297,7 +298,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, MESSAGE_SHOULD_MATCH)
@@ -316,7 +317,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
@@ -335,7 +336,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -354,7 +355,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, str -> ExampleException.withMessage(
@@ -374,7 +375,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
@@ -390,7 +391,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -406,7 +407,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesOne(patterns, str -> ExampleException.withMessage(
@@ -432,7 +433,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, MESSAGE_SHOULD_MATCH)
@@ -452,7 +453,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, MESSAGE_SHOULD_MATCH);
@@ -472,7 +473,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -492,7 +493,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, str -> ExampleException.withMessage(
@@ -513,7 +514,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, MESSAGE_SHOULD_MATCH);
@@ -530,7 +531,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -547,7 +548,7 @@ public class StringPropertyValidatorTests {
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}")
         };
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, str -> ExampleException.withMessage(
@@ -564,7 +565,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, MESSAGE_SHOULD_MATCH)
@@ -583,7 +584,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, MESSAGE_SHOULD_MATCH);
@@ -602,7 +603,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -621,7 +622,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, str -> ExampleException.withMessage(
@@ -641,7 +642,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, MESSAGE_SHOULD_MATCH);
@@ -657,7 +658,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
@@ -673,7 +674,7 @@ public class StringPropertyValidatorTests {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{4,6}"),
                 Pattern.compile("\\w{5,7}"));
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .matchesAll(patterns, str -> ExampleException.withMessage(
@@ -695,7 +696,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void notBlank_all_validInput() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notBlank()
@@ -714,7 +715,7 @@ public class StringPropertyValidatorTests {
     void notBlank_invalidInput(String value) {
         ExampleCommand command = exampleCommandWithStringProperty(value);
 
-        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notBlank();
@@ -725,7 +726,7 @@ public class StringPropertyValidatorTests {
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be blank.", eWithDefaultMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notBlank(MESSAGE_NOT_BLANK);
@@ -736,7 +737,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_BLANK, eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notBlank(() -> ExampleException.withMessage(MESSAGE_NOT_BLANK));
@@ -747,7 +748,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals(MESSAGE_NOT_BLANK, specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                 .notBlank(str -> ExampleException.withMessage("The stringProperty cannot be blank, but is was %s", StringTools.toQuotedString(str)));
@@ -764,7 +765,7 @@ public class StringPropertyValidatorTests {
     void notBlank_nullInput() {
         ExampleCommand command = exampleCommandWithStringProperty(null);
 
-        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notBlank();
@@ -775,7 +776,7 @@ public class StringPropertyValidatorTests {
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be blank.", eWithDefaultMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notBlank(MESSAGE_NOT_BLANK);
@@ -786,7 +787,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_BLANK, eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notBlank(() -> ExampleException.withMessage(MESSAGE_NOT_BLANK));
@@ -797,7 +798,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals(MESSAGE_NOT_BLANK, specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                 .notBlank(str -> ExampleException.withMessage("The stringProperty cannot be blank, but is was %s", StringTools.toQuotedString(str)));
@@ -820,7 +821,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void emailAddress_validInput() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .emailAddress()
@@ -841,7 +842,7 @@ public class StringPropertyValidatorTests {
     void emailAddress_invalidInput(String value) {
         ExampleCommand command = exampleCommandWithStringProperty(value);
 
-        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .emailAddress();
@@ -852,7 +853,7 @@ public class StringPropertyValidatorTests {
                 () -> defaultRule.validate(command));
         assertEquals("The input is not a valid email address.", eWithDefaultMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .emailAddress(MESSAGE_NOT_EMAIL);
@@ -863,7 +864,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_EMAIL, eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .emailAddress(() -> ExampleException.withMessage(MESSAGE_NOT_EMAIL));
@@ -874,7 +875,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals(MESSAGE_NOT_EMAIL, specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .emailAddress(str -> ExampleException.withMessage("Input should be an email address, but it was \"%s\"", str));
@@ -897,7 +898,7 @@ public class StringPropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(strings = { "abcd", " ", "  ", "\t", "\n" })
     void notEmpty_all_validInput() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty()
@@ -916,7 +917,7 @@ public class StringPropertyValidatorTests {
         final String value = "";
         ExampleCommand command = exampleCommandWithStringProperty(value);
 
-        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty();
@@ -927,7 +928,7 @@ public class StringPropertyValidatorTests {
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be empty.", eWithDefaultMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty(MESSAGE_NOT_EMPTY);
@@ -938,7 +939,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY));
@@ -949,7 +950,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                 .notEmpty(str -> ExampleException.withMessage("The stringProperty cannot be empty, but is was %s", StringTools.toQuotedString(str)));
@@ -966,7 +967,7 @@ public class StringPropertyValidatorTests {
     void notEmpty_nullInput() {
         ExampleCommand command = exampleCommandWithStringProperty(null);
 
-        BaseValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty();
@@ -977,7 +978,7 @@ public class StringPropertyValidatorTests {
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be empty.", eWithDefaultMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty(MESSAGE_NOT_EMPTY);
@@ -988,7 +989,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty(() -> ExampleException.withMessage(MESSAGE_NOT_EMPTY));
@@ -999,7 +1000,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .notEmpty(str -> ExampleException.withMessage("The stringProperty cannot be empty, but is was %s", StringTools.toQuotedString(str)));
@@ -1022,7 +1023,7 @@ public class StringPropertyValidatorTests {
 
     @Test
     void length_specifiedLength_validLength() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, "The length of the string must be 6")
@@ -1042,7 +1043,7 @@ public class StringPropertyValidatorTests {
     void length_specifiedLength_invalidLength(String value) {
         ExampleCommand command = exampleCommandWithStringProperty(value);
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, "The length of the string must be 6");
@@ -1053,7 +1054,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithMessage.validate(command));
         assertEquals("The length of the string must be 6", eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, () -> ExampleException.withMessage("The length of the string must be 6"));
@@ -1064,7 +1065,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals("The length of the string must be 6", specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, str -> ExampleException.withMessage("The length of the string must be 6, but it was %d", str.length()));
@@ -1082,7 +1083,7 @@ public class StringPropertyValidatorTests {
     @ValueSource(strings = { "123456", "1234567", "12345678" })
     void length_specifiedMinLengthAndMaxLength_validLength(String value) {
         ExampleCommand command = exampleCommandWithStringProperty(value);
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
@@ -1096,7 +1097,7 @@ public class StringPropertyValidatorTests {
     @Test
     void length_specifiedMinLengthAndMaxLength_null() {
         ExampleCommand command = exampleCommandWithStringProperty(null);
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
@@ -1112,7 +1113,7 @@ public class StringPropertyValidatorTests {
     void length_specifiedMinLengthAndMaxLength_invalidLength(String value) {
         ExampleCommand command = exampleCommandWithStringProperty(value);
 
-        BaseValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH));
@@ -1123,7 +1124,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithMessage.validate(command));
         assertEquals("Min length is 6, max length is 8", eWithSpecifiedMessage.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, MAX_LENGTH, () -> ExampleException.withMessage("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH));
@@ -1134,7 +1135,7 @@ public class StringPropertyValidatorTests {
                 () -> ruleWithExceptionSupplier.validate(command));
         assertEquals("Min length is 6, max length is 8", specifiedException.getMessage());
 
-        BaseValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
                         .length(MIN_LENGTH, MAX_LENGTH, str -> ExampleException.withMessage("Length of StringProperty is %d, min length is %d, max length is %d", str.length(), MIN_LENGTH, MAX_LENGTH));

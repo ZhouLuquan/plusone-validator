@@ -25,6 +25,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
+import xyz.zhouxy.plusone.validator.IValidator;
 
 public class DoublePropertyValidatorTests {
 
@@ -44,7 +45,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN + 0.000000000000001, Double.MAX_VALUE })
     void gt_all_validValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN);
@@ -74,7 +75,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN, MIN - 0.000000000000001, Double.MIN_VALUE })
     void gt_default_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN);
@@ -91,7 +92,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN, MIN - 0.000000000000001, Double.MIN_VALUE })
     void gt_message_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN, MESSAGE_GT);
@@ -108,7 +109,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN, MIN - 0.000000000000001, Double.MIN_VALUE })
     void gt_exceptionSupplier_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN, () -> ExampleException.withMessage(MESSAGE_GT));
@@ -125,7 +126,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN, MIN - 0.000000000000001, Double.MIN_VALUE })
     void gt_exceptionFunction_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN, property -> ExampleException.withMessage(
@@ -151,7 +152,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void gt_default_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN);
@@ -167,7 +168,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void gt_message_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN, MESSAGE_GT);
@@ -183,7 +184,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void gt_exceptionSupplier_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN, () -> ExampleException.withMessage(MESSAGE_GT));
@@ -199,7 +200,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void gt_exceptionFunction_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .gt(MIN, property -> ExampleException.withMessage(
@@ -226,7 +227,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN, MIN + 0.000000000000001, Double.MAX_VALUE })
     void ge_all_validValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN);
@@ -256,7 +257,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN - 0.000000000000001, Double.MIN_VALUE })
     void ge_default_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN);
@@ -273,7 +274,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN - 0.000000000000001, Double.MIN_VALUE })
     void ge_message_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN, MESSAGE_GE);
@@ -290,7 +291,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN - 0.000000000000001, Double.MIN_VALUE })
     void ge_exceptionSupplier_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN, () -> ExampleException.withMessage(MESSAGE_GE));
@@ -307,7 +308,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MIN - 0.000000000000001, Double.MIN_VALUE })
     void ge_exceptionFunction_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN, property -> ExampleException.withMessage(
@@ -333,7 +334,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void ge_default_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN);
@@ -349,7 +350,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void ge_message_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN, MESSAGE_GE);
@@ -365,7 +366,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void ge_exceptionSupplier_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN, () -> ExampleException.withMessage(MESSAGE_GE));
@@ -381,7 +382,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void ge_exceptionFunction_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .ge(MIN, property -> ExampleException.withMessage(
@@ -408,7 +409,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX - 0.000000000000001, Double.MIN_VALUE })
     void lt_all_validValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX);
@@ -438,7 +439,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX, MAX + 0.000000000000001, Double.MAX_VALUE })
     void lt_default_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX);
@@ -455,7 +456,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX, MAX + 0.000000000000001, Double.MAX_VALUE })
     void lt_message_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX, MESSAGE_LT);
@@ -472,7 +473,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX, MAX + 0.000000000000001, Double.MAX_VALUE })
     void lt_exceptionSupplier_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX, () -> ExampleException.withMessage(MESSAGE_LT));
@@ -489,7 +490,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX, MAX + 0.000000000000001, Double.MAX_VALUE })
     void lt_exceptionFunction_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX, property -> ExampleException.withMessage(
@@ -515,7 +516,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void lt_default_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX);
@@ -531,7 +532,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void lt_message_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX, MESSAGE_LT);
@@ -547,7 +548,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void lt_exceptionSupplier_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX, () -> ExampleException.withMessage(MESSAGE_LT));
@@ -563,7 +564,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void lt_exceptionFunction_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .lt(MAX, property -> ExampleException.withMessage(
@@ -590,7 +591,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX, MAX - 0.000000000000001, Double.MIN_VALUE })
     void le_all_validValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX);
@@ -620,7 +621,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX + 0.000000000000001, Double.MAX_VALUE })
     void le_default_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX);
@@ -637,7 +638,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX + 0.000000000000001, Double.MAX_VALUE })
     void le_message_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX, MESSAGE_LE);
@@ -654,7 +655,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX + 0.000000000000001, Double.MAX_VALUE })
     void le_exceptionSupplier_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX, () -> ExampleException.withMessage(MESSAGE_LE));
@@ -671,7 +672,7 @@ public class DoublePropertyValidatorTests {
     @ParameterizedTest
     @ValueSource(doubles = { MAX + 0.000000000000001, Double.MAX_VALUE })
     void le_exceptionFunction_invalidValue(double value) {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX, property -> ExampleException.withMessage(
@@ -697,7 +698,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void le_default_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX);
@@ -713,7 +714,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void le_message_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX, MESSAGE_LE);
@@ -729,7 +730,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void le_exceptionSupplier_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX, () -> ExampleException.withMessage(MESSAGE_LE));
@@ -745,7 +746,7 @@ public class DoublePropertyValidatorTests {
 
     @Test
     void le_exceptionFunction_null() {
-        BaseValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForDouble(ExampleCommand::getDoubleProperty)
                         .le(MAX, property -> ExampleException.withMessage(
