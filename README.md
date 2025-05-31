@@ -100,6 +100,6 @@ public void foo(Map<String, Object> customer) {
 
 ## 其他
 
-Plusone Validator 是个人在学习 Microsoft 的 [eShop](https://github.com/dotnet/eShop) 时，被其中 [FluentValidation](https://github.com/FluentValidation/FluentValidation) 的 API 所吸引，出于学习和个人使用的目的进行开发和维护。使用 Apache License 2.0 开源。
+Plusone Validator 是个人在学习 Microsoft 的 [eShop](https://github.com/dotnet/eShop) 时，被其中 [FluentValidation](https://github.com/FluentValidation/FluentValidation) 的 API 所吸引，出于学习和个人使用的目的进行开发和维护。使用 [Apache License 2.0](./LICENSE) 开源。
 
 欢迎通过 issue 反馈使用过程中发现的问题和建议。
