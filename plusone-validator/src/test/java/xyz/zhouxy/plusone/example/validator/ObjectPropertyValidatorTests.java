@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -30,8 +29,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import xyz.zhouxy.plusone.ExampleException;
-import xyz.zhouxy.plusone.commons.collection.CollectionTools;
-import xyz.zhouxy.plusone.commons.util.DateTimeTools;
 import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.example.Foo;
@@ -40,114 +37,6 @@ import xyz.zhouxy.plusone.validator.IValidator;
 import xyz.zhouxy.plusone.validator.ValidationException;
 
 public class ObjectPropertyValidatorTests {
-
-    // ================================
-    // #region - withRule
-    // ================================
-
-    @Test
-    void withRule_validInput() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleFor(ExampleCommand::getBoolProperty)
-                        .notNull("The boolProperty cannot be null.")
-                        .withRule(Boolean.TRUE::equals);
-
-                ruleFor(ExampleCommand::getIntProperty)
-                        .withRule(intProperty -> intProperty > 0, "The intProperty should be greater than 0.");
-
-                ruleFor(ExampleCommand::getLongProperty)
-                        .withRule(longProperty -> longProperty > 0L,
-                                () -> ExampleException.withMessage("The longProperty should be greater than 0."));
-
-                ruleFor(ExampleCommand::getDoubleProperty)
-                        .withRule(doubleProperty -> doubleProperty > 0.00,
-                                doubleProperty -> ExampleException.withMessage("The doubleProperty should be greater than 0, but it was: %s", doubleProperty));
-
-                ruleFor(ExampleCommand::getStringProperty)
-                        .notNull()
-                        .withRule(stringProperty -> stringProperty.length() > 2,
-                                () -> ExampleException.withMessage("The length of stringProperty should be greater than 2."));
-
-                ruleFor(ExampleCommand::getDateTimeProperty)
-                        .withRule(DateTimeTools::isFuture,
-                                () -> new DateTimeException("The dateTimeProperty should be a future time."));
-
-                ruleFor(ExampleCommand::getObjectProperty)
-                        .notNull("The objectProperty cannot be null.");
-
-                ruleFor(ExampleCommand::getStringListProperty)
-                        .withRule(CollectionTools::isNotEmpty, "The stringListProperty cannot be empty.");
-
-                withRule(command -> {
-                    Foo objectProperty = command.getObjectProperty();
-                    if (!Objects.equals(command.getIntProperty(), objectProperty.getIntProperty())) {
-                        throw ExampleException.withMessage("intProperty invalid.");
-                    }
-                });
-            }
-        };
-
-        ExampleCommand command = new ExampleCommand(
-                true,
-                Integer.MAX_VALUE,
-                Long.MAX_VALUE,
-                Double.MAX_VALUE,
-                "StringValue",
-                LocalDateTime.now().plusDays(1),
-                new Foo(Integer.MAX_VALUE, "StringValue"),
-                Lists.newArrayList("ABC", "DEF"));
-
-        assertDoesNotThrow(() -> validator.validate(command));
-    }
-
-    @Test
-    void withRule_invalidInputs() {
-        ExampleCommand command = new ExampleCommand();
-        IValidator<ExampleCommand> ruleWithDefaultMessage = new BaseValidator<ExampleCommand>() {
-            {
-                ruleFor(ExampleCommand::getObjectProperty)
-                        .withRule(x -> false);
-            }
-        };
-        ValidationException eWithDefaultMessage = assertThrows(
-                ValidationException.class, () -> ruleWithDefaultMessage.validate(command));
-        assertEquals(ValidationException.DEFAULT_MESSAGE, eWithDefaultMessage.getMessage());
-
-        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
-            {
-                ruleFor(ExampleCommand::getObjectProperty)
-                        .withRule(x -> false, "invalid input.");
-            }
-        };
-        ValidationException eWithMessage = assertThrows(
-                ValidationException.class, () -> ruleWithMessage.validate(command));
-        assertEquals("invalid input.", eWithMessage.getMessage());
-
-        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
-            {
-                ruleFor(ExampleCommand::getObjectProperty)
-                        .withRule(x -> false, () -> ExampleException.withMessage("invalid input."));
-            }
-        };
-        ExampleException specifiedException = assertThrows(
-                ExampleException.class, () -> ruleWithExceptionSupplier.validate(command));
-        assertEquals("invalid input.", specifiedException.getMessage());
-
-        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
-            {
-                ruleFor(ExampleCommand::getObjectProperty)
-                        .withRule(x -> false, x -> ExampleException.withMessage("invalid input: [%s].", x));
-            }
-        };
-        ExampleException specifiedException2 = assertThrows(
-                ExampleException.class, () -> ruleWithExceptionFunction.validate(command));
-        assertEquals("invalid input: [null].", specifiedException2.getMessage());
-    }
-
-    // ================================
-    // #endregion - withRule
-    // ================================
 
     // ================================
     // #region - notNull

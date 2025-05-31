@@ -73,7 +73,7 @@ public abstract class BaseComparablePropertyValidator<T, TProperty extends Compa
      */
     public <E extends RuntimeException> TPropertyValidator inRange(
             Range<TProperty> range, Supplier<E> e) {
-        withRule(value -> value != null && range.contains(value), e);
+        withRule(value -> value != null && range.contains(value), convertToExceptionFunction(e));
         return thisObject();
     }
 
