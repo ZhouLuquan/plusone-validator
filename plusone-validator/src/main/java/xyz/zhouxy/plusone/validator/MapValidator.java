@@ -110,9 +110,10 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
      * @param key key
      * @return 属性校验器
      */
-    protected final ObjectPropertyValidator<Map<K, V>, V> ruleFor(K key) {
-        final Function<Map<K, V>, V> func = m -> m.get(key);
-        return ruleFor(func);
+    protected final <T extends V> ObjectPropertyValidator<Map<K, V>, T> ruleFor(K key) {
+        @SuppressWarnings("unchecked")
+        final Function<Map<K, V>, T> func = m -> (T) m.get(key);
+        return super.<T>ruleFor(func);
     }
 
     /**
