@@ -32,6 +32,7 @@ import com.google.common.collect.ImmutableSet;
 import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.Foo;
 import xyz.zhouxy.plusone.validator.MapValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 class MapValidatorTests {
 
@@ -50,7 +51,7 @@ class MapValidatorTests {
         params.put(ParamsValidator.OBJECT_PROPERTY, new Foo(1, "Foo"));
         params.put(ParamsValidator.STRING_LIST_PROPERTY, Collections.emptyList());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        ValidationException e = assertThrows(ValidationException.class, () -> {
             validator.validateAndCopy(params);
         });
         assertEquals("'stringProperty' must be equal to 'stringProperty2'.", e.getMessage());

@@ -45,8 +45,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public DoublePropertyValidator<T> gt(double min) {
-        return gt(min, () -> new IllegalArgumentException(
-                String.format("The input must be greater than '%s'.", min)));
+        return gt(min, convertToExceptionFunction("The input must be greater than '%s'.", min));
     }
 
     /**
@@ -100,8 +99,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public DoublePropertyValidator<T> ge(double min) {
-        return ge(min, () -> new IllegalArgumentException(
-                String.format("The input must be greater than or equal to '%s'.", min)));
+        return ge(min, convertToExceptionFunction("The input must be greater than or equal to '%s'.", min));
     }
 
     /**
@@ -155,8 +153,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public DoublePropertyValidator<T> lt(double max) {
-        return lt(max, () -> new IllegalArgumentException(
-                String.format("The input must be less than '%s'.", max)));
+        return lt(max, convertToExceptionFunction("The input must be less than '%s'.", max));
     }
 
     /**
@@ -210,8 +207,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public DoublePropertyValidator<T> le(double max) {
-        return le(max, () -> new IllegalArgumentException(
-                String.format("The input must be less than or equal to '%s'.", max)));
+        return le(max, convertToExceptionFunction("The input must be less than or equal to '%s'.", max));
     }
 
     /**

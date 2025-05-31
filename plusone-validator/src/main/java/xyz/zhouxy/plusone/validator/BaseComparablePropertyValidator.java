@@ -47,9 +47,8 @@ public abstract class BaseComparablePropertyValidator<T, TProperty extends Compa
      * @return 属性校验器
      */
     public TPropertyValidator inRange(Range<TProperty> range) {
-        withRule(value -> value != null && range.contains(value),
-                value -> new IllegalArgumentException(
-                        String.format("The input must in the interval %s. You entered %s.", range, value)));
+        withRule(value -> value != null && range.contains(value), value -> ValidationException.withMessage(
+                "The input must in the interval %s. You entered %s.", range, value));
         return thisObject();
     }
 

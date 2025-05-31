@@ -45,8 +45,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public IntPropertyValidator<T> gt(int min) {
-        return gt(min, () -> new IllegalArgumentException(
-                String.format("The input must be greater than '%d'.", min)));
+        return gt(min, convertToExceptionFunction("The input must be greater than '%d'.", min));
     }
 
     /**
@@ -100,8 +99,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public IntPropertyValidator<T> ge(int min) {
-        return ge(min, () -> new IllegalArgumentException(
-                String.format("The input must be greater than or equal to '%d'.", min)));
+        return ge(min, convertToExceptionFunction("The input must be greater than or equal to '%d'.", min));
     }
 
     /**
@@ -155,8 +153,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public IntPropertyValidator<T> lt(int max) {
-        return lt(max, () -> new IllegalArgumentException(
-                String.format("The input must be less than '%d'.", max)));
+        return lt(max, convertToExceptionFunction("The input must be less than '%d'.", max));
     }
 
     /**
@@ -210,8 +207,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public IntPropertyValidator<T> le(int max) {
-        return le(max, () -> new IllegalArgumentException(
-                String.format("The input must be less than or equal to '%d'.", max)));
+        return le(max, convertToExceptionFunction("The input must be less than or equal to '%d'.", max));
     }
 
     /**

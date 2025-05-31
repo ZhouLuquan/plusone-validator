@@ -32,6 +32,7 @@ import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 public class StringPropertyValidatorTests {
 
@@ -73,8 +74,8 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty("a");
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
         assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
     }
@@ -194,8 +195,8 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty("1234567");
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
         assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
     }
@@ -325,8 +326,8 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty("1234567");
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
         assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
     }
@@ -461,8 +462,8 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty("1234567");
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
         assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
     }
@@ -592,8 +593,8 @@ public class StringPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithStringProperty("1234567");
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
         assertEquals(MESSAGE_SHOULD_MATCH, e.getMessage());
     }
@@ -721,8 +722,8 @@ public class StringPropertyValidatorTests {
                         .notBlank();
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class,
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be blank.", eWithDefaultMessage.getMessage());
 
@@ -732,8 +733,8 @@ public class StringPropertyValidatorTests {
                         .notBlank(MESSAGE_NOT_BLANK);
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_BLANK, eWithSpecifiedMessage.getMessage());
 
@@ -771,8 +772,8 @@ public class StringPropertyValidatorTests {
                         .notBlank();
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class,
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be blank.", eWithDefaultMessage.getMessage());
 
@@ -782,8 +783,8 @@ public class StringPropertyValidatorTests {
                         .notBlank(MESSAGE_NOT_BLANK);
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_BLANK, eWithSpecifiedMessage.getMessage());
 
@@ -848,8 +849,8 @@ public class StringPropertyValidatorTests {
                         .emailAddress();
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class,
                 () -> defaultRule.validate(command));
         assertEquals("The input is not a valid email address.", eWithDefaultMessage.getMessage());
 
@@ -859,8 +860,8 @@ public class StringPropertyValidatorTests {
                         .emailAddress(MESSAGE_NOT_EMAIL);
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_EMAIL, eWithSpecifiedMessage.getMessage());
 
@@ -923,8 +924,8 @@ public class StringPropertyValidatorTests {
                         .notEmpty();
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class,
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be empty.", eWithDefaultMessage.getMessage());
 
@@ -934,8 +935,8 @@ public class StringPropertyValidatorTests {
                         .notEmpty(MESSAGE_NOT_EMPTY);
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, eWithSpecifiedMessage.getMessage());
 
@@ -973,8 +974,8 @@ public class StringPropertyValidatorTests {
                         .notEmpty();
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class,
                 () -> defaultRule.validate(command));
         assertEquals("The input must not be empty.", eWithDefaultMessage.getMessage());
 
@@ -984,8 +985,8 @@ public class StringPropertyValidatorTests {
                         .notEmpty(MESSAGE_NOT_EMPTY);
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
                 () -> ruleWithMessage.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, eWithSpecifiedMessage.getMessage());
 
@@ -1049,8 +1050,8 @@ public class StringPropertyValidatorTests {
                         .length(MIN_LENGTH, "The length of the string must be 6");
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
                 () -> ruleWithMessage.validate(command));
         assertEquals("The length of the string must be 6", eWithSpecifiedMessage.getMessage());
 
@@ -1119,8 +1120,8 @@ public class StringPropertyValidatorTests {
                         .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH));
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
                 () -> ruleWithMessage.validate(command));
         assertEquals("Min length is 6, max length is 8", eWithSpecifiedMessage.getMessage());
 

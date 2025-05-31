@@ -51,7 +51,7 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
      * @return 属性校验器
      */
     public final TPropertyValidator withRule(Predicate<? super TProperty> rule) {
-        return withRule(rule, v -> new IllegalArgumentException());
+        return withRule(rule, v -> ValidationException.withDefaultMessage());
     }
 
     /**
@@ -222,8 +222,8 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
      * @return 属性校验器
      */
     public TPropertyValidator equalTo(Object that) {
-        return equalTo(that,
-                value -> new IllegalArgumentException(String.format("The input must be equal to '%s'.", that)));
+        return equalTo(that, value -> ValidationException
+                .withMessage("The input must be equal to '%s'.", that));
     }
 
     /**
@@ -377,8 +377,13 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
     // #endregion - must
     // ================================
 
-    static <V> Function<V, IllegalArgumentException> convertToExceptionFunction(String errMsg) {
-        return value -> new IllegalArgumentException(errMsg);
+    static <V> Function<V, ValidationException> convertToExceptionFunction(String errMsg) {
+        return value -> ValidationException.withMessage(errMsg);
+    }
+
+    static <V> Function<V, ValidationException> convertToExceptionFunction(
+            String errorMessageTemplate, Object... errorMessageArgs) {
+        return value -> ValidationException.withMessage(errorMessageTemplate, errorMessageArgs);
     }
 
     static <V, E extends RuntimeException> Function<V, E> convertToExceptionFunction(

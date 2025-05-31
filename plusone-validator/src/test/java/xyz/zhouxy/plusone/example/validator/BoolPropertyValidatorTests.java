@@ -23,6 +23,7 @@ import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 public class BoolPropertyValidatorTests {
 
@@ -60,8 +61,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(false);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals("The input must be true.", exception.getMessage());
@@ -79,8 +80,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(false);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals(message, exception.getMessage());
@@ -134,8 +135,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(null);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals("The input must be true.", exception.getMessage());
@@ -153,8 +154,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(null);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals(message, exception.getMessage());
@@ -236,8 +237,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(true);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals("The input must be false.", exception.getMessage());
@@ -255,8 +256,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(true);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals(message, exception.getMessage());
@@ -310,8 +311,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(null);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals("The input must be false.", exception.getMessage());
@@ -329,8 +330,8 @@ public class BoolPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithBoolProperty(null);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException exception = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals(message, exception.getMessage());

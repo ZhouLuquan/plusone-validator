@@ -48,7 +48,7 @@ public abstract class BaseValidator<T> implements IValidator<T> {
      * @param errorMessage 错误信息
      */
     protected final void withRule(final Predicate<? super T> rule, final String errorMessage) {
-        withRule(rule, () -> new IllegalArgumentException(errorMessage));
+        withRule(rule, () -> ValidationException.withMessage(errorMessage));
     }
 
     /**

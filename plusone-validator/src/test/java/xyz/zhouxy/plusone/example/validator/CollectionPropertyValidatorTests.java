@@ -31,6 +31,7 @@ import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 public class CollectionPropertyValidatorTests {
 
@@ -69,7 +70,7 @@ public class CollectionPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithStringListProperty(Collections.emptyList());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
         assertEquals("The input must not be empty.", e.getMessage());
     }
 
@@ -83,7 +84,7 @@ public class CollectionPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithStringListProperty(Collections.emptyList());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, e.getMessage());
     }
 
@@ -128,7 +129,7 @@ public class CollectionPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithStringListProperty(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_NOT_EMPTY, e.getMessage());
     }
 
@@ -217,7 +218,7 @@ public class CollectionPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("A", "B", "C"));
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
         assertEquals("The input must be empty.", e.getMessage());
     }
 
@@ -231,7 +232,7 @@ public class CollectionPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("A", "B", "C"));
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_EMPTY, e.getMessage());
     }
 

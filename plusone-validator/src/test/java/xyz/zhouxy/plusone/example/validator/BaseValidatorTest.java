@@ -26,6 +26,7 @@ import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 class BaseValidatorTest {
 
@@ -63,8 +64,8 @@ class BaseValidatorTest {
                         "The stringProperty must be equal to 'Foo'");
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The stringProperty must be equal to 'Foo'", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {

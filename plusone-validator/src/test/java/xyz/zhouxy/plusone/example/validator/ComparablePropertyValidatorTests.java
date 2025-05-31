@@ -29,6 +29,7 @@ import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 public class ComparablePropertyValidatorTests {
 
@@ -87,8 +88,8 @@ public class ComparablePropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithComparableProperty(18, 10000000000L, MAX);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         final String expected = String.format("The input must in the interval %s. You entered %s.", DATE_TIME_RANGE, MAX);
@@ -106,8 +107,8 @@ public class ComparablePropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithComparableProperty(18, 10000000000L, MAX);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals(MESSAGE, e.getMessage());
@@ -170,8 +171,8 @@ public class ComparablePropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithComparableProperty(null, null, null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         final String expected = String.format("The input must in the interval %s. You entered null.", DATE_TIME_RANGE);
@@ -189,8 +190,8 @@ public class ComparablePropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithComparableProperty(null, null, null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class,
+        ValidationException e = assertThrows(
+                ValidationException.class,
                 () -> validator.validate(command));
 
         assertEquals(MESSAGE, e.getMessage());

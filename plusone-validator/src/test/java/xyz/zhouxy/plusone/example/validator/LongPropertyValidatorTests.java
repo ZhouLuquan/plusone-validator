@@ -25,6 +25,7 @@ import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 public class LongPropertyValidatorTests {
 
@@ -84,8 +85,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be greater than '%d'.", MIN), e.getMessage());
     }
 
@@ -101,8 +102,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_GT, e.getMessage());
     }
 
@@ -161,8 +162,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be greater than '%d'.", MIN), e.getMessage());
     }
 
@@ -177,8 +178,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_GT, e.getMessage());
     }
 
@@ -266,8 +267,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be greater than or equal to '%d'.", MIN), e.getMessage());
     }
 
@@ -283,8 +284,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_GE, e.getMessage());
     }
 
@@ -343,8 +344,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be greater than or equal to '%d'.", MIN), e.getMessage());
     }
 
@@ -359,8 +360,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_GE, e.getMessage());
     }
 
@@ -448,8 +449,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be less than '%d'.", MAX), e.getMessage());
     }
 
@@ -465,8 +466,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_LT, e.getMessage());
     }
 
@@ -525,8 +526,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be less than '%d'.", MAX), e.getMessage());
     }
 
@@ -541,8 +542,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_LT, e.getMessage());
     }
 
@@ -630,8 +631,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be less than or equal to '%d'.", MAX), e.getMessage());
     }
 
@@ -647,8 +648,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(value);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_LE, e.getMessage());
     }
 
@@ -707,8 +708,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(String.format("The input must be less than or equal to '%d'.", MAX), e.getMessage());
     }
 
@@ -723,8 +724,8 @@ public class LongPropertyValidatorTests {
 
         ExampleCommand command = exampleCommandWithLongProperty(null);
 
-        IllegalArgumentException e = assertThrows(
-                IllegalArgumentException.class, () -> validator.validate(command));
+        ValidationException e = assertThrows(
+                ValidationException.class, () -> validator.validate(command));
         assertEquals(MESSAGE_LE, e.getMessage());
     }
 

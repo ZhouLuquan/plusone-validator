@@ -18,7 +18,6 @@ package xyz.zhouxy.plusone.example.validator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.DateTimeException;
@@ -38,6 +37,7 @@ import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.example.Foo;
 import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
+import xyz.zhouxy.plusone.validator.ValidationException;
 
 public class ObjectPropertyValidatorTests {
 
@@ -110,9 +110,9 @@ public class ObjectPropertyValidatorTests {
                         .withRule(x -> false);
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithDefaultMessage.validate(command));
-        assertNull(eWithDefaultMessage.getMessage());
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class, () -> ruleWithDefaultMessage.validate(command));
+        assertEquals(ValidationException.DEFAULT_MESSAGE, eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
@@ -120,8 +120,8 @@ public class ObjectPropertyValidatorTests {
                         .withRule(x -> false, "invalid input.");
             }
         };
-        IllegalArgumentException eWithMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException eWithMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("invalid input.", eWithMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
@@ -198,8 +198,8 @@ public class ObjectPropertyValidatorTests {
                         .notNull();
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class, () -> defaultRule.validate(command));
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class, () -> defaultRule.validate(command));
         assertEquals("The input must not be null.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
@@ -208,8 +208,8 @@ public class ObjectPropertyValidatorTests {
                         .notNull("The objectProperty could not be null.");
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The objectProperty could not be null.", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
@@ -279,8 +279,8 @@ public class ObjectPropertyValidatorTests {
                         .isNull();
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithDefaultMessage.validate(command));
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class, () -> ruleWithDefaultMessage.validate(command));
         assertEquals("The input must be null.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
@@ -289,8 +289,8 @@ public class ObjectPropertyValidatorTests {
                         .isNull("The objectProperty should be null.");
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The objectProperty should be null.", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
@@ -351,8 +351,8 @@ public class ObjectPropertyValidatorTests {
                 ruleForString(ExampleCommand::getStringProperty).equalTo("Foo");
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class, () -> defaultRule.validate(command));
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class, () -> defaultRule.validate(command));
         assertEquals("The input must be equal to 'Foo'.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
@@ -361,8 +361,8 @@ public class ObjectPropertyValidatorTests {
                         "The stringProperty should be equal to 'Foo'.");
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The stringProperty should be equal to 'Foo'.", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
@@ -395,8 +395,8 @@ public class ObjectPropertyValidatorTests {
                 ruleForString(ExampleCommand::getStringProperty).equalTo("Foo");
             }
         };
-        IllegalArgumentException eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class, () -> defaultRule.validate(command));
+        ValidationException eWithDefaultMessage = assertThrows(
+                ValidationException.class, () -> defaultRule.validate(command));
         assertEquals("The input must be equal to 'Foo'.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
@@ -405,8 +405,8 @@ public class ObjectPropertyValidatorTests {
                         "The stringProperty should be equal to 'Foo'.");
             }
         };
-        IllegalArgumentException eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The stringProperty should be equal to 'Foo'.", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
@@ -465,8 +465,8 @@ public class ObjectPropertyValidatorTests {
                         .must(str -> Objects.equals(str, "Foo"));
             }
         };
-        IllegalArgumentException  eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithDefaultMessage.validate(command));
+        ValidationException  eWithDefaultMessage = assertThrows(
+                ValidationException.class, () -> ruleWithDefaultMessage.validate(command));
         assertEquals("The specified condition was not met for the input.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
@@ -476,8 +476,8 @@ public class ObjectPropertyValidatorTests {
                                 "The stringProperty must be equal to 'Foo'.");
             }
         };
-        IllegalArgumentException  eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException  eWithSpecifiedMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The stringProperty must be equal to 'Foo'.", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
@@ -531,8 +531,8 @@ public class ObjectPropertyValidatorTests {
                         .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")));
             }
         };
-        IllegalArgumentException  eWithDefaultMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithDefaultMessage.validate(command));
+        ValidationException  eWithDefaultMessage = assertThrows(
+                ValidationException.class, () -> ruleWithDefaultMessage.validate(command));
         assertEquals("The specified conditions were not met for the input.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
@@ -542,8 +542,8 @@ public class ObjectPropertyValidatorTests {
                                 "The stringProperty must be equal to 'Foo'.");
             }
         };
-        IllegalArgumentException  eWithSpecifiedMessage = assertThrows(
-                IllegalArgumentException.class, () -> ruleWithMessage.validate(command));
+        ValidationException  eWithSpecifiedMessage = assertThrows(
+                ValidationException.class, () -> ruleWithMessage.validate(command));
         assertEquals("The stringProperty must be equal to 'Foo'.", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
