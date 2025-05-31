@@ -57,11 +57,12 @@ class CustomerMapValidator extends MapValidator<String, Object> {
 
     private static final CustomerMapValidator INSTANCE = new CustomerMapValidator();
 
-    private static final String[]  FIELD_NAMES = {
+    private static final String[] FIELD_NAMES = {
         "name", "emailAddress", "vipLevel", "customerId", "birthday", "address"
     };
 
     private CustomerMapValidator() {
+        // validateAndCopy() 时默认保留的 key
         super(FIELD_NAMES);
 
         ruleForString("name").notBlank("姓名不能为空");
@@ -92,7 +93,7 @@ class CustomerMapValidator extends MapValidator<String, Object> {
 使用：
 ```java
 public void foo(Map<String, Object> customer) {
-    CustomerMapValidator.getInstance().validate(customer);
+    Map<String, Object> validatedCustomer = CustomerMapValidator.getInstance().validateAndCopy(customer);
     // ...
 }
 ```
