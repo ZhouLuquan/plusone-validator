@@ -46,21 +46,21 @@ public class ObjectPropertyValidatorTests {
     void notNull_validInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
-                ruleForBool(ExampleCommand::getBoolProperty)
+                ruleFor(ExampleCommand::getBoolProperty)
                         .notNull();
-                ruleForInt(ExampleCommand::getIntProperty)
+                ruleFor(ExampleCommand::getIntProperty)
                         .notNull("The intProperty cannot be null");
-                ruleForLong(ExampleCommand::getLongProperty)
+                ruleFor(ExampleCommand::getLongProperty)
                         .notNull(() -> ExampleException.withMessage("The longProperty cannot be null"));
-                ruleForDouble(ExampleCommand::getDoubleProperty)
+                ruleFor(ExampleCommand::getDoubleProperty)
                         .notNull(d -> ExampleException.withMessage("The doubleProperty cannot be null, but it was %s", d));
-                ruleForString(ExampleCommand::getStringProperty)
+                ruleFor(ExampleCommand::getStringProperty)
                         .notNull();
-                ruleForComparable(ExampleCommand::getDateTimeProperty)
+                ruleFor(ExampleCommand::getDateTimeProperty)
                         .notNull("The dateTimeProperty cannot be null");
                 ruleFor(ExampleCommand::getObjectProperty)
                         .notNull(() -> ExampleException.withMessage("The objectProperty cannot be null"));
-                ruleForCollection(ExampleCommand::getStringListProperty)
+                ruleFor(ExampleCommand::getStringListProperty)
                         .notNull(d -> ExampleException.withMessage("The stringListProperty cannot be null, but it was %s", d));
             }
         };
@@ -134,21 +134,21 @@ public class ObjectPropertyValidatorTests {
     void isNull_validInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
-                ruleForBool(ExampleCommand::getBoolProperty)
+                ruleFor(ExampleCommand::getBoolProperty)
                         .isNull();
-                ruleForInt(ExampleCommand::getIntProperty)
+                ruleFor(ExampleCommand::getIntProperty)
                         .isNull("The intProperty should be null");
-                ruleForLong(ExampleCommand::getLongProperty)
+                ruleFor(ExampleCommand::getLongProperty)
                         .isNull(() -> ExampleException.withMessage("The longProperty should be null"));
-                ruleForDouble(ExampleCommand::getDoubleProperty)
+                ruleFor(ExampleCommand::getDoubleProperty)
                         .isNull(d -> ExampleException.withMessage("The doubleProperty should be null, but it was %s", d));
-                ruleForString(ExampleCommand::getStringProperty)
+                ruleFor(ExampleCommand::getStringProperty)
                         .isNull();
-                ruleForComparable(ExampleCommand::getDateTimeProperty)
+                ruleFor(ExampleCommand::getDateTimeProperty)
                         .isNull("The dateTimeProperty should be null");
                 ruleFor(ExampleCommand::getObjectProperty)
                         .isNull(() -> ExampleException.withMessage("The objectProperty should be null"));
-                ruleForCollection(ExampleCommand::getStringListProperty)
+                ruleFor(ExampleCommand::getStringListProperty)
                         .isNull(d -> ExampleException.withMessage("The stringListProperty should be null, but it was %s", d));
             }
         };
