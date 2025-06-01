@@ -80,8 +80,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
      */
     public <E extends RuntimeException> StringPropertyValidator<T> matches(
             Pattern regex, Function<String, E> e) {
-        withRule(input -> (input == null || RegexTools.matches(input, regex)), e);
-        return this;
+        return withRule(input -> (input == null || RegexTools.matches(input, regex)), e);
     }
 
     // ================================
@@ -126,8 +125,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
      */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
             Pattern[] regexs, Function<String, E> e) {
-        withRule(input -> input == null || RegexTools.matchesOne(input, regexs), e);
-        return this;
+        return withRule(input -> input == null || RegexTools.matchesOne(input, regexs), e);
     }
 
     /**
@@ -164,8 +162,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
      */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesOne(
             List<Pattern> regexs, Function<String, E> e) {
-        withRule(input -> input == null || RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), e);
-        return this;
+        return withRule(input -> input == null || RegexTools.matchesOne(input, regexs.toArray(new Pattern[regexs.size()])), e);
     }
 
     // ================================
@@ -210,8 +207,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
      */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
             Pattern[] regexs, Function<String, E> e) {
-        withRule(input -> input == null || RegexTools.matchesAll(input, regexs), e);
-        return this;
+        return withRule(input -> input == null || RegexTools.matchesAll(input, regexs), e);
     }
 
     /**
@@ -248,8 +244,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
      */
     public <E extends RuntimeException> StringPropertyValidator<T> matchesAll(
             Collection<Pattern> regexs, Function<String, E> e) {
-        withRule(input -> input == null || RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), e);
-        return this;
+        return withRule(input -> input == null || RegexTools.matchesAll(input, regexs.toArray(new Pattern[regexs.size()])), e);
     }
 
     // ================================
@@ -298,8 +293,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
      * @return 属性校验器
      */
     public <E extends RuntimeException> StringPropertyValidator<T> notBlank(Function<String, E> e) {
-        withRule(StringTools::isNotBlank, e);
-        return this;
+        return withRule(StringTools::isNotBlank, e);
     }
 
     // ================================
@@ -399,8 +393,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
      */
     public <E extends RuntimeException> StringPropertyValidator<T> notEmpty(
             Function<String, E> e) {
-        withRule(s -> s != null && !s.isEmpty(), e);
-        return this;
+        return withRule(s -> s != null && !s.isEmpty(), e);
     }
 
     // ================================
@@ -445,11 +438,10 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
     public <E extends RuntimeException> StringPropertyValidator<T> length(int length, Function<String, E> e) {
         AssertTools.checkArgument(length >= 0,
                 "The expected length must be greater than or equal to 0.");
-        withRule(s -> s == null || s.length() == length, e);
-        return this;
+        return withRule(s -> s == null || s.length() == length, e);
     }
 
-    static boolean length(String str, int min, int max) {
+    static boolean checkLength(String str, int min, int max) {
         if (str == null) {
             return true;
         }
@@ -494,8 +486,7 @@ public class StringPropertyValidator<T> extends BaseComparablePropertyValidator<
             Function<String, E> e) {
         AssertTools.checkArgument(min >= 0, "min must be non-negative.");
         AssertTools.checkArgument(min <= max, "min must be less than or equal to max.");
-        withRule(s -> length(s, min, max), e);
-        return this;
+        return withRule(s -> checkLength(s, min, max), e);
     }
 
     // ================================

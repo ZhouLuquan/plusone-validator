@@ -80,8 +80,7 @@ public class LongPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> LongPropertyValidator<T> gt(long min, Function<Long, E> e) {
-        withRule(value -> (value != null && value > min), e);
-        return this;
+        return withRule(value -> (value != null && value > min), e);
     }
 
     // ================================
@@ -134,8 +133,7 @@ public class LongPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> LongPropertyValidator<T> ge(long min, Function<Long, E> e) {
-        withRule(value -> (value != null && value >= min), e);
-        return this;
+        return withRule(value -> (value != null && value >= min), e);
     }
 
     // ================================
@@ -188,8 +186,7 @@ public class LongPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> LongPropertyValidator<T> lt(long max, Function<Long, E> e) {
-        withRule(value -> (value != null && value < max), e);
-        return this;
+        return withRule(value -> (value != null && value < max), e);
     }
 
     // ================================
@@ -242,8 +239,7 @@ public class LongPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> LongPropertyValidator<T> le(long max, Function<Long, E> e) {
-        withRule(value -> (value != null && value <= max), e);
-        return this;
+        return withRule(value -> (value != null && value <= max), e);
     }
 
     // ================================

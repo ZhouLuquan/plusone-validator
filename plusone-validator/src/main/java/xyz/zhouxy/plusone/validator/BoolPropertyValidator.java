@@ -74,8 +74,7 @@ public class BoolPropertyValidator<T> extends BasePropertyValidator<T, Boolean, 
      * @return 属性校验器
      */
     public <E extends RuntimeException> BoolPropertyValidator<T> isTrueValue(Function<Boolean, E> e) {
-        withRule(Boolean.TRUE::equals, e);
-        return this;
+        return withRule(Boolean.TRUE::equals, e);
     }
 
     // ====== isFalseValue ======
@@ -118,8 +117,7 @@ public class BoolPropertyValidator<T> extends BasePropertyValidator<T, Boolean, 
      * @return 属性校验器
      */
     public <E extends RuntimeException> BoolPropertyValidator<T> isFalseValue(Function<Boolean, E> e) {
-        withRule(Boolean.FALSE::equals, e);
-        return this;
+        return withRule(Boolean.FALSE::equals, e);
     }
 
     @Override

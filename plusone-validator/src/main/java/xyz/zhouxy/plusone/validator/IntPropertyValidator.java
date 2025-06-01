@@ -80,8 +80,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> IntPropertyValidator<T> gt(int min, Function<Integer, E> e) {
-        withRule(value -> (value != null && value > min), e);
-        return this;
+        return withRule(value -> (value != null && value > min), e);
     }
 
     // ================================
@@ -134,8 +133,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> IntPropertyValidator<T> ge(int min, Function<Integer, E> e) {
-        withRule(value -> (value != null && value >= min), e);
-        return this;
+        return withRule(value -> (value != null && value >= min), e);
     }
 
     // ================================
@@ -188,8 +186,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> IntPropertyValidator<T> lt(int max, Function<Integer, E> e) {
-        withRule(value -> (value != null && value < max), e);
-        return this;
+        return withRule(value -> (value != null && value < max), e);
     }
 
     // ================================
@@ -242,8 +239,7 @@ public class IntPropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> IntPropertyValidator<T> le(int max, Function<Integer, E> e) {
-        withRule(value -> (value != null && value <= max), e);
-        return this;
+        return withRule(value -> (value != null && value <= max), e);
     }
 
     // ================================

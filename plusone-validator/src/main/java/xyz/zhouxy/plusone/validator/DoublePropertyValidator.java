@@ -80,8 +80,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> DoublePropertyValidator<T> gt(double min, Function<Double, E> e) {
-        withRule(value -> (value != null && value > min), e);
-        return this;
+        return withRule(value -> (value != null && value > min), e);
     }
 
     // ================================
@@ -134,8 +133,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> DoublePropertyValidator<T> ge(double min, Function<Double, E> e) {
-        withRule(value -> (value != null && value >= min), e);
-        return this;
+        return withRule(value -> (value != null && value >= min), e);
     }
 
     // ================================
@@ -188,8 +186,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> DoublePropertyValidator<T> lt(double max, Function<Double, E> e) {
-        withRule(value -> (value != null && value < max), e);
-        return this;
+        return withRule(value -> (value != null && value < max), e);
     }
 
     // ================================
@@ -242,8 +239,7 @@ public class DoublePropertyValidator<T>
      * @return 属性校验器
      */
     public <E extends RuntimeException> DoublePropertyValidator<T> le(double max, Function<Double, E> e) {
-        withRule(value -> (value != null && value <= max), e);
-        return this;
+        return withRule(value -> (value != null && value <= max), e);
     }
 
     // ================================
