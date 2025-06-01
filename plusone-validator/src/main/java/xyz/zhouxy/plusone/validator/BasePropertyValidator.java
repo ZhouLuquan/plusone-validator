@@ -53,11 +53,22 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
      */
     protected final <E extends RuntimeException> TPropertyValidator withRule(
             Predicate<? super TProperty> rule, Function<TProperty, E> e) {
-        this.consumers.add(v -> {
+        return withRule(v -> {
             if (!rule.test(v)) {
                 throw e.apply(v);
             }
         });
+    }
+
+    /**
+     * 添加一条校验属性的规则
+     *
+     * @param rule 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    protected final TPropertyValidator withRule(Consumer<? super TProperty> rule) {
+        this.consumers.add(rule);
         return thisObject();
     }
 

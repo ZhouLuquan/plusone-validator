@@ -18,6 +18,7 @@ package xyz.zhouxy.plusone.validator;
 
 import java.util.Collection;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import xyz.zhouxy.plusone.commons.collection.CollectionTools;
@@ -37,7 +38,9 @@ public class CollectionPropertyValidator<T, TElement>
         super(getter);
     }
 
-    // ====== notEmpty =====
+    // ================================
+    // #region - notEmpty
+    // ================================
 
     /**
      * 添加一条校验属性的规则，校验属性是否非空
@@ -83,7 +86,13 @@ public class CollectionPropertyValidator<T, TElement>
         return this;
     }
 
-    // ====== isEmpty =====
+    // ================================
+    // #endregion - notEmpty
+    // ================================
+
+    // ================================
+    // #region - isEmpty
+    // ================================
 
     /**
      * 添加一条校验属性的规则，校验属性是否为空
@@ -126,6 +135,68 @@ public class CollectionPropertyValidator<T, TElement>
         withRule(CollectionTools::isEmpty, e);
         return this;
     }
+
+    // ================================
+    // #endregion - isEmpty
+    // ================================
+
+    // ================================
+    // #region - allMatch
+    // ================================
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @return 属性校验器
+     */
+    public CollectionPropertyValidator<T, TElement> allMatch(Predicate<TElement> condition) {
+        return allMatch(condition, convertToExceptionFunction("All elements must match the condition."));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
+    public CollectionPropertyValidator<T, TElement> allMatch(Predicate<TElement> condition, String errMsg) {
+        return allMatch(condition, convertToExceptionFunction(errMsg));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> allMatch(
+            Predicate<TElement> condition, Supplier<E> e) {
+        return allMatch(condition, convertToExceptionFunction(e));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> allMatch(
+            Predicate<TElement> condition, Function<TElement, E> e) {
+        withRule(c -> c.stream().forEach(element -> {
+            if (!condition.test(element)) {
+                throw e.apply(element);
+            }
+        }));
+        return this;
+    }
+
+    // ================================
+    // #endregion - allMatch
+    // ================================
 
     @Override
     protected CollectionPropertyValidator<T, TElement> thisObject() {

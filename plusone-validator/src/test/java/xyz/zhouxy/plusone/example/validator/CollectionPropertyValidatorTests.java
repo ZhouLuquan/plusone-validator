@@ -271,6 +271,97 @@ public class CollectionPropertyValidatorTests {
     // #endregion - isEmpty
     // ================================
 
+    // ================================
+    // #region - allMatch
+    // ================================
+
+    static boolean checkStringLength(String str, int min, int max) {
+        return str != null && (str.length() >= min && str.length() <= max);
+    }
+
+    @Test
+    void allMatch_validInput() {
+
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                    .allMatch(str -> checkStringLength(str, 4, 6))
+                    .allMatch(str -> checkStringLength(str, 4, 6),
+                        "String length must in the interval [4,6].")
+                    .allMatch(str -> checkStringLength(str, 4, 6),
+                        () -> ExampleException.withMessage("String length must in the interval [4,6]."))
+                    .allMatch(str -> checkStringLength(str, 4, 6),
+                        str -> ExampleException.withMessage("Validation failed: '%s'.", str));
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("1234", "12345", "123456"));
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void allMatch_default_invalidInput() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                    .allMatch(str -> checkStringLength(str, 4, 6));
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList(null, "1234", "12345", "123456"));
+        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
+        assertEquals("All elements must match the condition.", e.getMessage());
+    }
+
+    @Test
+    void allMatch_specifiedMessage_invalidInput() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                    .allMatch(str -> checkStringLength(str, 4, 6),
+                        "String length must in the interval [4,6].");
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("1234", "", "12345", "123456"));
+        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
+        assertEquals("String length must in the interval [4,6].", e.getMessage());
+    }
+
+    @Test
+    void allMatch_specifiedExceptionSupplier_invalidInput() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                    .allMatch(str -> checkStringLength(str, 4, 6),
+                        () -> ExampleException.withMessage("String length must in the interval [4,6]."));
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("1234", "12345", "123", "123456"));
+        ExampleException e = assertThrows(ExampleException.class, () -> validator.validate(command));
+        assertEquals("String length must in the interval [4,6].", e.getMessage());
+    }
+
+    @Test
+    void allMatch_specifiedExceptionFunction_invalidInput() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                    .allMatch(str -> checkStringLength(str, 4, 6),
+                        str -> ExampleException.withMessage("Validation failed: '%s'.", str));
+            }
+        };
+
+        ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("1234", "12345", "123456", "1234567"));
+        ExampleException e = assertThrows(ExampleException.class, () -> validator.validate(command));
+        assertEquals("Validation failed: '1234567'.", e.getMessage());
+    }
+
+    // ================================
+    // #endregion - allMatch
+    // ================================
+
     static ExampleCommand exampleCommandWithStringListProperty(List<String> property) {
         ExampleCommand exampleCommand = new ExampleCommand();
         exampleCommand.setStringListProperty(property);
