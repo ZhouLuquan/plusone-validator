@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Objects;
-import java.util.AbstractMap.SimpleEntry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +43,7 @@ public class PairPropertyValidatorTests {
     void must_validInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair((ExampleCommand command) -> new SimpleEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
+                ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), MESSAGE)
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), () -> ExampleException.withMessage(MESSAGE))
@@ -60,7 +60,7 @@ public class PairPropertyValidatorTests {
     void must_default_invalidInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair((ExampleCommand command) -> new SimpleEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
+                ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()));
             }
         };
@@ -75,7 +75,7 @@ public class PairPropertyValidatorTests {
     void must_message_invalidInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair((ExampleCommand command) -> new SimpleEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
+                ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), MESSAGE);
             }
         };
@@ -89,7 +89,7 @@ public class PairPropertyValidatorTests {
     void must_exceptionSupplier_invalidInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair((ExampleCommand command) -> new SimpleEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
+                ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), () -> ExampleException.withMessage(MESSAGE));
             }
         };
@@ -104,7 +104,7 @@ public class PairPropertyValidatorTests {
     void must_exceptionFunction_invalidInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair((ExampleCommand command) -> new SimpleEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
+                ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()),
                                 (str, intValue) -> ExampleException.withMessage("Validation failed: ('%s', %d).", str, intValue));
             }

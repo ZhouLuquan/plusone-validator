@@ -16,7 +16,7 @@
 
 package xyz.zhouxy.plusone.validator;
 
-import java.util.AbstractMap.SimpleEntry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -205,7 +205,8 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
     protected final <V1 extends V, V2 extends V>
     PairPropertyValidator<Map<K, V>, V1, V2> ruleForPair(K k1, K k2) {
         @SuppressWarnings("unchecked")
-        Function<Map<K, V>, Entry<V1, V2>> getter = m -> new SimpleEntry<V1, V2>((V1) m.get(k1), (V2) m.get(k2));
+        Function<Map<K, V>, Entry<V1, V2>> getter = m ->
+                new SimpleImmutableEntry<>((V1) m.get(k1), (V2) m.get(k2));
         return ruleForPair(getter);
     }
 
