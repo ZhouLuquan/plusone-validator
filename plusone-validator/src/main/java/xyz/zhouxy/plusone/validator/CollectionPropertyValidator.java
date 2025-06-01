@@ -22,6 +22,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import xyz.zhouxy.plusone.commons.collection.CollectionTools;
+import xyz.zhouxy.plusone.commons.util.AssertTools;
 
 /**
  * 针对集合类型的属性校验器
@@ -82,8 +83,7 @@ public class CollectionPropertyValidator<T, TElement>
      */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> notEmpty(
             Function<Collection<TElement>, E> e) {
-        withRule(CollectionTools::isNotEmpty, e);
-        return this;
+        return withRule(CollectionTools::isNotEmpty, e);
     }
 
     // ================================
@@ -132,8 +132,7 @@ public class CollectionPropertyValidator<T, TElement>
      */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> isEmpty(
             Function<Collection<TElement>, E> e) {
-        withRule(CollectionTools::isEmpty, e);
-        return this;
+        return withRule(CollectionTools::isEmpty, e);
     }
 
     // ================================
@@ -186,16 +185,110 @@ public class CollectionPropertyValidator<T, TElement>
      */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> allMatch(
             Predicate<TElement> condition, Function<TElement, E> e) {
-        withRule(c -> c.forEach(element -> {
+        return withRule(c -> c.forEach(element -> {
             if (!condition.test(element)) {
                 throw e.apply(element);
             }
         }));
-        return this;
     }
 
     // ================================
     // #endregion - allMatch
+    // ================================
+
+    // ================================
+    // #region - size
+    // ================================
+
+    /**
+     * 添加一条校验属性的规则，校验属性大小是否等于指定大小
+     *
+     * @param size 指定大小
+     * @param errMsg 异常信息
+     * @return 属性校验器
+     */
+    public CollectionPropertyValidator<T, TElement> size(int size, String errMsg) {
+        return size(size, convertToExceptionFunction(errMsg));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性大小是否等于指定大小
+     *
+     * @param <E> 异常类型
+     * @param size 指定大小
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
+            int size, Supplier<E> e) {
+        return size(size, convertToExceptionFunction(e));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性大小是否等于指定大小
+     *
+     * @param <E> 异常类型
+     * @param size 指定大小
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
+            int size, Function<Collection<TElement>, E> e) {
+        AssertTools.checkArgument(size >= 0,
+                "The expected size must be greater than or equal to 0.");
+        return withRule(s -> s == null || s.size() == size, e);
+    }
+
+    static <TElement> boolean checkSize(Collection<TElement> str, int min, int max) {
+        if (str == null) {
+            return true;
+        }
+        final int size = str.size();
+        return size >= min && size <= max;
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性的大小范围
+     *
+     * @param min 最小大小
+     * @param max 最大大小
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
+    public CollectionPropertyValidator<T, TElement> size(int min, int max, String errMsg) {
+        return size(min, max, convertToExceptionFunction(errMsg));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性的大小范围
+     *
+     * @param min 最小大小
+     * @param max 最大大小
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
+            int min, int max, Supplier<E> e) {
+        return size(min, max, convertToExceptionFunction(e));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性的大小范围
+     *
+     * @param min 最小大小
+     * @param max 最大大小
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
+            int min, int max, Function<Collection<TElement>, E> e) {
+        AssertTools.checkArgument(min >= 0, "min must be non-negative.");
+        AssertTools.checkArgument(min <= max, "min must be less than or equal to max.");
+        return withRule(s -> checkSize(s, min, max), e);
+    }
+
+    // ================================
+    // #endregion - size
     // ================================
 
     @Override

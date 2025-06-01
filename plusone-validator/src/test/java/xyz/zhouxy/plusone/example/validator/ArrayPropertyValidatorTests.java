@@ -22,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import xyz.zhouxy.plusone.ExampleException;
 import xyz.zhouxy.plusone.example.ExampleCommand;
@@ -358,9 +360,157 @@ public class ArrayPropertyValidatorTests {
     // #endregion - allMatch
     // ================================
 
+    // ================================
+    // #region - length
+    // ================================
+
+    private static final int MIN_LENGTH = 6;
+    private static final int MAX_LENGTH = 8;
+
+    @Test
+    void length_specifiedLength_validLength() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, "The length of the array must be 6")
+                        .length(MIN_LENGTH, () -> ExampleException.withMessage("The length of the array must be 6"))
+                        .length(MIN_LENGTH, arr -> ExampleException.withMessage("The length of the array must be 6, but it was %d", arr.length));
+            }
+        };
+        ExampleCommand validCommand = exampleCommandWithStringArrayProperty(6);
+        assertDoesNotThrow(() -> validator.validate(validCommand));
+
+        ExampleCommand commandWithNullStringProperty = exampleCommandWithStringArrayProperty(null);
+        assertDoesNotThrow(() -> validator.validate(commandWithNullStringProperty));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 7, 8, 9, 10 })
+    void length_specifiedLength_invalidLength(int length) {
+        ExampleCommand command = exampleCommandWithStringArrayProperty(length);
+
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, "The length of the array must be 6");
+            }
+        };
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals("The length of the array must be 6", eWithSpecifiedMessage.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, () -> ExampleException.withMessage("The length of the array must be 6"));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+                ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals("The length of the array must be 6", specifiedException.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, arr -> ExampleException.withMessage("The length of the array must be 6, but it was %d", arr.length));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+                ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals(
+                String.format("The length of the array must be 6, but it was %d", length),
+                specifiedException2.getMessage());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 6, 7, 8 })
+    void length_specifiedMinLengthAndMaxLength_validLength(int length) {
+        ExampleCommand command = exampleCommandWithStringArrayProperty(length);
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, () -> ExampleException.withMessage("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, arr -> ExampleException.withMessage("Length of stringArrayProperty is %d, min length is %d, max length is %d", arr.length, MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void length_specifiedMinLengthAndMaxLength_null() {
+        ExampleCommand command = exampleCommandWithStringArrayProperty(null);
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, () -> ExampleException.withMessage("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH))
+                        .length(MIN_LENGTH, MAX_LENGTH, arr -> ExampleException.withMessage("Length of stringArrayProperty is %d, min length is %d, max length is %d", arr.length, MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+
+    @ParameterizedTest
+    @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12 })
+    void length_specifiedMinLengthAndMaxLength_invalidLength(int length) {
+        ExampleCommand command = exampleCommandWithStringArrayProperty(length);
+
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, String.format("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals("Min length is 6, max length is 8", eWithSpecifiedMessage.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, () -> ExampleException.withMessage("Min length is %d, max length is %d", MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals("Min length is 6, max length is 8", specifiedException.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForArray(ExampleCommand::getStringArrayProperty)
+                        .length(MIN_LENGTH, MAX_LENGTH, arr -> ExampleException.withMessage("Length of stringArrayProperty is %d, min length is %d, max length is %d", arr.length, MIN_LENGTH, MAX_LENGTH));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals(
+                String.format("Length of stringArrayProperty is %d, min length is %d, max length is %d", length, MIN_LENGTH, MAX_LENGTH),
+                specifiedException2.getMessage());
+    }
+
+    // ================================
+    // #endregion - length
+    // ================================
+
     static ExampleCommand exampleCommandWithStringArrayProperty(String[] property) {
         ExampleCommand exampleCommand = new ExampleCommand();
         exampleCommand.setStringArrayProperty(property);
+        return exampleCommand;
+    }
+
+    static ExampleCommand exampleCommandWithStringArrayProperty(int specifiedLength) {
+        ExampleCommand exampleCommand = new ExampleCommand();
+        String[] arr = new String[specifiedLength];
+        Arrays.fill(arr, "a");
+        exampleCommand.setStringArrayProperty(arr);
         return exampleCommand;
     }
 }

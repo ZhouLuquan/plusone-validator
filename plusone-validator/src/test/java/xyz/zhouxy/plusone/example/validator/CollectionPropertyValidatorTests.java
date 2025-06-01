@@ -20,10 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.google.common.collect.Lists;
 
@@ -362,9 +365,156 @@ public class CollectionPropertyValidatorTests {
     // #endregion - allMatch
     // ================================
 
+    // ================================
+    // #region - size
+    // ================================
+
+    private static final int MIN_SIZE = 6;
+    private static final int MAX_SIZE = 8;
+
+    @Test
+    void size_specifiedSize_validSize() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, "The size of the collection must be 6")
+                        .size(MIN_SIZE, () -> ExampleException.withMessage("The size of the collection must be 6"))
+                        .size(MIN_SIZE, c -> ExampleException.withMessage("The size of the collection must be 6, but it was %d", c.size()));
+            }
+        };
+        ExampleCommand validCommand = exampleCommandWithStringListProperty(6);
+        assertDoesNotThrow(() -> validator.validate(validCommand));
+
+        ExampleCommand commandWithNullStringProperty = exampleCommandWithStringListProperty(null);
+        assertDoesNotThrow(() -> validator.validate(commandWithNullStringProperty));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 7, 8, 9, 10 })
+    void size_specifiedSize_invalidSize(int size) {
+        ExampleCommand command = exampleCommandWithStringListProperty(size);
+
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, "The size of the collection must be 6");
+            }
+        };
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals("The size of the collection must be 6", eWithSpecifiedMessage.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, () -> ExampleException.withMessage("The size of the collection must be 6"));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+                ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals("The size of the collection must be 6", specifiedException.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, c -> ExampleException.withMessage("The size of the collection must be 6, but it was %d", c.size()));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+                ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals(
+                String.format("The size of the collection must be 6, but it was %d", size),
+                specifiedException2.getMessage());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 6, 7, 8 })
+    void size_specifiedMinSizeAndMaxSize_validSize(int size) {
+        ExampleCommand command = exampleCommandWithStringListProperty(size);
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, MAX_SIZE, String.format("Min size is %d, max size is %d", MIN_SIZE, MAX_SIZE))
+                        .size(MIN_SIZE, MAX_SIZE, () -> ExampleException.withMessage("Min size is %d, max size is %d", MIN_SIZE, MAX_SIZE))
+                        .size(MIN_SIZE, MAX_SIZE, c -> ExampleException.withMessage("Size of stringCollectionProperty is %d, min size is %d, max size is %d", c.size(), MIN_SIZE, MAX_SIZE));
+            }
+        };
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void size_specifiedMinSizeAndMaxSize_null() {
+        ExampleCommand command = exampleCommandWithStringListProperty(null);
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, MAX_SIZE, String.format("Min size is %d, max size is %d", MIN_SIZE, MAX_SIZE))
+                        .size(MIN_SIZE, MAX_SIZE, () -> ExampleException.withMessage("Min size is %d, max size is %d", MIN_SIZE, MAX_SIZE))
+                        .size(MIN_SIZE, MAX_SIZE, c -> ExampleException.withMessage("Size of stringCollectionProperty is %d, min size is %d, max size is %d", c.size(), MIN_SIZE, MAX_SIZE));
+            }
+        };
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12 })
+    void size_specifiedMinSizeAndMaxSize_invalidSize(int size) {
+        ExampleCommand command = exampleCommandWithStringListProperty(size);
+
+        IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, MAX_SIZE, String.format("Min size is %d, max size is %d", MIN_SIZE, MAX_SIZE));
+            }
+        };
+        ValidationException eWithSpecifiedMessage = assertThrows(
+                ValidationException.class,
+                () -> ruleWithMessage.validate(command));
+        assertEquals("Min size is 6, max size is 8", eWithSpecifiedMessage.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, MAX_SIZE, () -> ExampleException.withMessage("Min size is %d, max size is %d", MIN_SIZE, MAX_SIZE));
+            }
+        };
+        ExampleException specifiedException = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionSupplier.validate(command));
+        assertEquals("Min size is 6, max size is 8", specifiedException.getMessage());
+
+        IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForCollection(ExampleCommand::getStringListProperty)
+                        .size(MIN_SIZE, MAX_SIZE, c -> ExampleException.withMessage("Size of stringCollectionProperty is %d, min size is %d, max size is %d", c.size(), MIN_SIZE, MAX_SIZE));
+            }
+        };
+        ExampleException specifiedException2 = assertThrows(
+            ExampleException.class,
+                () -> ruleWithExceptionFunction.validate(command));
+        assertEquals(
+                String.format("Size of stringCollectionProperty is %d, min size is %d, max size is %d", size, MIN_SIZE, MAX_SIZE),
+                specifiedException2.getMessage());
+    }
+
+    // ================================
+    // #endregion - size
+    // ================================
+
     static ExampleCommand exampleCommandWithStringListProperty(List<String> property) {
         ExampleCommand exampleCommand = new ExampleCommand();
         exampleCommand.setStringListProperty(property);
+        return exampleCommand;
+    }
+
+    static ExampleCommand exampleCommandWithStringListProperty(int specifiedSize) {
+        ExampleCommand exampleCommand = new ExampleCommand();
+        String[] arr = new String[specifiedSize];
+        Arrays.fill(arr, "a");
+        exampleCommand.setStringListProperty(Arrays.asList(arr));
         return exampleCommand;
     }
 }
