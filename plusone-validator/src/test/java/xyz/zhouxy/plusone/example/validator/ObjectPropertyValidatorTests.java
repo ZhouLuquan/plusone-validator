@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
@@ -62,6 +63,8 @@ public class ObjectPropertyValidatorTests {
                         .notNull(() -> ExampleException.withMessage("The objectProperty cannot be null"));
                 ruleFor(ExampleCommand::getStringListProperty)
                         .notNull(d -> ExampleException.withMessage("The stringListProperty cannot be null, but it was %s", d));
+                ruleFor(ExampleCommand::getStringArrayProperty)
+                        .notNull(d -> ExampleException.withMessage("The stringListProperty cannot be null, but it was %s", Arrays.toString(d)));
             }
         };
         ExampleCommand command = new ExampleCommand(
@@ -72,7 +75,8 @@ public class ObjectPropertyValidatorTests {
                 "StringValue",
                 LocalDateTime.now().plusDays(1),
                 new Foo(Integer.MAX_VALUE, "StringValue"),
-                Lists.newArrayList("ABC", "DEF"));
+                Lists.newArrayList("ABC", "DEF"),
+                new String[] { "ABC", "DEF" });
 
         assertDoesNotThrow(() -> validator.validate(command));
     }
@@ -150,6 +154,8 @@ public class ObjectPropertyValidatorTests {
                         .isNull(() -> ExampleException.withMessage("The objectProperty should be null"));
                 ruleFor(ExampleCommand::getStringListProperty)
                         .isNull(d -> ExampleException.withMessage("The stringListProperty should be null, but it was %s", d));
+                ruleFor(ExampleCommand::getStringArrayProperty)
+                        .isNull(d -> ExampleException.withMessage("The stringListProperty should be null, but it was %s", Arrays.toString(d)));
             }
         };
         ExampleCommand command = new ExampleCommand();

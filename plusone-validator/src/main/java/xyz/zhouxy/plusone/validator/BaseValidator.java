@@ -248,6 +248,18 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
+     * 添加一个针对数组属性的校验器
+     *
+     * @param getter 获取属性值的函数
+     * @return 集合属性校验器
+     */
+    protected final <E> ArrayPropertyValidator<T, E> ruleForArray(Function<T, E[]> getter) {
+        ArrayPropertyValidator<T, E> validator = new ArrayPropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
+    /**
      * 添加一个针对二元组的校验器
      * @param <V1> 第一个元素的类型
      * @param <V2> 第二个元素的类型

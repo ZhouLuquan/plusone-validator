@@ -16,6 +16,7 @@
 package xyz.zhouxy.plusone.example;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,13 +31,14 @@ public class ExampleCommand {
     private LocalDateTime dateTimeProperty;
     private Foo objectProperty;
     private List<String> stringListProperty;
+    private String[] stringArrayProperty;
 
     public ExampleCommand() {
     }
 
     public ExampleCommand(Boolean boolProperty, Integer intProperty, Long longProperty, Double doubleProperty,
             String stringProperty, LocalDateTime dateTimeProperty, Foo objectProperty,
-            List<String> stringListProperty) {
+            List<String> stringListProperty, String[] stringArrayProperty) {
         this.boolProperty = boolProperty;
         this.intProperty = intProperty;
         this.longProperty = longProperty;
@@ -45,6 +47,7 @@ public class ExampleCommand {
         this.dateTimeProperty = dateTimeProperty;
         this.objectProperty = objectProperty;
         this.stringListProperty = stringListProperty;
+        this.stringArrayProperty = stringArrayProperty;
     }
 
     public Boolean getBoolProperty() {
@@ -111,11 +114,20 @@ public class ExampleCommand {
         this.stringListProperty = stringListProperty;
     }
 
+    public String[] getStringArrayProperty() {
+        return stringArrayProperty;
+    }
+
+    public void setStringArrayProperty(String[] stringArrayProperty) {
+        this.stringArrayProperty = stringArrayProperty;
+    }
+
     @Override
     public String toString() {
         return "ExampleCommand [boolProperty=" + boolProperty + ", intProperty=" + intProperty + ", longProperty="
                 + longProperty + ", doubleProperty=" + doubleProperty + ", stringProperty=" + stringProperty
                 + ", dateTimeProperty=" + dateTimeProperty + ", objectProperty=" + objectProperty
-                + ", stringListProperty=" + stringListProperty + "]";
+                + ", stringListProperty=" + stringListProperty + ", stringArrayProperty="
+                + Arrays.toString(stringArrayProperty) + "]";
     }
 }
