@@ -27,7 +27,7 @@ import xyz.zhouxy.plusone.commons.collection.CollectionTools;
  * 针对集合类型的属性校验器
  *
  * <p>
- * 内置判断集合是否为空的校验规则。
+ * 内置集合相关的校验规则。
  *
  * @author ZhouXY
  */
@@ -186,7 +186,7 @@ public class CollectionPropertyValidator<T, TElement>
      */
     public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> allMatch(
             Predicate<TElement> condition, Function<TElement, E> e) {
-        withRule(c -> c.stream().forEach(element -> {
+        withRule(c -> c.forEach(element -> {
             if (!condition.test(element)) {
                 throw e.apply(element);
             }
