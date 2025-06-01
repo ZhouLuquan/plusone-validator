@@ -16,9 +16,11 @@
 
 package xyz.zhouxy.plusone.validator;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -107,6 +109,7 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
     /**
      * 添加一个属性校验器，对指定 key 对应的 value 进行校验
      *
+     * @param <T> 属性类型
      * @param key key
      * @return 属性校验器
      */
@@ -189,6 +192,21 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
         @SuppressWarnings("unchecked")
         Function<Map<K, V>, Collection<E>> getter = m -> (Collection<E>) m.get(key);
         return ruleForCollection(getter);
+    }
+
+    /**
+     * 添加一个属性校验器，对指定的两个 key 对应的 value 进行校验
+     * @param <V1> 第一个属性的类型
+     * @param <V2> 第二个属性的类型
+     * @param k1 第一个 key
+     * @param k2 第二个 key
+     * @return 属性校验器
+     */
+    protected final <V1 extends V, V2 extends V>
+    PairPropertyValidator<Map<K, V>, V1, V2> ruleForPair(K k1, K k2) {
+        @SuppressWarnings("unchecked")
+        Function<Map<K, V>, Entry<V1, V2>> getter = m -> new SimpleEntry<V1, V2>((V1) m.get(k1), (V2) m.get(k2));
+        return ruleForPair(getter);
     }
 
     // ================================

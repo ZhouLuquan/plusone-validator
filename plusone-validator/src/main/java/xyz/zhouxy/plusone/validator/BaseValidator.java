@@ -19,6 +19,7 @@ package xyz.zhouxy.plusone.validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -242,6 +243,19 @@ public abstract class BaseValidator<T> implements IValidator<T> {
      */
     protected final <E> CollectionPropertyValidator<T, E> ruleForCollection(Function<T, Collection<E>> getter) {
         CollectionPropertyValidator<T, E> validator = new CollectionPropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
+    /**
+     * 添加一个针对二元组的校验器
+     * @param <V1> 第一个元素的类型
+     * @param <V2> 第二个元素的类型
+     * @param getter 获取属性值的函数
+     * @return 二元组校验器
+     */
+    protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleForPair(Function<T, Entry<V1, V2>> getter) {
+        PairPropertyValidator<T, V1, V2> validator = new PairPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
     }

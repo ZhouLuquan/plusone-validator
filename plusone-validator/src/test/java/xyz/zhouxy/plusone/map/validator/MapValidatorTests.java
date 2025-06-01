@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -126,9 +125,9 @@ class ParamsValidator extends MapValidator<String, Object> {
         ruleForCollection(STRING_LIST_PROPERTY)
                 .notNull(d -> ExampleException.withMessage("The stringListProperty cannot be null, but it was %s", d));
 
-        // 校验到多个属性，只能针对 map 本身进行校验
-        withRule(m -> Objects.equals(m.get(STRING_PROPERTY), m.get(STRING_PROPERTY2)),
-                "'stringProperty' must be equal to 'stringProperty2'.");
+        ruleForPair(STRING_PROPERTY, STRING_PROPERTY2)
+                .must((str1, str2) -> str1 != null && str1.equals(str2),
+                        "'stringProperty' must be equal to 'stringProperty2'.");
     }
 
     public static Set<String> keySet() {
