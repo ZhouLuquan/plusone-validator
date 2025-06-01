@@ -231,8 +231,11 @@ public class ObjectPropertyValidatorTests {
             }
         };
         ExampleCommand command = new ExampleCommand();
-        command.setStringProperty("Foo");
 
+        command.setStringProperty(null);
+        assertDoesNotThrow(() -> validator.validate(command));
+
+        command.setStringProperty("Foo");
         assertDoesNotThrow(() -> validator.validate(command));
     }
 
@@ -281,52 +284,83 @@ public class ObjectPropertyValidatorTests {
         assertEquals("The stringProperty should be equal to 'Foo', but is was 'Bar'.", specifiedException2.getMessage());
     }
 
+    // ================================
+    // #endregion - equalTo
+    // ================================
+
+    // ================================
+    // #region - notEqual
+    // ================================
+
     @Test
-    void equalTo_nullInput() {
+    void notEqual_validInput() {
+        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForString(ExampleCommand::getStringProperty)
+                        .notEqual("Foo")
+                        .notEqual("Foo", "The stringProperty should not equal 'Foo'.")
+                        .notEqual("Foo", () ->
+                                ExampleException.withMessage("The stringProperty should not equal 'Foo'."))
+                        .notEqual("Foo", str ->
+                                ExampleException.withMessage("The stringProperty should not equal 'Foo', but is was '%s'.", str));
+            }
+        };
         ExampleCommand command = new ExampleCommand();
+
+        command.setStringProperty(null);
+        assertDoesNotThrow(() -> validator.validate(command));
+
+        command.setStringProperty("Bar");
+        assertDoesNotThrow(() -> validator.validate(command));
+    }
+
+    @Test
+    void notEqual_invalidInput() {
+        ExampleCommand command = new ExampleCommand();
+        command.setStringProperty("Foo");
 
         IValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo");
+                ruleForString(ExampleCommand::getStringProperty).notEqual("Foo");
             }
         };
         ValidationException eWithDefaultMessage = assertThrows(
                 ValidationException.class, () -> defaultRule.validate(command));
-        assertEquals("The input must be equal to 'Foo'.", eWithDefaultMessage.getMessage());
+        assertEquals("The input must not equal 'Foo'.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
-                        "The stringProperty should be equal to 'Foo'.");
+                ruleForString(ExampleCommand::getStringProperty).notEqual("Foo",
+                        "The stringProperty should not equal 'Foo'.");
             }
         };
         ValidationException eWithSpecifiedMessage = assertThrows(
                 ValidationException.class, () -> ruleWithMessage.validate(command));
-        assertEquals("The stringProperty should be equal to 'Foo'.", eWithSpecifiedMessage.getMessage());
+        assertEquals("The stringProperty should not equal 'Foo'.", eWithSpecifiedMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
-                        () -> ExampleException.withMessage("The stringProperty should be equal to 'Foo'."));
+                ruleForString(ExampleCommand::getStringProperty).notEqual("Foo",
+                        () -> ExampleException.withMessage("The stringProperty should not equal 'Foo'."));
             }
         };
         ExampleException specifiedException = assertThrows(
                 ExampleException.class, () -> ruleWithExceptionSupplier.validate(command));
-        assertEquals("The stringProperty should be equal to 'Foo'.", specifiedException.getMessage());
+        assertEquals("The stringProperty should not equal 'Foo'.", specifiedException.getMessage());
 
         IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
-                        str -> ExampleException.withMessage("The stringProperty should be equal to 'Foo', but is was '%s'.", str));
+                ruleForString(ExampleCommand::getStringProperty).notEqual("Foo",
+                        str -> ExampleException.withMessage("The stringProperty should not equal 'Foo', but is was '%s'.", str));
             }
         };
         ExampleException specifiedException2 = assertThrows(
                 ExampleException.class, () -> ruleWithExceptionFunction.validate(command));
-        assertEquals("The stringProperty should be equal to 'Foo', but is was 'null'.", specifiedException2.getMessage());
+        assertEquals("The stringProperty should not equal 'Foo', but is was 'Foo'.", specifiedException2.getMessage());
     }
 
     // ================================
-    // #endregion - equalTo
+    // #endregion - notEqual
     // ================================
 
     // ================================

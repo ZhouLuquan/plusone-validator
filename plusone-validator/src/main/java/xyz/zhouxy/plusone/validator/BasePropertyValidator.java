@@ -237,12 +237,69 @@ public abstract class BasePropertyValidator<T, TProperty, TPropertyValidator ext
      */
     public <E extends RuntimeException> TPropertyValidator equalTo(
             Object that, Function<TProperty, E> e) {
-        withRule(value -> Objects.equals(value, that), e);
+        withRule(value -> value == null || value.equals(that), e);
         return thisObject();
     }
 
     // ================================
     // #endregion - equalTo
+    // ================================
+
+    // ================================
+    // #region - notEqual
+    // ================================
+
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param that 给定值
+     * @return 属性校验器
+     */
+    public TPropertyValidator notEqual(Object that) {
+        return notEqual(that, value -> ValidationException
+                .withMessage("The input must not equal '%s'.", that));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param that 给定值
+     * @param errMsg 错误信息
+     * @return 属性校验器
+     */
+    public TPropertyValidator notEqual(Object that, String errMsg) {
+        return notEqual(that, convertToExceptionFunction(errMsg));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param <E> 自定义异常类型
+     * @param that 给定值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> TPropertyValidator notEqual(
+            Object that, Supplier<E> e) {
+        return notEqual(that, convertToExceptionFunction(e));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * @param <E> 自定义异常类型
+     * @param that 给定值
+     * @param e 自定义异常
+     * @return 属性校验器
+     */
+    public <E extends RuntimeException> TPropertyValidator notEqual(
+            Object that, Function<TProperty, E> e) {
+        withRule(value -> value == null || !value.equals(that), e);
+        return thisObject();
+    }
+
+    // ================================
+    // #endregion - notEqual
     // ================================
 
     // ================================
