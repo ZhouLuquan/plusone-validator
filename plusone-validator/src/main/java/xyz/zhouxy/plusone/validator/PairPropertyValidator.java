@@ -36,7 +36,7 @@ public class PairPropertyValidator<T, V1, V2>
     /**
      * 添加一条校验属性的规则，校验二元组是否满足给定的条件
      *
-     * @param condition 校验规则
+     * @param condition 校验条件
      * @return 属性校验器
      */
     public final PairPropertyValidator<T, V1, V2> must(BiPredicate<V1, V2> condition) {
@@ -46,37 +46,37 @@ public class PairPropertyValidator<T, V1, V2>
     /**
      * 添加一条校验属性的规则，校验二元组是否满足给定的条件
      *
-     * @param condition 校验规则
-     * @param errMsg 错误信息
+     * @param condition 校验条件
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public final PairPropertyValidator<T, V1, V2> must(BiPredicate<V1, V2> condition, String errMsg) {
-        return must(pair -> condition.test(pair.getKey(), pair.getValue()), errMsg);
+    public final PairPropertyValidator<T, V1, V2> must(BiPredicate<V1, V2> condition, String errorMessage) {
+        return must(pair -> condition.test(pair.getKey(), pair.getValue()), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验二元组是否满足给定的条件
      *
-     * @param condition 校验规则
-     * @param e 自定义异常
+     * @param condition 校验条件
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public final <E extends RuntimeException> PairPropertyValidator<T, V1, V2> must(
-            BiPredicate<V1, V2> condition, Supplier<E> e) {
-        return must(pair -> condition.test(pair.getKey(), pair.getValue()), e);
+    public final <X extends RuntimeException> PairPropertyValidator<T, V1, V2> must(
+            BiPredicate<V1, V2> condition, Supplier<X> exceptionSupplier) {
+        return must(pair -> condition.test(pair.getKey(), pair.getValue()), exceptionSupplier);
     }
 
      /**
      * 添加一条校验属性的规则，校验二元组是否满足给定的条件
      *
-     * @param condition 校验规则
-     * @param e 自定义异常
+     * @param condition 校验条件
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public final <E extends RuntimeException> PairPropertyValidator<T, V1, V2> must(
-            BiPredicate<V1, V2> condition, BiFunction<V1, V2, E> e) {
+    public final <X extends RuntimeException> PairPropertyValidator<T, V1, V2> must(
+            BiPredicate<V1, V2> condition, BiFunction<V1, V2, X> exceptionFunction) {
         return must(pair -> condition.test(pair.getKey(), pair.getValue()),
-                pair -> e.apply(pair.getKey(), pair.getValue()));
+                pair -> exceptionFunction.apply(pair.getKey(), pair.getValue()));
     }
 
     @Override

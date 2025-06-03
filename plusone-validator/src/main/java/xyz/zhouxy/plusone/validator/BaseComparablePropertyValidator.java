@@ -17,6 +17,7 @@
 package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Range;
@@ -33,7 +34,10 @@ import com.google.common.collect.Range;
  * @see Range
  * @author ZhouXY
  */
-public abstract class BaseComparablePropertyValidator<T, TProperty extends Comparable<TProperty>, TPropertyValidator extends BaseComparablePropertyValidator<T, TProperty, TPropertyValidator>>
+public abstract class BaseComparablePropertyValidator<
+            T,
+            TProperty extends Comparable<TProperty>,
+            TPropertyValidator extends BaseComparablePropertyValidator<T, TProperty, TPropertyValidator>>
         extends BasePropertyValidator<T, TProperty, TPropertyValidator> {
 
     BaseComparablePropertyValidator(Function<T, ? extends TProperty> getter) {
@@ -46,47 +50,51 @@ public abstract class BaseComparablePropertyValidator<T, TProperty extends Compa
      * @param range 区间
      * @return 属性校验器
      */
-    public TPropertyValidator inRange(Range<TProperty> range) {
-        withRule(value -> value != null && range.contains(value), value -> ValidationException.withMessage(
+    public final TPropertyValidator inRange(final Range<TProperty> range) {
+        return withRule(Conditions.inRange(range), value -> ValidationException.withMessage(
                 "The input must in the interval %s. You entered %s.", range, value));
-        return thisObject();
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否在给定的区间之内
      *
      * @param range 区间
-     * @param errMsg 错误信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public TPropertyValidator inRange(Range<TProperty> range, String errMsg) {
-        withRule(value -> value != null && range.contains(value), convertToExceptionFunction(errMsg));
-        return thisObject();
+    public final TPropertyValidator inRange(
+            final Range<TProperty> range, final String errorMessage) {
+        return withRule(Conditions.inRange(range), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否在给定的区间之内
      *
      * @param range 区间
-     * @param e 自定义异常
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> TPropertyValidator inRange(
-            Range<TProperty> range, Supplier<E> e) {
-        withRule(value -> value != null && range.contains(value), convertToExceptionFunction(e));
-        return thisObject();
+    public final <X extends RuntimeException> TPropertyValidator inRange(
+            final Range<TProperty> range, final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.inRange(range), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否在给定的区间之内
      *
      * @param range 区间
-     * @param e 自定义异常
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> TPropertyValidator inRange(
-            Range<TProperty> range, Function<TProperty, E> e) {
-        withRule(value -> value != null && range.contains(value), e);
-        return thisObject();
+    public final <X extends RuntimeException> TPropertyValidator inRange(
+            final Range<TProperty> range, final Function<TProperty, X> exceptionFunction) {
+        return withRule(Conditions.inRange(range), exceptionFunction);
+    }
+
+    private static class Conditions {
+        private static <TProperty extends Comparable<TProperty>> Predicate<TProperty> inRange(
+                final Range<TProperty> range) {
+            return value -> value == null || range.contains(value);
+        }
     }
 }

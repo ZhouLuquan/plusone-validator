@@ -17,7 +17,6 @@ package xyz.zhouxy.plusone.example.validator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -60,8 +59,9 @@ public class IntPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithIntProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -147,80 +147,6 @@ public class IntPropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - gt_null
-    // ================================
-
-    @Test
-    void gt_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .gt(MIN);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be greater than '%d'.", MIN), e.getMessage());
-    }
-
-    @Test
-    void gt_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .gt(MIN, MESSAGE_GT);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GT, e.getMessage());
-    }
-
-    @Test
-    void gt_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .gt(MIN, () -> ExampleException.withMessage(MESSAGE_GT));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GT, e.getMessage());
-    }
-
-    @Test
-    void gt_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .gt(MIN, property -> ExampleException.withMessage(
-                                "The intProperty should be greater than %d, but it is %d", MIN, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The intProperty should be greater than %d, but it is null", MIN);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - gt_null
-    // ================================
-
-    // ================================
     // #region - ge_validValue
     // ================================
 
@@ -242,8 +168,9 @@ public class IntPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithIntProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -329,80 +256,6 @@ public class IntPropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - ge_null
-    // ================================
-
-    @Test
-    void ge_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .ge(MIN);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be greater than or equal to '%d'.", MIN), e.getMessage());
-    }
-
-    @Test
-    void ge_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .ge(MIN, MESSAGE_GE);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GE, e.getMessage());
-    }
-
-    @Test
-    void ge_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .ge(MIN, () -> ExampleException.withMessage(MESSAGE_GE));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GE, e.getMessage());
-    }
-
-    @Test
-    void ge_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .ge(MIN, property -> ExampleException.withMessage(
-                                "The intProperty should be greater than or equal to %d, but it is %d", MIN, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The intProperty should be greater than or equal to %d, but it is null", MIN);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - ge_null
-    // ================================
-
-    // ================================
     // #region - lt_validValue
     // ================================
 
@@ -424,8 +277,9 @@ public class IntPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithIntProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -511,80 +365,6 @@ public class IntPropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - lt_null
-    // ================================
-
-    @Test
-    void lt_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .lt(MAX);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be less than '%d'.", MAX), e.getMessage());
-    }
-
-    @Test
-    void lt_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .lt(MAX, MESSAGE_LT);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LT, e.getMessage());
-    }
-
-    @Test
-    void lt_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .lt(MAX, () -> ExampleException.withMessage(MESSAGE_LT));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LT, e.getMessage());
-    }
-
-    @Test
-    void lt_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .lt(MAX, property -> ExampleException.withMessage(
-                                "The intProperty should be less than %d, but it is %d", MAX, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The intProperty should be less than %d, but it is null", MAX);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - lt_null
-    // ================================
-
-    // ================================
     // #region - le_validValue
     // ================================
 
@@ -606,8 +386,9 @@ public class IntPropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithIntProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -690,80 +471,6 @@ public class IntPropertyValidatorTests {
 
     // ================================
     // #endregion - le_invalidValue
-    // ================================
-
-    // ================================
-    // #region - le_null
-    // ================================
-
-    @Test
-    void le_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .le(MAX);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be less than or equal to '%d'.", MAX), e.getMessage());
-    }
-
-    @Test
-    void le_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .le(MAX, MESSAGE_LE);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LE, e.getMessage());
-    }
-
-    @Test
-    void le_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .le(MAX, () -> ExampleException.withMessage(MESSAGE_LE));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LE, e.getMessage());
-    }
-
-    @Test
-    void le_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForInt(ExampleCommand::getIntProperty)
-                        .le(MAX, property -> ExampleException.withMessage(
-                                "The intProperty should be less than or equal to %d, but it is %d", MAX, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithIntProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The intProperty should be less than or equal to %d, but it is null", MAX);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - le_null
     // ================================
 
     static ExampleCommand exampleCommandWithIntProperty(Integer intProperty) {

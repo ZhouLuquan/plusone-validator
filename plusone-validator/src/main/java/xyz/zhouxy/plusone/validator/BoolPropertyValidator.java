@@ -17,6 +17,7 @@
 package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -28,7 +29,8 @@ import java.util.function.Supplier;
  *
  * @author ZhouXY
  */
-public class BoolPropertyValidator<T> extends BasePropertyValidator<T, Boolean, BoolPropertyValidator<T>> {
+public class BoolPropertyValidator<T>
+        extends BasePropertyValidator<T, Boolean, BoolPropertyValidator<T>> {
 
     BoolPropertyValidator(Function<T, Boolean> getter) {
         super(getter);
@@ -41,40 +43,42 @@ public class BoolPropertyValidator<T> extends BasePropertyValidator<T, Boolean, 
      *
      * @return 属性校验器
      */
-    public BoolPropertyValidator<T> isTrueValue() {
-        return isTrueValue("The input must be true.");
+    public final BoolPropertyValidator<T> isTrueValue() {
+        return withRule(Conditions.isTrueValue(), "The input must be true.");
     }
 
     /**
      * 添加一条判断属性值是否为 {@code true} 的校验规则
      *
-     * @param errMsg 校验失败的错误信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public BoolPropertyValidator<T> isTrueValue(String errMsg) {
-        return isTrueValue(convertToExceptionFunction(errMsg));
+    public final BoolPropertyValidator<T> isTrueValue(final String errorMessage) {
+        return withRule(Conditions.isTrueValue(), errorMessage);
     }
 
     /**
      * 添加一条判断属性值是否为 {@code true} 的校验规则
      *
-     * @param <E> 自定义异常类型
-     * @param e 自定义异常
+     * @param <X> 自定义异常类型
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> BoolPropertyValidator<T> isTrueValue(Supplier<E> e) {
-        return isTrueValue(convertToExceptionFunction(e));
+    public final <X extends RuntimeException> BoolPropertyValidator<T> isTrueValue(
+            final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.isTrueValue(), exceptionSupplier);
     }
 
     /**
      * 添加一条判断属性值是否为 {@code true} 的校验规则
      *
-     * @param <E> 自定义异常类型
-     * @param e 自定义异常
+     * @param <X> 自定义异常类型
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> BoolPropertyValidator<T> isTrueValue(Function<Boolean, E> e) {
-        return withRule(Boolean.TRUE::equals, e);
+    public final <X extends RuntimeException> BoolPropertyValidator<T> isTrueValue(
+            Function<Boolean, X> exceptionFunction) {
+        return withRule(Conditions.isTrueValue(), exceptionFunction);
     }
 
     // ====== isFalseValue ======
@@ -84,40 +88,53 @@ public class BoolPropertyValidator<T> extends BasePropertyValidator<T, Boolean, 
      *
      * @return 属性校验器
      */
-    public BoolPropertyValidator<T> isFalseValue() {
-        return isFalseValue("The input must be false.");
+    public final BoolPropertyValidator<T> isFalseValue() {
+        return withRule(Conditions.isFalseValue(), "The input must be false.");
     }
 
     /**
      * 添加一条判断属性值是否为 {@code false} 的校验规则
      *
-     * @param errMsg 错误信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public BoolPropertyValidator<T> isFalseValue(String errMsg) {
-        return isFalseValue(convertToExceptionFunction(errMsg));
+    public final BoolPropertyValidator<T> isFalseValue(final String errorMessage) {
+        return withRule(Conditions.isFalseValue(), errorMessage);
     }
 
     /**
      * 添加一条判断属性值是否为 {@code false} 的校验规则
      *
-     * @param <E> 异常类型
-     * @param e 自定义异常
+     * @param <X> 异常类型
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> BoolPropertyValidator<T> isFalseValue(Supplier<E> e) {
-        return isFalseValue(convertToExceptionFunction(e));
+    public final <X extends RuntimeException> BoolPropertyValidator<T> isFalseValue(
+            final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.isFalseValue(), exceptionSupplier);
     }
 
     /**
      * 添加一条判断属性值是否为 {@code false} 的校验规则
      *
-     * @param <E> 异常类型
-     * @param e 自定义异常
+     * @param <X> 异常类型
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> BoolPropertyValidator<T> isFalseValue(Function<Boolean, E> e) {
-        return withRule(Boolean.FALSE::equals, e);
+    public final <X extends RuntimeException> BoolPropertyValidator<T> isFalseValue(
+            final Function<Boolean, X> exceptionFunction) {
+        return withRule(Conditions.isFalseValue(), exceptionFunction);
+    }
+
+    private static class Conditions {
+
+        private static <TProperty> Predicate<TProperty> isTrueValue() {
+            return Boolean.TRUE::equals;
+        }
+
+        private static <TProperty> Predicate<TProperty> isFalseValue() {
+            return Boolean.FALSE::equals;
+        }
     }
 
     @Override

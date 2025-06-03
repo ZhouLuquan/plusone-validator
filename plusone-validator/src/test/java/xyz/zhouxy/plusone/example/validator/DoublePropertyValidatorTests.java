@@ -18,7 +18,6 @@ package xyz.zhouxy.plusone.example.validator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -61,8 +60,9 @@ public class DoublePropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithDoubleProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -148,80 +148,6 @@ public class DoublePropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - gt_null
-    // ================================
-
-    @Test
-    void gt_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .gt(MIN);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be greater than '%s'.", MIN), e.getMessage());
-    }
-
-    @Test
-    void gt_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .gt(MIN, MESSAGE_GT);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GT, e.getMessage());
-    }
-
-    @Test
-    void gt_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .gt(MIN, () -> ExampleException.withMessage(MESSAGE_GT));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GT, e.getMessage());
-    }
-
-    @Test
-    void gt_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .gt(MIN, property -> ExampleException.withMessage(
-                                "The doubleProperty should be greater than %s, but it is %s", MIN, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The doubleProperty should be greater than %s, but it is null", MIN);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - gt_null
-    // ================================
-
-    // ================================
     // #region - ge_validValue
     // ================================
 
@@ -243,8 +169,9 @@ public class DoublePropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithDoubleProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -330,80 +257,6 @@ public class DoublePropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - ge_null
-    // ================================
-
-    @Test
-    void ge_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .ge(MIN);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be greater than or equal to '%s'.", MIN), e.getMessage());
-    }
-
-    @Test
-    void ge_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .ge(MIN, MESSAGE_GE);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GE, e.getMessage());
-    }
-
-    @Test
-    void ge_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .ge(MIN, () -> ExampleException.withMessage(MESSAGE_GE));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_GE, e.getMessage());
-    }
-
-    @Test
-    void ge_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .ge(MIN, property -> ExampleException.withMessage(
-                                "The doubleProperty should be greater than or equal to %s, but it is %s", MIN, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The doubleProperty should be greater than or equal to %s, but it is null", MIN);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - ge_null
-    // ================================
-
-    // ================================
     // #region - lt_validValue
     // ================================
 
@@ -425,8 +278,9 @@ public class DoublePropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithDoubleProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -512,80 +366,6 @@ public class DoublePropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - lt_null
-    // ================================
-
-    @Test
-    void lt_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .lt(MAX);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be less than '%s'.", MAX), e.getMessage());
-    }
-
-    @Test
-    void lt_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .lt(MAX, MESSAGE_LT);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LT, e.getMessage());
-    }
-
-    @Test
-    void lt_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .lt(MAX, () -> ExampleException.withMessage(MESSAGE_LT));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LT, e.getMessage());
-    }
-
-    @Test
-    void lt_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .lt(MAX, property -> ExampleException.withMessage(
-                                "The doubleProperty should be less than %s, but it is %s", MAX, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The doubleProperty should be less than %s, but it is null", MAX);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - lt_null
-    // ================================
-
-    // ================================
     // #region - le_validValue
     // ================================
 
@@ -607,8 +387,9 @@ public class DoublePropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithDoubleProperty(value);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -691,80 +472,6 @@ public class DoublePropertyValidatorTests {
 
     // ================================
     // #endregion - le_invalidValue
-    // ================================
-
-    // ================================
-    // #region - le_null
-    // ================================
-
-    @Test
-    void le_default_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .le(MAX);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be less than or equal to '%s'.", MAX), e.getMessage());
-    }
-
-    @Test
-    void le_message_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .le(MAX, MESSAGE_LE);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LE, e.getMessage());
-    }
-
-    @Test
-    void le_exceptionSupplier_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .le(MAX, () -> ExampleException.withMessage(MESSAGE_LE));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE_LE, e.getMessage());
-    }
-
-    @Test
-    void le_exceptionFunction_null() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForDouble(ExampleCommand::getDoubleProperty)
-                        .le(MAX, property -> ExampleException.withMessage(
-                                "The doubleProperty should be less than or equal to %s, but it is %s", MAX, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithDoubleProperty(null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class, () -> validator.validate(command));
-        final String expected = String.format("The doubleProperty should be less than or equal to %s, but it is null", MAX);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - le_null
     // ================================
 
     static ExampleCommand exampleCommandWithDoubleProperty(Double doubleProperty) {

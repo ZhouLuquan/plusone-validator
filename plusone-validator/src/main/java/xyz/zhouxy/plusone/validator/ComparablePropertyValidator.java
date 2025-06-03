@@ -26,8 +26,7 @@ import java.util.function.Function;
  *
  * @param <T> 待校验对象类型
  * @param <TProperty> 属性类型
- * @param <TPropertyValidator> 当前属性校验器类型，用于链式调用
- * @see Range
+ * @see com.google.common.collect.Range
  * @author ZhouXY
  */
 public class ComparablePropertyValidator<T, TProperty extends Comparable<TProperty>>

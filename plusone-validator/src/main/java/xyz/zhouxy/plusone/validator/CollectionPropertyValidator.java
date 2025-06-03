@@ -32,10 +32,10 @@ import xyz.zhouxy.plusone.commons.util.AssertTools;
  *
  * @author ZhouXY
  */
-public class CollectionPropertyValidator<T, TElement>
-        extends BasePropertyValidator<T, Collection<TElement>, CollectionPropertyValidator<T, TElement>> {
+public class CollectionPropertyValidator<T, E>
+        extends BasePropertyValidator<T, Collection<E>, CollectionPropertyValidator<T, E>> {
 
-    CollectionPropertyValidator(Function<T, Collection<TElement>> getter) {
+    CollectionPropertyValidator(Function<T, Collection<E>> getter) {
         super(getter);
     }
 
@@ -48,42 +48,42 @@ public class CollectionPropertyValidator<T, TElement>
      *
      * @return 属性校验器
      */
-    public CollectionPropertyValidator<T, TElement> notEmpty() {
-        return notEmpty("The input must not be empty.");
+    public final CollectionPropertyValidator<T, E> notEmpty() {
+        return withRule(Conditions.notEmpty(), "The input must not be empty.");
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否非空
      *
-     * @param errMsg 异常信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public CollectionPropertyValidator<T, TElement> notEmpty(String errMsg) {
-        return notEmpty(convertToExceptionFunction(errMsg));
+    public final CollectionPropertyValidator<T, E> notEmpty(final String errorMessage) {
+        return withRule(Conditions.notEmpty(), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否非空
      *
-     * @param <E> 自定义异常类型
-     * @param e 自定义异常
+     * @param <X> 自定义异常类型
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> notEmpty(
-            Supplier<E> e) {
-        return notEmpty(convertToExceptionFunction(e));
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> notEmpty(
+            final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.notEmpty(), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否非空
      *
-     * @param <E> 自定义异常类型
-     * @param e 自定义异常
+     * @param <X> 自定义异常类型
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> notEmpty(
-            Function<Collection<TElement>, E> e) {
-        return withRule(CollectionTools::isNotEmpty, e);
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> notEmpty(
+            final Function<Collection<E>, X> exceptionFunction) {
+        return withRule(Conditions.notEmpty(), exceptionFunction);
     }
 
     // ================================
@@ -99,40 +99,41 @@ public class CollectionPropertyValidator<T, TElement>
      *
      * @return 属性校验器
      */
-    public CollectionPropertyValidator<T, TElement> isEmpty() {
-        return isEmpty("The input must be empty.");
+    public final CollectionPropertyValidator<T, E> isEmpty() {
+        return withRule(Conditions.isEmpty(), "The input must be empty.");
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否为空
      *
-     * @param errMsg 异常信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public CollectionPropertyValidator<T, TElement> isEmpty(String errMsg) {
-        return isEmpty(convertToExceptionFunction(errMsg));
+    public final CollectionPropertyValidator<T, E> isEmpty(
+            final String errorMessage) {
+        return withRule(Conditions.isEmpty(), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否为空
      *
-     * @param e 自定义异常
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> isEmpty(
-            Supplier<E> e) {
-        return isEmpty(convertToExceptionFunction(e));
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> isEmpty(
+            final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.isEmpty(), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否为空
      *
-     * @param e 自定义异常
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> isEmpty(
-            Function<Collection<TElement>, E> e) {
-        return withRule(CollectionTools::isEmpty, e);
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> isEmpty(
+            final Function<Collection<E>, X> exceptionFunction) {
+        return withRule(Conditions.isEmpty(), exceptionFunction);
     }
 
     // ================================
@@ -146,48 +147,62 @@ public class CollectionPropertyValidator<T, TElement>
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足条件
      *
-     * @param condition 校验规则
+     * @param condition 校验条件
      * @return 属性校验器
      */
-    public CollectionPropertyValidator<T, TElement> allMatch(Predicate<TElement> condition) {
-        return allMatch(condition, convertToExceptionFunction("All elements must match the condition."));
-    }
-
-    /**
-     * 添加一条校验属性的规则，校验是否所有元素都满足条件
-     *
-     * @param condition 校验规则
-     * @param errMsg 异常信息
-     * @return 属性校验器
-     */
-    public CollectionPropertyValidator<T, TElement> allMatch(Predicate<TElement> condition, String errMsg) {
-        return allMatch(condition, convertToExceptionFunction(errMsg));
-    }
-
-    /**
-     * 添加一条校验属性的规则，校验是否所有元素都满足条件
-     *
-     * @param condition 校验规则
-     * @param e 自定义异常
-     * @return 属性校验器
-     */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> allMatch(
-            Predicate<TElement> condition, Supplier<E> e) {
-        return allMatch(condition, convertToExceptionFunction(e));
-    }
-
-    /**
-     * 添加一条校验属性的规则，校验是否所有元素都满足条件
-     *
-     * @param condition 校验规则
-     * @param e 自定义异常
-     * @return 属性校验器
-     */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> allMatch(
-            Predicate<TElement> condition, Function<TElement, E> e) {
+    public final CollectionPropertyValidator<T, E> allMatch(
+            final Predicate<E> condition) {
         return withRule(c -> c.forEach(element -> {
             if (!condition.test(element)) {
-                throw e.apply(element);
+                throw ValidationException.withMessage("All elements must match the condition.");
+            }
+        }));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @param errorMessage 异常信息
+     * @return 属性校验器
+     */
+    public final CollectionPropertyValidator<T, E> allMatch(
+            final Predicate<E> condition, final String errorMessage) {
+        return withRule(c -> c.forEach(element -> {
+            if (!condition.test(element)) {
+                throw ValidationException.withMessage(errorMessage);
+            }
+        }));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验条件
+     * @param exceptionSupplier 自定义异常
+     * @return 属性校验器
+     */
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> allMatch(
+            final Predicate<E> condition, final Supplier<X> exceptionSupplier) {
+        return withRule(c -> c.forEach(element -> {
+            if (!condition.test(element)) {
+                throw exceptionSupplier.get();
+            }
+        }));
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验条件
+     * @param exceptionFunction 自定义异常
+     * @return 属性校验器
+     */
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> allMatch(
+            final Predicate<E> condition, final Function<E, X> exceptionFunction) {
+        return withRule(c -> c.forEach(element -> {
+            if (!condition.test(element)) {
+                throw exceptionFunction.apply(element);
             }
         }));
     }
@@ -204,47 +219,38 @@ public class CollectionPropertyValidator<T, TElement>
      * 添加一条校验属性的规则，校验属性大小是否等于指定大小
      *
      * @param size 指定大小
-     * @param errMsg 异常信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public CollectionPropertyValidator<T, TElement> size(int size, String errMsg) {
-        return size(size, convertToExceptionFunction(errMsg));
+    public final CollectionPropertyValidator<T, E> size(
+            final int size, final String errorMessage) {
+        return withRule(Conditions.size(size), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性大小是否等于指定大小
      *
-     * @param <E> 异常类型
+     * @param <X> 异常类型
      * @param size 指定大小
-     * @param e 自定义异常
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
-            int size, Supplier<E> e) {
-        return size(size, convertToExceptionFunction(e));
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> size(
+            final int size, final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.size(size), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性大小是否等于指定大小
      *
-     * @param <E> 异常类型
+     * @param <X> 异常类型
      * @param size 指定大小
-     * @param e 自定义异常
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
-            int size, Function<Collection<TElement>, E> e) {
-        AssertTools.checkArgument(size >= 0,
-                "The expected size must be greater than or equal to 0.");
-        return withRule(s -> s == null || s.size() == size, e);
-    }
-
-    static <TElement> boolean checkSize(Collection<TElement> str, int min, int max) {
-        if (str == null) {
-            return true;
-        }
-        final int size = str.size();
-        return size >= min && size <= max;
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> size(
+            final int size, final Function<Collection<E>, X> exceptionFunction) {
+        return withRule(Conditions.size(size), exceptionFunction);
     }
 
     /**
@@ -252,11 +258,12 @@ public class CollectionPropertyValidator<T, TElement>
      *
      * @param min 最小大小
      * @param max 最大大小
-     * @param errMsg 错误信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public CollectionPropertyValidator<T, TElement> size(int min, int max, String errMsg) {
-        return size(min, max, convertToExceptionFunction(errMsg));
+    public final CollectionPropertyValidator<T, E> size(
+            final int min, final int max, final String errorMessage) {
+        return withRule(Conditions.size(min, max), errorMessage);
     }
 
     /**
@@ -264,12 +271,12 @@ public class CollectionPropertyValidator<T, TElement>
      *
      * @param min 最小大小
      * @param max 最大大小
-     * @param e 自定义异常
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
-            int min, int max, Supplier<E> e) {
-        return size(min, max, convertToExceptionFunction(e));
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> size(
+            final int min, final int max, final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.size(min, max), exceptionSupplier);
     }
 
     /**
@@ -277,22 +284,49 @@ public class CollectionPropertyValidator<T, TElement>
      *
      * @param min 最小大小
      * @param max 最大大小
-     * @param e 自定义异常
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> CollectionPropertyValidator<T, TElement> size(
-            int min, int max, Function<Collection<TElement>, E> e) {
-        AssertTools.checkArgument(min >= 0, "min must be non-negative.");
-        AssertTools.checkArgument(min <= max, "min must be less than or equal to max.");
-        return withRule(s -> checkSize(s, min, max), e);
+    public final <X extends RuntimeException> CollectionPropertyValidator<T, E> size(
+            final int min, final int max, final Function<Collection<E>, X> exceptionFunction) {
+        return withRule(Conditions.size(min, max), exceptionFunction);
     }
 
     // ================================
     // #endregion - size
     // ================================
 
+    private static class Conditions {
+
+        private static Predicate<Collection<?>> isEmpty() {
+            return CollectionTools::isEmpty;
+        }
+
+        private static Predicate<Collection<?>> notEmpty() {
+            return CollectionTools::isNotEmpty;
+        }
+
+        private static Predicate<Collection<?>> size(int size) {
+            AssertTools.checkArgument(size >= 0,
+                "The expected size must be non-negative.");
+            return collection -> collection == null || collection.size() == size;
+        }
+
+        private static Predicate<Collection<?>> size(int min, int max) {
+            AssertTools.checkArgument(min >= 0, "min must be non-negative.");
+            AssertTools.checkArgument(min <= max, "min must be less than or equal to max.");
+            return collection -> {
+                if (collection == null) {
+                    return true;
+                }
+                int size = collection.size();
+                return size >= min && size <= max;
+            };
+        }
+    }
+
     @Override
-    protected CollectionPropertyValidator<T, TElement> thisObject() {
+    protected CollectionPropertyValidator<T, E> thisObject() {
         return this;
     }
 }

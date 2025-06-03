@@ -31,10 +31,10 @@ import xyz.zhouxy.plusone.commons.util.AssertTools;
  *
  * @author ZhouXY
  */
-public class ArrayPropertyValidator<T, TElement>
-        extends BasePropertyValidator<T, TElement[], ArrayPropertyValidator<T, TElement>> {
+public class ArrayPropertyValidator<T, E>
+        extends BasePropertyValidator<T, E[], ArrayPropertyValidator<T, E>> {
 
-    ArrayPropertyValidator(Function<T, TElement[]> getter) {
+    ArrayPropertyValidator(Function<T, E[]> getter) {
         super(getter);
     }
 
@@ -47,42 +47,43 @@ public class ArrayPropertyValidator<T, TElement>
      *
      * @return 属性校验器
      */
-    public ArrayPropertyValidator<T, TElement> notEmpty() {
-        return notEmpty("The input must not be empty.");
+    public final ArrayPropertyValidator<T, E> notEmpty() {
+        return withRule(Conditions.notEmpty(), "The input must not be empty.");
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否非空
      *
-     * @param errMsg 异常信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public ArrayPropertyValidator<T, TElement> notEmpty(String errMsg) {
-        return notEmpty(convertToExceptionFunction(errMsg));
+    public final ArrayPropertyValidator<T, E> notEmpty(
+            final String errorMessage) {
+        return withRule(Conditions.notEmpty(), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否非空
      *
-     * @param <E> 自定义异常类型
-     * @param e 自定义异常
+     * @param <X> 自定义异常类型
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> notEmpty(
-            Supplier<E> e) {
-        return notEmpty(convertToExceptionFunction(e));
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> notEmpty(
+            final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.notEmpty(), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否非空
      *
-     * @param <E> 自定义异常类型
-     * @param e 自定义异常
+     * @param <X> 自定义异常类型
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> notEmpty(
-            Function<TElement[], E> e) {
-        return withRule(ArrayTools::isNotEmpty, e);
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> notEmpty(
+            final Function<E[], X> exceptionFunction) {
+        return withRule(Conditions.notEmpty(), exceptionFunction);
     }
 
     // ================================
@@ -98,40 +99,41 @@ public class ArrayPropertyValidator<T, TElement>
      *
      * @return 属性校验器
      */
-    public ArrayPropertyValidator<T, TElement> isEmpty() {
-        return isEmpty("The input must be empty.");
+    public final ArrayPropertyValidator<T, E> isEmpty() {
+        return withRule(Conditions.isEmpty(), "The input must be empty.");
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否为空
      *
-     * @param errMsg 异常信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public ArrayPropertyValidator<T, TElement> isEmpty(String errMsg) {
-        return isEmpty(convertToExceptionFunction(errMsg));
+    public final ArrayPropertyValidator<T, E> isEmpty(
+            final String errorMessage) {
+        return withRule(Conditions.isEmpty(), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否为空
      *
-     * @param e 自定义异常
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> isEmpty(
-            Supplier<E> e) {
-        return isEmpty(convertToExceptionFunction(e));
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> isEmpty(
+            final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.isEmpty(), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否为空
      *
-     * @param e 自定义异常
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> isEmpty(
-            Function<TElement[], E> e) {
-        return withRule(ArrayTools::isEmpty, e);
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> isEmpty(
+            final Function<E[], X> exceptionFunction) {
+        return withRule(Conditions.isEmpty(), exceptionFunction);
     }
 
     // ================================
@@ -148,46 +150,65 @@ public class ArrayPropertyValidator<T, TElement>
      * @param condition 校验规则
      * @return 属性校验器
      */
-    public ArrayPropertyValidator<T, TElement> allMatch(Predicate<TElement> condition) {
-        return allMatch(condition, convertToExceptionFunction("All elements must match the condition."));
-    }
-
-    /**
-     * 添加一条校验属性的规则，校验是否所有元素都满足条件
-     *
-     * @param condition 校验规则
-     * @param errMsg 异常信息
-     * @return 属性校验器
-     */
-    public ArrayPropertyValidator<T, TElement> allMatch(Predicate<TElement> condition, String errMsg) {
-        return allMatch(condition, convertToExceptionFunction(errMsg));
-    }
-
-    /**
-     * 添加一条校验属性的规则，校验是否所有元素都满足条件
-     *
-     * @param condition 校验规则
-     * @param e 自定义异常
-     * @return 属性校验器
-     */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> allMatch(
-            Predicate<TElement> condition, Supplier<E> e) {
-        return allMatch(condition, convertToExceptionFunction(e));
-    }
-
-    /**
-     * 添加一条校验属性的规则，校验是否所有元素都满足条件
-     *
-     * @param condition 校验规则
-     * @param e 自定义异常
-     * @return 属性校验器
-     */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> allMatch(
-            Predicate<TElement> condition, Function<TElement, E> e) {
+    public final ArrayPropertyValidator<T, E> allMatch(final Predicate<E> condition) {
         return withRule(c -> {
-            for (TElement element : c) {
+            for (E element : c) {
                 if (!condition.test(element)) {
-                    throw e.apply(element);
+                    throw ValidationException.withMessage("All elements must match the condition.");
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @param errorMessage 异常信息
+     * @return 属性校验器
+     */
+    public final ArrayPropertyValidator<T, E> allMatch(
+            final Predicate<E> condition, final String errorMessage) {
+        return withRule(c -> {
+            for (E element : c) {
+                if (!condition.test(element)) {
+                    throw ValidationException.withMessage(errorMessage);
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @param exceptionSupplier 自定义异常
+     * @return 属性校验器
+     */
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> allMatch(
+            final Predicate<E> condition, final Supplier<X> exceptionSupplier) {
+        return withRule(c -> {
+            for (E element : c) {
+                if (!condition.test(element)) {
+                    throw exceptionSupplier.get();
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加一条校验属性的规则，校验是否所有元素都满足条件
+     *
+     * @param condition 校验规则
+     * @param exceptionFunction 自定义异常
+     * @return 属性校验器
+     */
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> allMatch(
+            final Predicate<E> condition, final Function<E, X> exceptionFunction) {
+        return withRule(c -> {
+            for (E element : c) {
+                if (!condition.test(element)) {
+                    throw exceptionFunction.apply(element);
                 }
             }
         });
@@ -205,47 +226,38 @@ public class ArrayPropertyValidator<T, TElement>
      * 添加一条校验属性的规则，校验属性长度是否等于指定长度
      *
      * @param length 指定长度
-     * @param errMsg 异常信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public ArrayPropertyValidator<T, TElement> length(int length, String errMsg) {
-        return length(length, convertToExceptionFunction(errMsg));
+    public final ArrayPropertyValidator<T, E> length(
+            final int length, final String errorMessage) {
+        return withRule(Conditions.length(length), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性长度是否等于指定长度
      *
-     * @param <E> 异常类型
+     * @param <X> 异常类型
      * @param length 指定长度
-     * @param e 自定义异常
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> length(
-            int length, Supplier<E> e) {
-        return length(length, convertToExceptionFunction(e));
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> length(
+            final int length, final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.length(length), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性长度是否等于指定长度
      *
-     * @param <E> 异常类型
+     * @param <X> 异常类型
      * @param length 指定长度
-     * @param e 自定义异常
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> length(
-            int length, Function<TElement[], E> e) {
-        AssertTools.checkArgument(length >= 0,
-                "The expected length must be greater than or equal to 0.");
-        return withRule(s -> s == null || s.length == length, e);
-    }
-
-    static <TElement> boolean checkLength(TElement[] str, int min, int max) {
-        if (str == null) {
-            return true;
-        }
-        final int len = str.length;
-        return len >= min && len <= max;
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> length(
+            final int length, final Function<E[], X> exceptionFunction) {
+        return withRule(Conditions.length(length), exceptionFunction);
     }
 
     /**
@@ -253,11 +265,12 @@ public class ArrayPropertyValidator<T, TElement>
      *
      * @param min 最小长度
      * @param max 最大长度
-     * @param errMsg 错误信息
+     * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public ArrayPropertyValidator<T, TElement> length(int min, int max, String errMsg) {
-        return length(min, max, convertToExceptionFunction(errMsg));
+    public final ArrayPropertyValidator<T, E> length(
+            final int min, final int max, final String errorMessage) {
+        return withRule(Conditions.length(min, max), errorMessage);
     }
 
     /**
@@ -265,12 +278,12 @@ public class ArrayPropertyValidator<T, TElement>
      *
      * @param min 最小长度
      * @param max 最大长度
-     * @param e 自定义异常
+     * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> length(
-            int min, int max, Supplier<E> e) {
-        return length(min, max, convertToExceptionFunction(e));
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> length(
+            final int min, final int max, final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.length(min, max), exceptionSupplier);
     }
 
     /**
@@ -278,22 +291,49 @@ public class ArrayPropertyValidator<T, TElement>
      *
      * @param min 最小长度
      * @param max 最大长度
-     * @param e 自定义异常
+     * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public <E extends RuntimeException> ArrayPropertyValidator<T, TElement> length(
-            int min, int max, Function<TElement[], E> e) {
-        AssertTools.checkArgument(min >= 0, "min must be non-negative.");
-        AssertTools.checkArgument(min <= max, "min must be less than or equal to max.");
-        return withRule(s -> checkLength(s, min, max), e);
+    public final <X extends RuntimeException> ArrayPropertyValidator<T, E> length(
+            final int min, final int max, final Function<E[], X> exceptionFunction) {
+        return withRule(Conditions.length(min, max), exceptionFunction);
     }
 
     // ================================
     // #endregion - length
     // ================================
 
+    private static class Conditions {
+
+        private static <T> Predicate<T[]> isEmpty() {
+            return ArrayTools::isEmpty;
+        }
+
+        private static <T> Predicate<T[]> notEmpty() {
+            return ArrayTools::isNotEmpty;
+        }
+
+        private static <T> Predicate<T[]> length(final int length) {
+            AssertTools.checkArgument(length >= 0,
+                "The expected length must be non-negative.");
+            return input -> input == null || input.length == length;
+        }
+
+        private static <T> Predicate<T[]> length(final int min, final int max) {
+            AssertTools.checkArgument(min >= 0, "min must be non-negative.");
+            AssertTools.checkArgument(min <= max, "min must be less than or equal to max.");
+            return input -> {
+                if (input == null) {
+                    return true;
+                }
+                final int len = input.length;
+                return len >= min && len <= max;
+            };
+        }
+    }
+
     @Override
-    protected ArrayPropertyValidator<T, TElement> thisObject() {
+    protected ArrayPropertyValidator<T, E> thisObject() {
         return this;
     }
 }

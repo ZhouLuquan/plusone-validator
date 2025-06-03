@@ -45,37 +45,37 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     /**
      * 添加一个校验规则
      *
-     * @param rule 校验规则
-     * @param errorMessage 错误信息
-     */
-    protected final void withRule(final Predicate<? super T> rule, final String errorMessage) {
-        withRule(rule, () -> ValidationException.withMessage(errorMessage));
-    }
-
-    /**
-     * 添加一个校验规则
-     *
-     * @param <E> 自定义异常类型
-     * @param rule 校验规则
-     * @param e 自定义异常
-     */
-    protected final <E extends RuntimeException> void withRule(
-            final Predicate<? super T> rule, final Supplier<E> e) {
-        withRule(rule, value -> e.get());
-    }
-
-    /**
-     * 添加一个校验规则
-     *
-     * @param <E> 自定义异常类型
      * @param condition 校验条件
-     * @param e 自定义异常
+     * @param errorMessage 异常信息
      */
-    protected final <E extends RuntimeException> void withRule(
-            final Predicate<? super T> condition, final Function<T, E> e) {
+    protected final void withRule(final Predicate<? super T> condition, final String errorMessage) {
+        withRule(condition, () -> ValidationException.withMessage(errorMessage));
+    }
+
+    /**
+     * 添加一个校验规则
+     *
+     * @param <X> 自定义异常类型
+     * @param condition 校验条件
+     * @param exceptionSupplier 自定义异常
+     */
+    protected final <X extends RuntimeException> void withRule(
+            final Predicate<? super T> condition, final Supplier<X> exceptionSupplier) {
+        withRule(condition, value -> exceptionSupplier.get());
+    }
+
+    /**
+     * 添加一个校验规则
+     *
+     * @param <X> 自定义异常类型
+     * @param condition 校验条件
+     * @param exceptionFunction 自定义异常
+     */
+    protected final <X extends RuntimeException> void withRule(
+            final Predicate<? super T> condition, final Function<T, X> exceptionFunction) {
         withRule(value -> {
             if (!condition.test(value)) {
-                throw e.apply(value);
+                throw exceptionFunction.apply(value);
             }
         });
     }

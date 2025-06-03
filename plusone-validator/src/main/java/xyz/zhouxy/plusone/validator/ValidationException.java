@@ -60,8 +60,8 @@ public class ValidationException extends RuntimeException {
     /**
      * 创建一个验证失败异常
      *
-     * @param errorMessageTemplate 错误信息模版
-     * @param errorMessageArgs 错误信息参数
+     * @param errorMessageTemplate 异常信息模版
+     * @param errorMessageArgs 异常信息参数
      * @return 异常
      */
     public static ValidationException withMessage(String errorMessageTemplate, Object... errorMessageArgs) {

@@ -65,8 +65,9 @@ public class ComparablePropertyValidatorTests {
         };
 
         ExampleCommand command = exampleCommandWithComparableProperty(18, 10000000000L, MIN);
-
         assertDoesNotThrow(() -> validator.validate(command));
+
+        assertDoesNotThrow(() -> validator.validate(new ExampleCommand()));
     }
 
     // ================================
@@ -154,89 +155,6 @@ public class ComparablePropertyValidatorTests {
 
     // ================================
     // #endregion - not in the interval
-    // ================================
-
-    // ================================
-    // #region - null
-    // ================================
-
-    @Test
-    void inRange_default_valueIsNull() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForComparable(ExampleCommand::getDateTimeProperty)
-                        .inRange(DATE_TIME_RANGE);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithComparableProperty(null, null, null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class,
-                () -> validator.validate(command));
-
-        final String expected = String.format("The input must in the interval %s. You entered null.", DATE_TIME_RANGE);
-        assertEquals(expected, e.getMessage());
-    }
-
-    @Test
-    void inRange_message_valueIsNull() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForComparable(ExampleCommand::getDateTimeProperty)
-                        .inRange(DATE_TIME_RANGE, MESSAGE);
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithComparableProperty(null, null, null);
-
-        ValidationException e = assertThrows(
-                ValidationException.class,
-                () -> validator.validate(command));
-
-        assertEquals(MESSAGE, e.getMessage());
-    }
-
-    @Test
-    void inRange_exceptionSupplier_valueIsNull() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForComparable(ExampleCommand::getDateTimeProperty)
-                        .inRange(DATE_TIME_RANGE, () -> ExampleException.withMessage(MESSAGE));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithComparableProperty(null, null, null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-
-        assertEquals(MESSAGE, e.getMessage());
-    }
-
-    @Test
-    void inRange_exceptionFunction_valueIsNull() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
-            {
-                ruleForComparable(ExampleCommand::getDateTimeProperty)
-                        .inRange(DATE_TIME_RANGE, property -> ExampleException.withMessage(
-                                "The dateTimeProperty should in the interval [%s,%s), but it is %s", MIN, MAX, property));
-            }
-        };
-
-        ExampleCommand command = exampleCommandWithComparableProperty(null, null, null);
-
-        ExampleException e = assertThrows(
-                ExampleException.class,
-                () -> validator.validate(command));
-
-        final String expected = String.format("The dateTimeProperty should in the interval [%s,%s), but it is null", MIN, MAX);
-        assertEquals(expected, e.getMessage());
-    }
-
-    // ================================
-    // #endregion - null
     // ================================
 
     static ExampleCommand exampleCommandWithComparableProperty(

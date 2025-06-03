@@ -26,10 +26,10 @@ import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import xyz.zhouxy.plusone.ExampleException;
+import xyz.zhouxy.plusone.commons.function.PredicateTools;
 import xyz.zhouxy.plusone.commons.util.StringTools;
 import xyz.zhouxy.plusone.example.ExampleCommand;
 import xyz.zhouxy.plusone.example.Foo;
@@ -214,19 +214,19 @@ public class ObjectPropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - equalTo
+    // #region - equal
     // ================================
 
     @Test
-    void equalTo_validInput() {
+    void equal_validInput() {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .equalTo("Foo")
-                        .equalTo("Foo", "The stringProperty should be equal to 'Foo'.")
-                        .equalTo("Foo", () ->
+                        .equal("Foo")
+                        .equal("Foo", "The stringProperty should be equal to 'Foo'.")
+                        .equal("Foo", () ->
                                 ExampleException.withMessage("The stringProperty should be equal to 'Foo'."))
-                        .equalTo("Foo", str ->
+                        .equal("Foo", str ->
                                 ExampleException.withMessage("The stringProperty should be equal to 'Foo', but is was '%s'.", str));
             }
         };
@@ -240,13 +240,13 @@ public class ObjectPropertyValidatorTests {
     }
 
     @Test
-    void equalTo_invalidInput() {
+    void equal_invalidInput() {
         ExampleCommand command = new ExampleCommand();
         command.setStringProperty("Bar");
 
         IValidator<ExampleCommand> defaultRule = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo");
+                ruleForString(ExampleCommand::getStringProperty).equal("Foo");
             }
         };
         ValidationException eWithDefaultMessage = assertThrows(
@@ -255,7 +255,7 @@ public class ObjectPropertyValidatorTests {
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equal("Foo",
                         "The stringProperty should be equal to 'Foo'.");
             }
         };
@@ -265,7 +265,7 @@ public class ObjectPropertyValidatorTests {
 
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equal("Foo",
                         () -> ExampleException.withMessage("The stringProperty should be equal to 'Foo'."));
             }
         };
@@ -275,7 +275,7 @@ public class ObjectPropertyValidatorTests {
 
         IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
-                ruleForString(ExampleCommand::getStringProperty).equalTo("Foo",
+                ruleForString(ExampleCommand::getStringProperty).equal("Foo",
                         str -> ExampleException.withMessage("The stringProperty should be equal to 'Foo', but is was '%s'.", str));
             }
         };
@@ -285,7 +285,7 @@ public class ObjectPropertyValidatorTests {
     }
 
     // ================================
-    // #endregion - equalTo
+    // #endregion - equal
     // ================================
 
     // ================================
@@ -440,10 +440,10 @@ public class ObjectPropertyValidatorTests {
         IValidator<ExampleCommand> ruleWithDefaultMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")))
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")), "The stringProperty must be equal to 'Foo'.")
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")), () -> ExampleException.withMessage("The stringProperty must be equal to 'Foo'."))
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")), str -> ExampleException.withMessage("The stringProperty must be equal to 'Foo', but is was '%s'.", str));
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals))
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals), "The stringProperty must be equal to 'Foo'.")
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals), () -> ExampleException.withMessage("The stringProperty must be equal to 'Foo'."))
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals), str -> ExampleException.withMessage("The stringProperty must be equal to 'Foo', but is was '%s'.", str));
             }
         };
         assertDoesNotThrow(() -> ruleWithDefaultMessage.validate(command));
@@ -457,17 +457,17 @@ public class ObjectPropertyValidatorTests {
         IValidator<ExampleCommand> ruleWithDefaultMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")));
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals));
             }
         };
         ValidationException  eWithDefaultMessage = assertThrows(
                 ValidationException.class, () -> ruleWithDefaultMessage.validate(command));
-        assertEquals("The specified conditions were not met for the input.", eWithDefaultMessage.getMessage());
+        assertEquals("The specified condition was not met for the input.", eWithDefaultMessage.getMessage());
 
         IValidator<ExampleCommand> ruleWithMessage = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")),
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals),
                                 "The stringProperty must be equal to 'Foo'.");
             }
         };
@@ -478,7 +478,7 @@ public class ObjectPropertyValidatorTests {
         IValidator<ExampleCommand> ruleWithExceptionSupplier = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")),
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals),
                                 () -> ExampleException.withMessage("The stringProperty must be equal to 'Foo'."));
             }
         };
@@ -489,7 +489,7 @@ public class ObjectPropertyValidatorTests {
         IValidator<ExampleCommand> ruleWithExceptionFunction = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .must(ImmutableList.of(StringTools::isNotEmpty, str -> Objects.equals(str, "Foo")),
+                        .must(PredicateTools.from(StringTools::isNotEmpty).and("Foo"::equals),
                                 str -> ExampleException.withMessage("The stringProperty must be equal to 'Foo', but is was '%s'.", str));
             }
         };
