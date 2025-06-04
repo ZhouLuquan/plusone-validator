@@ -87,7 +87,7 @@ public class StringPropertyValidator<T>
     // ================================
 
     // ================================
-    // #region - matchesOne
+    // #region - matchesAny
     // ================================
 
     /**
@@ -97,9 +97,9 @@ public class StringPropertyValidator<T>
      * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public final StringPropertyValidator<T> matchesOne(
+    public final StringPropertyValidator<T> matchesAny(
             final Pattern[] patterns, final String errorMessage) {
-        return withRule(Conditions.matchesOne(patterns), errorMessage);
+        return withRule(Conditions.matchesAny(patterns), errorMessage);
     }
 
     /**
@@ -110,9 +110,9 @@ public class StringPropertyValidator<T>
      * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public final <X extends RuntimeException> StringPropertyValidator<T> matchesOne(
+    public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Pattern[] patterns, final Supplier<X> exceptionSupplier) {
-        return withRule(Conditions.matchesOne(patterns), exceptionSupplier);
+        return withRule(Conditions.matchesAny(patterns), exceptionSupplier);
     }
 
     /**
@@ -123,9 +123,9 @@ public class StringPropertyValidator<T>
      * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public final <X extends RuntimeException> StringPropertyValidator<T> matchesOne(
+    public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Pattern[] patterns, final Function<String, X> exceptionFunction) {
-        return withRule(Conditions.matchesOne(patterns), exceptionFunction);
+        return withRule(Conditions.matchesAny(patterns), exceptionFunction);
     }
 
     /**
@@ -135,9 +135,9 @@ public class StringPropertyValidator<T>
      * @param errorMessage 异常信息
      * @return 属性校验器
      */
-    public final StringPropertyValidator<T> matchesOne(
+    public final StringPropertyValidator<T> matchesAny(
             final Collection<Pattern> patterns, final String errorMessage) {
-        return withRule(Conditions.matchesOne(patterns), errorMessage);
+        return withRule(Conditions.matchesAny(patterns), errorMessage);
     }
 
     /**
@@ -148,9 +148,9 @@ public class StringPropertyValidator<T>
      * @param exceptionSupplier 自定义异常
      * @return 属性校验器
      */
-    public final <X extends RuntimeException> StringPropertyValidator<T> matchesOne(
+    public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Collection<Pattern> patterns, final Supplier<X> exceptionSupplier) {
-        return withRule(Conditions.matchesOne(patterns), exceptionSupplier);
+        return withRule(Conditions.matchesAny(patterns), exceptionSupplier);
     }
 
     /**
@@ -161,13 +161,13 @@ public class StringPropertyValidator<T>
      * @param exceptionFunction 自定义异常
      * @return 属性校验器
      */
-    public final <X extends RuntimeException> StringPropertyValidator<T> matchesOne(
+    public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Collection<Pattern> patterns, final Function<String, X> exceptionFunction) {
-        return withRule(Conditions.matchesOne(patterns), exceptionFunction);
+        return withRule(Conditions.matchesAny(patterns), exceptionFunction);
     }
 
     // ================================
-    // #endregion - matchesOne
+    // #endregion - matchesAny
     // ================================
 
     // ================================
@@ -517,14 +517,14 @@ public class StringPropertyValidator<T>
             return input -> input == null || RegexTools.matches(input, pattern);
         }
 
-        private static Predicate<String> matchesOne(Pattern[] patterns) {
+        private static Predicate<String> matchesAny(Pattern[] patterns) {
             AssertTools.checkArgument(ArrayTools.isAllElementsNotNull(patterns));
-            return input -> input == null || RegexTools.matchesOne(input, patterns);
+            return input -> input == null || RegexTools.matchesAny(input, patterns);
         }
 
-        private static Predicate<String> matchesOne(Collection<Pattern> patterns) {
+        private static Predicate<String> matchesAny(Collection<Pattern> patterns) {
             AssertTools.checkArgumentNotNull(patterns, "patterns must not be null.");
-            return input -> input == null || RegexTools.matchesOne(input, patterns.toArray(new Pattern[0]));
+            return input -> input == null || RegexTools.matchesAny(input, patterns.toArray(new Pattern[0]));
         }
 
         private static Predicate<String> matchesAll(Pattern[] patterns) {

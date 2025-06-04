@@ -158,11 +158,11 @@ public class StringPropertyValidatorTests {
     // ================================
 
     // ================================
-    // #region - matchesOne
+    // #region - matchesAny
     // ================================
 
     @Test
-    void matchesOne_patternArray_InputMatchesPattern() {
+    void matchesAny_patternArray_InputMatchesPattern() {
         final Pattern[] patterns = {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
@@ -170,9 +170,9 @@ public class StringPropertyValidatorTests {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, MESSAGE_SHOULD_MATCH)
-                        .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH))
-                        .matchesOne(patterns, str -> ExampleException.withMessage(
+                        .matchesAny(patterns, MESSAGE_SHOULD_MATCH)
+                        .matchesAny(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH))
+                        .matchesAny(patterns, str -> ExampleException.withMessage(
                                 "Input should match pattern, but it is %s", StringTools.toQuotedString(str)));
             }
         };
@@ -182,7 +182,7 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternArray_message_InputDoesNotMatchPattern() {
+    void matchesAny_patternArray_message_InputDoesNotMatchPattern() {
         final Pattern[] patterns = {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
@@ -190,7 +190,7 @@ public class StringPropertyValidatorTests {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
+                        .matchesAny(patterns, MESSAGE_SHOULD_MATCH);
             }
         };
 
@@ -202,7 +202,7 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternArray_exceptionSupplier_InputDoesNotMatchPattern() {
+    void matchesAny_patternArray_exceptionSupplier_InputDoesNotMatchPattern() {
         final Pattern[] patterns = {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
@@ -210,7 +210,7 @@ public class StringPropertyValidatorTests {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
+                        .matchesAny(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
             }
         };
 
@@ -222,7 +222,7 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternArray_exceptionFunction_InputDoesNotMatchPattern() {
+    void matchesAny_patternArray_exceptionFunction_InputDoesNotMatchPattern() {
         final Pattern[] patterns = {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
@@ -230,7 +230,7 @@ public class StringPropertyValidatorTests {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, str -> ExampleException.withMessage(
+                        .matchesAny(patterns, str -> ExampleException.withMessage(
                                 "Input should match pattern, but it is %s", StringTools.toQuotedString(str)));
             }
         };
@@ -243,7 +243,7 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternArray_message_InputIsNull() {
+    void matchesAny_patternArray_message_InputIsNull() {
         final Pattern[] patterns = {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
@@ -251,7 +251,7 @@ public class StringPropertyValidatorTests {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
+                        .matchesAny(patterns, MESSAGE_SHOULD_MATCH);
             }
         };
 
@@ -260,7 +260,7 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternArray_exceptionSupplier_InputIsNull() {
+    void matchesAny_patternArray_exceptionSupplier_InputIsNull() {
         final Pattern[] patterns = {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
@@ -268,7 +268,7 @@ public class StringPropertyValidatorTests {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
+                        .matchesAny(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
             }
         };
 
@@ -277,7 +277,7 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternArray_exceptionFunction_InputIsNull() {
+    void matchesAny_patternArray_exceptionFunction_InputIsNull() {
         final Pattern[] patterns = {
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}")
@@ -285,7 +285,7 @@ public class StringPropertyValidatorTests {
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, str -> ExampleException.withMessage(
+                        .matchesAny(patterns, str -> ExampleException.withMessage(
                                 "Input should match pattern, but it is %s", StringTools.toQuotedString(str)));
             }
         };
@@ -295,16 +295,16 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternList_InputMatchesPattern() {
+    void matchesAny_patternList_InputMatchesPattern() {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, MESSAGE_SHOULD_MATCH)
-                        .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH))
-                        .matchesOne(patterns, str -> ExampleException.withMessage(
+                        .matchesAny(patterns, MESSAGE_SHOULD_MATCH)
+                        .matchesAny(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH))
+                        .matchesAny(patterns, str -> ExampleException.withMessage(
                                 "Input should match pattern, but it is %s", StringTools.toQuotedString(str)));
             }
         };
@@ -314,14 +314,14 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternList_message_InputDoesNotMatchPattern() {
+    void matchesAny_patternList_message_InputDoesNotMatchPattern() {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
+                        .matchesAny(patterns, MESSAGE_SHOULD_MATCH);
             }
         };
 
@@ -333,14 +333,14 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternList_exceptionSupplier_InputDoesNotMatchPattern() {
+    void matchesAny_patternList_exceptionSupplier_InputDoesNotMatchPattern() {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
+                        .matchesAny(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
             }
         };
 
@@ -352,14 +352,14 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternList_exceptionFunction_InputDoesNotMatchPattern() {
+    void matchesAny_patternList_exceptionFunction_InputDoesNotMatchPattern() {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, str -> ExampleException.withMessage(
+                        .matchesAny(patterns, str -> ExampleException.withMessage(
                                 "Input should match pattern, but it is %s", StringTools.toQuotedString(str)));
             }
         };
@@ -372,14 +372,14 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternList_message_InputIsNull() {
+    void matchesAny_patternList_message_InputIsNull() {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, MESSAGE_SHOULD_MATCH);
+                        .matchesAny(patterns, MESSAGE_SHOULD_MATCH);
             }
         };
 
@@ -388,14 +388,14 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternList_exceptionSupplier_InputIsNull() {
+    void matchesAny_patternList_exceptionSupplier_InputIsNull() {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
+                        .matchesAny(patterns, () -> ExampleException.withMessage(MESSAGE_SHOULD_MATCH));
             }
         };
 
@@ -404,14 +404,14 @@ public class StringPropertyValidatorTests {
     }
 
     @Test
-    void matchesOne_patternList_exceptionFunction_InputIsNull() {
+    void matchesAny_patternList_exceptionFunction_InputIsNull() {
         final List<Pattern> patterns = Lists.newArrayList(
                 Pattern.compile("\\w{1,3}"),
                 Pattern.compile("\\w{4,6}"));
         IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
             {
                 ruleForString(ExampleCommand::getStringProperty)
-                        .matchesOne(patterns, str -> ExampleException.withMessage(
+                        .matchesAny(patterns, str -> ExampleException.withMessage(
                                 "Input should match pattern, but it is %s", StringTools.toQuotedString(str)));
             }
         };
@@ -421,7 +421,7 @@ public class StringPropertyValidatorTests {
     }
 
     // ================================
-    // #endregion - matchesOne
+    // #endregion - matchesAny
     // ================================
 
     // ================================
