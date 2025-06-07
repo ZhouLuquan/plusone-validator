@@ -28,9 +28,11 @@ import java.util.function.Supplier;
  * 属性校验器。包含针对属性的校验规则。
  *
  * <p>
- * <i>内置基础的校验规则。</i>
- * </p>
+ * 用于构建针对特定属性的校验规则链，支持通过链式调用添加多种校验规则。
  *
+ * @param <T> 待校验对象的类型
+ * @param <TProperty> 待校验属性的类型
+ * @param <TPropertyValidator> 具体校验器类型，用于支持链式调用
  * @author ZhouXY
  */
 public abstract class BasePropertyValidator<
@@ -47,11 +49,12 @@ public abstract class BasePropertyValidator<
     }
 
     /**
-     * 添加一条校验属性的规则
+     * 添加一条校验属性的规则，当条件不满足时抛出异常。
      *
      * @param condition 校验条件
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
+     * @throws ValidationException 校验失败时抛出的异常
      */
     protected final TPropertyValidator withRule(
             final Predicate<? super TProperty> condition,
@@ -67,9 +70,10 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则
      *
      * @param condition 校验条件
-     * @param errorMessageTemplate 错误信息模版
-     * @param errorMessageArgs 错误信息参数
-     * @return 属性校验器
+     * @param errorMessageTemplate 异常信息模板
+     * @param errorMessageArgs 异常信息参数
+     * @return 当前校验器实例，用于链式调用
+     * @throws ValidationException 校验失败时抛出的异常
      */
     protected final TPropertyValidator withRule(
             final Predicate<? super TProperty> condition,
@@ -84,9 +88,10 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则
      *
+     * @param <X> 自定义异常类型
      * @param condition 校验条件
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     protected final <X extends RuntimeException> TPropertyValidator withRule(
             final Predicate<? super TProperty> condition,
@@ -99,11 +104,12 @@ public abstract class BasePropertyValidator<
     }
 
     /**
-     * 添加一条校验属性的规则
+     * 添加一条校验属性的规则，当条件不满足时抛出自定义异常。可以根据当前属性的值创建异常。
      *
+     * @param <X> 自定义异常类型
      * @param condition 校验条件
-     * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @param exceptionFunction 自定义异常（以当前属性值为参数）
+     * @return 当前校验器实例，用于链式调用
      */
     protected final <X extends RuntimeException> TPropertyValidator withRule(
             final Predicate<? super TProperty> condition,
@@ -118,8 +124,8 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则
      *
-     * @param rule 校验规则
-     * @return 属性校验器
+     * @param rule 自定义校验规则
+     * @return 当前校验器实例，用于链式调用
      */
     protected final TPropertyValidator withRule(Consumer<? super TProperty> rule) {
         this.consumers.add(rule);
@@ -150,7 +156,7 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否不为空
      *
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator notNull() {
         return withRule(Objects::nonNull, "The input must not be null.");
@@ -160,7 +166,7 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则，校验属性是否不为空
      *
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator notNull(final String errorMessage) {
         return withRule(Objects::nonNull, errorMessage);
@@ -171,7 +177,7 @@ public abstract class BasePropertyValidator<
      *
      * @param <X> 自定义异常类型
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator notNull(
             final Supplier<X> exceptionSupplier) {
@@ -183,7 +189,7 @@ public abstract class BasePropertyValidator<
      *
      * @param <X> 自定义异常类型
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator notNull(
             final Function<TProperty, X> exceptionFunction) {
@@ -201,7 +207,7 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否为空
      *
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator isNull() {
         return withRule(Objects::isNull, "The input must be null.");
@@ -211,7 +217,7 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则，校验属性是否为空
      *
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator isNull(final String errorMessage) {
         return withRule(Objects::isNull, errorMessage);
@@ -222,7 +228,7 @@ public abstract class BasePropertyValidator<
      *
      * @param <X> 自定义异常类型
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator isNull(
             final Supplier<X> exceptionSupplier) {
@@ -234,7 +240,7 @@ public abstract class BasePropertyValidator<
      *
      * @param <X> 自定义异常类型
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator isNull(
             final Function<TProperty, X> exceptionFunction) {
@@ -252,8 +258,8 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 给定值
-     * @return 属性校验器
+     * @param that 用于比较的对象
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator equal(Object that) {
         return withRule(Conditions.equal(that),
@@ -263,9 +269,9 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 给定值
+     * @param that 用于比较的对象
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator equal(
             final Object that, final String errorMessage) {
@@ -276,9 +282,9 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 给定值
+     * @param that 用于比较的对象
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator equal(
             final Object that, final Supplier<X> exceptionSupplier) {
@@ -289,9 +295,9 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 给定值
+     * @param that 用于比较的对象
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator equal(
             final Object that, final Function<TProperty, X> exceptionFunction) {
@@ -309,8 +315,8 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 给定值
-     * @return 属性校验器
+     * @param that 用于比较的对象
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator notEqual(final Object that) {
         return withRule(Conditions.notEqual(that),
@@ -320,9 +326,9 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 给定值
+     * @param that 用于比较的对象
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator notEqual(final Object that, final String errorMessage) {
         return withRule(Conditions.notEqual(that), errorMessage);
@@ -332,9 +338,9 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 给定值
+     * @param that 用于比较的对象
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator notEqual(
             final Object that, final Supplier<X> exceptionSupplier) {
@@ -345,9 +351,9 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 给定值
+     * @param that 用于比较的对象
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator notEqual(
             final Object that, final Function<TProperty, X> exceptionFunction) {
@@ -366,7 +372,7 @@ public abstract class BasePropertyValidator<
      * 添加一条校验属性的规则，校验属性是否满足给定的条件
      *
      * @param condition 校验条件
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator must(final Predicate<? super TProperty> condition) {
         return withRule(condition,
@@ -378,7 +384,7 @@ public abstract class BasePropertyValidator<
      *
      * @param condition 校验条件
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator must(
             final Predicate<? super TProperty> condition,
@@ -392,7 +398,7 @@ public abstract class BasePropertyValidator<
      * @param <X> 自定义异常类型
      * @param condition 校验规则
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator must(
             final Predicate<? super TProperty> condition,
@@ -406,7 +412,7 @@ public abstract class BasePropertyValidator<
      * @param <X> 自定义异常类型
      * @param condition 校验规则
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator must(
             final Predicate<? super TProperty> condition,
@@ -422,6 +428,9 @@ public abstract class BasePropertyValidator<
     // #region - conditions
     // ================================
 
+    /**
+     * 常用校验条件的实现
+     */
     private static class Conditions {
 
         private static <TProperty> Predicate<TProperty> equal(Object obj) {

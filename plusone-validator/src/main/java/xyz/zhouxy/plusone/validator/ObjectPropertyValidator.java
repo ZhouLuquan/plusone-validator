@@ -21,6 +21,8 @@ import java.util.function.Function;
 /**
  * 通用类型属性校验器。继承自 {@link BasePropertyValidator}，包含针对属性的校验规则。
  *
+ * @param <T> 待校验对象的类型
+ * @param <TProperty> 待校验属性的类型
  * @author ZhouXY
  */
 public class ObjectPropertyValidator<T, TProperty>

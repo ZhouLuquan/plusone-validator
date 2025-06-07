@@ -16,7 +16,7 @@
 package xyz.zhouxy.plusone.validator;
 
 /**
- * 验证失败的异常
+ * 校验失败异常
  *
  * @author ZhouXY
  */
@@ -39,51 +39,51 @@ public class ValidationException extends RuntimeException {
     }
 
     /**
-     * 创建一个验证失败异常
+     * 创建 {@code ValidationException} 实例
      *
-     * @return 异常
+     * @return {@code ValidationException} 实例
      */
     public static ValidationException withDefaultMessage() {
         return new ValidationException(DEFAULT_MESSAGE);
     }
 
     /**
-     * 创建一个验证失败异常
+     * 创建 {@code ValidationException} 实例
      *
-     * @param message 错误信息
-     * @return 异常
+     * @param message 异常信息
+     * @return {@code ValidationException} 实例
      */
     public static ValidationException withMessage(String message) {
         return new ValidationException(message);
     }
 
     /**
-     * 创建一个验证失败异常
+     * 创建 {@code ValidationException} 实例
      *
-     * @param errorMessageTemplate 异常信息模版
-     * @param errorMessageArgs 异常信息参数
-     * @return 异常
+     * @param errorMessageTemplate 异常信息模板
+     * @param errorMessageArgs 异常信息参数列表
+     * @return {@code ValidationException} 实例
      */
     public static ValidationException withMessage(String errorMessageTemplate, Object... errorMessageArgs) {
         return new ValidationException(String.format(errorMessageTemplate, errorMessageArgs));
     }
 
     /**
-     * 创建一个验证失败异常
+     * 创建 {@code ValidationException} 实例
      *
-     * @param cause 错误 cause
-     * @return 异常
+     * @param cause 导致校验失败的根本异常
+     * @return {@code ValidationException} 实例
      */
     public static ValidationException withCause(Throwable cause) {
         return new ValidationException(cause);
     }
 
     /**
-     * 创建一个验证失败异常
+     * 创建 {@code ValidationException} 实例
      *
-     * @param message  错误信息
-     * @param cause 错误 cause
-     * @return 异常
+     * @param message 异常信息
+     * @param cause 导致校验失败的根本异常
+     * @return {@code ValidationException} 实例
      */
     public static ValidationException withMessageAndCause(String message, Throwable cause) {
         return new ValidationException(message, cause);

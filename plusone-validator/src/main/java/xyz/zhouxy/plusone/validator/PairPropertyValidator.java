@@ -24,6 +24,9 @@ import java.util.function.Supplier;
 /**
  * 针对二元组的属性校验器
  *
+ * @param <T>  被验证对象类型
+ * @param <V1> 第一个元素的类型
+ * @param <V2> 第二个元素的类型
  * @author ZhouXY
  */
 public class PairPropertyValidator<T, V1, V2>
@@ -57,6 +60,7 @@ public class PairPropertyValidator<T, V1, V2>
     /**
      * 添加一条校验属性的规则，校验二元组是否满足给定的条件
      *
+     * @param <X> 自定义异常类型
      * @param condition 校验条件
      * @param exceptionSupplier 自定义异常
      * @return 属性校验器
@@ -66,9 +70,10 @@ public class PairPropertyValidator<T, V1, V2>
         return must(pair -> condition.test(pair.getKey(), pair.getValue()), exceptionSupplier);
     }
 
-     /**
+    /**
      * 添加一条校验属性的规则，校验二元组是否满足给定的条件
      *
+     * @param <X> 自定义异常类型
      * @param condition 校验条件
      * @param exceptionFunction 自定义异常
      * @return 属性校验器

@@ -29,8 +29,12 @@ import xyz.zhouxy.plusone.commons.util.RegexTools;
 import xyz.zhouxy.plusone.commons.util.StringTools;
 
 /**
- * 针对文本类型的属性校验器。
+ * {@code String} 类型属性的校验器
  *
+ * <p>
+ * 用于构建校验 {@code String} 类型属性的规则链。
+ *
+ * @param <T> 待校验对象的类型
  * @author ZhouXY
  */
 public class StringPropertyValidator<T>
@@ -49,7 +53,7 @@ public class StringPropertyValidator<T>
      *
      * @param pattern 正则表达式
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> matches(
             final Pattern pattern, final String errorMessage) {
@@ -59,10 +63,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否匹配正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param pattern 正则表达式
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public <X extends RuntimeException> StringPropertyValidator<T> matches(
             final Pattern pattern, final Supplier<X> exceptionSupplier) {
@@ -72,10 +76,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否匹配正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param pattern 正则表达式
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matches(
             final Pattern pattern, final Function<String, X> exceptionFunction) {
@@ -91,11 +95,11 @@ public class StringPropertyValidator<T>
     // ================================
 
     /**
-     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     * 添加一条校验属性的规则，校验属性是否匹配指定的任一正则表达式
      *
      * @param patterns 正则表达式
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> matchesAny(
             final Pattern[] patterns, final String errorMessage) {
@@ -103,12 +107,12 @@ public class StringPropertyValidator<T>
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     * 添加一条校验属性的规则，校验属性是否匹配指定的任一正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Pattern[] patterns, final Supplier<X> exceptionSupplier) {
@@ -116,12 +120,12 @@ public class StringPropertyValidator<T>
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     * 添加一条校验属性的规则，校验属性是否匹配指定的任一正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Pattern[] patterns, final Function<String, X> exceptionFunction) {
@@ -129,11 +133,11 @@ public class StringPropertyValidator<T>
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     * 添加一条校验属性的规则，校验属性是否匹配指定的任一正则表达式
      *
      * @param patterns 正则表达式
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> matchesAny(
             final Collection<Pattern> patterns, final String errorMessage) {
@@ -141,12 +145,12 @@ public class StringPropertyValidator<T>
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     * 添加一条校验属性的规则，校验属性是否匹配指定的任一正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Collection<Pattern> patterns, final Supplier<X> exceptionSupplier) {
@@ -154,12 +158,12 @@ public class StringPropertyValidator<T>
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否匹配指定的多个正则表达式的其中一个
+     * 添加一条校验属性的规则，校验属性是否匹配指定的任一正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAny(
             final Collection<Pattern> patterns, final Function<String, X> exceptionFunction) {
@@ -179,7 +183,7 @@ public class StringPropertyValidator<T>
      *
      * @param patterns 正则表达式
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> matchesAll(
             final Pattern[] patterns, final String errorMessage) {
@@ -189,10 +193,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAll(
             final Pattern[] patterns, final Supplier<X> exceptionSupplier) {
@@ -202,10 +206,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAll(
             final Pattern[] patterns, final Function<String, X> exceptionFunction) {
@@ -217,7 +221,7 @@ public class StringPropertyValidator<T>
      *
      * @param patterns 正则表达式
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> matchesAll(
             final Collection<Pattern> patterns, final String errorMessage) {
@@ -227,10 +231,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAll(
             final Collection<Pattern> patterns, final Supplier<X> exceptionSupplier) {
@@ -240,10 +244,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否匹配指定的所有正则表达式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param patterns 正则表达式
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> matchesAll(
             final Collection<Pattern> patterns, final Function<String, X> exceptionFunction) {
@@ -261,7 +265,7 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否不为空白字符串
      *
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> notBlank() {
         return withRule(Conditions.notBlank(),
@@ -272,7 +276,7 @@ public class StringPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否不为空白字符串
      *
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> notBlank(final String errorMessage) {
         return withRule(Conditions.notBlank(), errorMessage);
@@ -281,9 +285,9 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否不为空白字符串
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> notBlank(
             final Supplier<X> exceptionSupplier) {
@@ -293,9 +297,9 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否不为空白字符串
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> notBlank(
             final Function<String, X> exceptionFunction) {
@@ -311,9 +315,9 @@ public class StringPropertyValidator<T>
     // ================================
 
     /**
-     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     * 添加一条校验属性的规则，校验属性是否满足邮箱格式
      *
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> emailAddress() {
         return withRule(Conditions.emailAddress(),
@@ -321,21 +325,21 @@ public class StringPropertyValidator<T>
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     * 添加一条校验属性的规则，校验属性是否满足邮箱格式
      *
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> emailAddress(final String errorMessage) {
         return withRule(Conditions.emailAddress(), errorMessage);
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     * 添加一条校验属性的规则，校验属性是否满足邮箱格式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> emailAddress(
             final Supplier<X> exceptionSupplier) {
@@ -343,11 +347,11 @@ public class StringPropertyValidator<T>
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否是邮箱地址
+     * 添加一条校验属性的规则，校验属性是否满足邮箱格式
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> emailAddress(
             final Function<String, X> exceptionFunction) {
@@ -365,7 +369,7 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验字符串属性是否不为空
      *
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> notEmpty() {
         return withRule(Conditions.notEmpty(),
@@ -376,7 +380,7 @@ public class StringPropertyValidator<T>
      * 添加一条校验属性的规则，校验字符串属性是否不为空
      *
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> notEmpty(final String errorMessage) {
         return withRule(Conditions.notEmpty(), errorMessage);
@@ -385,9 +389,9 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验字符串属性是否不为空
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> notEmpty(
             final Supplier<X> exceptionSupplier) {
@@ -397,9 +401,9 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验字符串属性是否不为空
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> notEmpty(
             final Function<String, X> exceptionFunction) {
@@ -419,7 +423,7 @@ public class StringPropertyValidator<T>
      *
      * @param length 指定长度
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> length(
             final int length, final String errorMessage) {
@@ -429,10 +433,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性长度是否等于指定长度
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param length 指定长度
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> length(
             final int length, final Supplier<X> exceptionSupplier) {
@@ -442,10 +446,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性长度是否等于指定长度
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param length 指定长度
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> length(
             final int length, final Function<String, X> exceptionFunction) {
@@ -455,10 +459,10 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性的长度范围
      *
-     * @param min 最小长度
-     * @param max 最大长度
+     * @param min 最小长度（包含）
+     * @param max 最大长度（包含）
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final StringPropertyValidator<T> length(
             final int min, final int max, final String errorMessage) {
@@ -468,11 +472,11 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性的长度范围
      *
-     * @param <X> 异常类型
-     * @param min 最小长度
-     * @param max 最大长度
+     * @param <X> 自定义异常类型
+     * @param min 最小长度（包含）
+     * @param max 最大长度（包含）
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> length(
             final int min, final int max, final Supplier<X> exceptionSupplier) {
@@ -482,11 +486,11 @@ public class StringPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性的长度范围
      *
-     * @param <X> 异常类型
-     * @param min 最小长度
-     * @param max 最大长度
+     * @param <X> 自定义异常类型
+     * @param min 最小长度（包含）
+     * @param max 最大长度（包含）
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> StringPropertyValidator<T> length(
             final int min, final int max, final Function<String, X> exceptionFunction) {

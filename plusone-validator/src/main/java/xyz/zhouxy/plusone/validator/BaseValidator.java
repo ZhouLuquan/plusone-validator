@@ -28,22 +28,19 @@ import java.util.function.Supplier;
 import xyz.zhouxy.plusone.validator.function.*;
 
 /**
- * 校验器的基类
- *
+ * 校验器基类
  * <p>
- * 通过继承 {@code BaseValidator}，可以自定义一个针对特定类型的校验器，包含对该类型的校验逻辑。
+ * 子类可通过添加不同的校验规则，构建完整的校验逻辑，用于校验对象。
  *
+ * @param <T> 待校验对象的类型
  * @author ZhouXY
  */
 public abstract class BaseValidator<T> implements IValidator<T> {
 
-    /**
-     * 规则集合
-     */
     private final List<Consumer<? super T>> rules = new ArrayList<>();
 
     /**
-     * 添加一个校验规则
+     * 添加一条用于校验整个对象的规则
      *
      * @param condition 校验条件
      * @param errorMessage 异常信息
@@ -53,7 +50,7 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个校验规则
+     * 添加一条用于校验整个对象的规则
      *
      * @param <X> 自定义异常类型
      * @param condition 校验条件
@@ -65,7 +62,7 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个校验规则
+     * 添加一条用于校验整个对象的规则
      *
      * @param <X> 自定义异常类型
      * @param condition 校验条件
@@ -81,19 +78,21 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个校验规则
+     * 添加一条用于校验整个对象的规则
      *
-     * @param rule 校验规则。内部包含断言条件，如果条件不满足，则抛出异常。
+     * @param rule 自定义校验规则
      */
     protected final void withRule(Consumer<? super T> rule) {
         this.rules.add(rule);
     }
 
     /**
-     * 添加一个属性校验器
+     * 添加一个通用的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param <R> 属性类型
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code ObjectPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final <R> ObjectPropertyValidator<T, R> ruleFor(Function<T, R> getter) {
         ObjectPropertyValidator<T, R> validator = new ObjectPropertyValidator<>(getter);
@@ -102,11 +101,12 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Comparable} 属性的校验器
+     * 添加一个用于校验 {@code Comparable} 类型的属性校验器
      *
      * @param <R> 属性类型
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code ComparablePropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final <R extends Comparable<R>> ComparablePropertyValidator<T, R> ruleForComparable(
             Function<T, R> getter) {
@@ -116,10 +116,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Integer} 属性的校验器
+     * 添加一个用于校验 {@code Integer} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code IntPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final IntPropertyValidator<T> ruleForInt(Function<T, Integer> getter) {
         IntPropertyValidator<T> validator = new IntPropertyValidator<>(getter);
@@ -128,10 +129,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Integer} 属性的校验器
+     * 添加一个用于校验 {@code Integer} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code IntPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final IntPropertyValidator<T> ruleFor(ToIntegerFunction<T> getter) {
         IntPropertyValidator<T> validator = new IntPropertyValidator<>(getter);
@@ -140,10 +142,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Long} 属性的校验器
+     * 添加一个用于校验 {@code Long} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code LongPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final LongPropertyValidator<T> ruleForLong(Function<T, Long> getter) {
         LongPropertyValidator<T> validator = new LongPropertyValidator<>(getter);
@@ -152,10 +155,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Long} 属性的校验器
+     * 添加一个用于校验 {@code Long} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code LongPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final LongPropertyValidator<T> ruleFor(ToLongObjectFunction<T> getter) {
         LongPropertyValidator<T> validator = new LongPropertyValidator<>(getter);
@@ -164,10 +168,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Double} 属性的校验器
+     * 添加一个用于校验 {@code Double} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code DoublePropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final DoublePropertyValidator<T> ruleForDouble(Function<T, Double> getter) {
         DoublePropertyValidator<T> validator = new DoublePropertyValidator<>(getter);
@@ -176,10 +181,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Double} 属性的校验器
+     * 添加一个用于校验 {@code Double} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code DoublePropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final DoublePropertyValidator<T> ruleFor(ToDoubleObjectFunction<T> getter) {
         DoublePropertyValidator<T> validator = new DoublePropertyValidator<>(getter);
@@ -188,10 +194,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Boolean} 属性的校验器
+     * 添加一个用于校验 {@code Boolean} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code BoolPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final BoolPropertyValidator<T> ruleForBool(Function<T, Boolean> getter) {
         BoolPropertyValidator<T> validator = new BoolPropertyValidator<>(getter);
@@ -200,10 +207,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Boolean} 属性的校验器
+     * 添加一个用于校验 {@code Boolean} 类型的属性校验器
      *
-     * @param getter 属性获取函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code BoolPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final BoolPropertyValidator<T> ruleFor(ToBoolObjectFunction<T> getter) {
         BoolPropertyValidator<T> validator = new BoolPropertyValidator<>(getter);
@@ -212,10 +220,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code String} 属性的校验器
+     * 添加一个用于校验 {@code String} 类型的属性校验器
      *
-     * @param getter 获取属性值的函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code StringPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final StringPropertyValidator<T> ruleForString(Function<T, String> getter) {
         StringPropertyValidator<T> validator = new StringPropertyValidator<>(getter);
@@ -224,10 +233,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code String} 属性的校验器
+     * 添加一个用于校验 {@code String} 类型的属性校验器
      *
-     * @param getter 获取属性值的函数
-     * @return 属性校验器
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code StringPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final StringPropertyValidator<T> ruleFor(ToStringFunction<T> getter) {
         StringPropertyValidator<T> validator = new StringPropertyValidator<>(getter);
@@ -236,10 +246,12 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对 {@code Collection} 属性的校验器
+     * 添加一个用于校验集合类型的属性校验器
      *
-     * @param getter 获取属性值的函数
-     * @return 集合属性校验器
+     * @param <E> 集合元素类型
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code CollectionPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final <E> CollectionPropertyValidator<T, E> ruleForCollection(Function<T, Collection<E>> getter) {
         CollectionPropertyValidator<T, E> validator = new CollectionPropertyValidator<>(getter);
@@ -248,10 +260,12 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     }
 
     /**
-     * 添加一个针对数组属性的校验器
+     * 添加一个用于校验数组类型的属性校验器
      *
-     * @param getter 获取属性值的函数
-     * @return 集合属性校验器
+     * @param <E> 数组元素类型
+     * @param getter 用于从目标对象获取属性值的函数式接口。
+     *               示例：{@code Person::getName}。
+     * @return {@code ArrayPropertyValidator}。用于添加针对该属性的校验规则。
      */
     protected final <E> ArrayPropertyValidator<T, E> ruleForArray(Function<T, E[]> getter) {
         ArrayPropertyValidator<T, E> validator = new ArrayPropertyValidator<>(getter);
@@ -261,10 +275,11 @@ public abstract class BaseValidator<T> implements IValidator<T> {
 
     /**
      * 添加一个针对二元组的校验器
+     *
      * @param <V1> 第一个元素的类型
      * @param <V2> 第二个元素的类型
-     * @param getter 获取属性值的函数
-     * @return 二元组校验器
+     * @param getter 根据对象构造一个二元组，通常是两个属性的值。
+     * @return {@code PairPropertyValidator}。用于添加针对该二元组的校验规则。
      */
     protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleForPair(Function<T, Entry<V1, V2>> getter) {
         PairPropertyValidator<T, V1, V2> validator = new PairPropertyValidator<>(getter);

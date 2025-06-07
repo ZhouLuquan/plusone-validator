@@ -21,12 +21,12 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * 针对 {@code Boolean} 类型的属性校验器
+ * {@code Boolean} 类型属性的校验器
  *
  * <p>
- * 内置了判断 Boolean 值是否为 true 或 false 的校验规则。
- * </p>
+ * 用于构建校验 {@code Boolean} 类型属性的规则链。
  *
+ * @param <T> 待校验对象的类型
  * @author ZhouXY
  */
 public class BoolPropertyValidator<T>
@@ -39,30 +39,30 @@ public class BoolPropertyValidator<T>
     // ====== isTrueValue ======
 
     /**
-     * 添加一条判断属性值是否为 {@code true} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code true}
      *
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final BoolPropertyValidator<T> isTrueValue() {
         return withRule(Conditions.isTrueValue(), "The input must be true.");
     }
 
     /**
-     * 添加一条判断属性值是否为 {@code true} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code true}
      *
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final BoolPropertyValidator<T> isTrueValue(final String errorMessage) {
         return withRule(Conditions.isTrueValue(), errorMessage);
     }
 
     /**
-     * 添加一条判断属性值是否为 {@code true} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code true}
      *
      * @param <X> 自定义异常类型
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> BoolPropertyValidator<T> isTrueValue(
             final Supplier<X> exceptionSupplier) {
@@ -70,44 +70,44 @@ public class BoolPropertyValidator<T>
     }
 
     /**
-     * 添加一条判断属性值是否为 {@code true} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code true}
      *
      * @param <X> 自定义异常类型
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> BoolPropertyValidator<T> isTrueValue(
-            Function<Boolean, X> exceptionFunction) {
+            final Function<Boolean, X> exceptionFunction) {
         return withRule(Conditions.isTrueValue(), exceptionFunction);
     }
 
     // ====== isFalseValue ======
 
     /**
-     * 添加一条判断属性值是否为 {@code false} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code false}
      *
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final BoolPropertyValidator<T> isFalseValue() {
         return withRule(Conditions.isFalseValue(), "The input must be false.");
     }
 
     /**
-     * 添加一条判断属性值是否为 {@code false} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code false}
      *
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final BoolPropertyValidator<T> isFalseValue(final String errorMessage) {
         return withRule(Conditions.isFalseValue(), errorMessage);
     }
 
     /**
-     * 添加一条判断属性值是否为 {@code false} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code false}
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> BoolPropertyValidator<T> isFalseValue(
             final Supplier<X> exceptionSupplier) {
@@ -115,11 +115,11 @@ public class BoolPropertyValidator<T>
     }
 
     /**
-     * 添加一条判断属性值是否为 {@code false} 的校验规则
+     * 添加一条校验属性的规则，校验属性是否为 {@code false}
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> BoolPropertyValidator<T> isFalseValue(
             final Function<Boolean, X> exceptionFunction) {

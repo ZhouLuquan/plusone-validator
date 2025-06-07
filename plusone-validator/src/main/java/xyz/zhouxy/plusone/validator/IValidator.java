@@ -18,14 +18,19 @@ package xyz.zhouxy.plusone.validator;
 /**
  * 校验器
  *
+ * <p>
+ * 用于定义对特定类型对象的校验规则
+ * </p>
+ *
+ * @param <T> 待校验对象的类型
  * @author ZhouXY
  */
 public interface IValidator<T> {
 
     /**
-     * 校验对象
+     * 校验指定对象是否符合预定义规则
      *
-     * @param obj
+     * @param obj 待校验的对象实例
      */
     void validate(T obj);
 }

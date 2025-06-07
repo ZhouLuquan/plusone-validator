@@ -17,15 +17,16 @@
 package xyz.zhouxy.plusone.validator;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
- * 整数属性校验器
+ * {@code Integer} 类型属性的校验器
  *
  * <p>
- * 内置对 {@code Integer} 类型常用的校验规则。
+ * 用于构建校验 {@code Integer} 类型属性的规则链。
  *
+ * @param <T> 待校验对象的类型
  * @author ZhouXY
  */
 public class IntPropertyValidator<T>
@@ -43,9 +44,9 @@ public class IntPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
      * @param min 最小值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> gt(final int min) {
+    public final IntPropertyValidator<T> gt(final int min) {
         return withRule(Conditions.greaterThan(min),
                 "The input must be greater than '%d'.", min);
     }
@@ -55,9 +56,9 @@ public class IntPropertyValidator<T>
      *
      * @param min 最小值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> gt(
+    public final IntPropertyValidator<T> gt(
             final int min, final String errorMessage) {
         return withRule(Conditions.greaterThan(min), errorMessage);
     }
@@ -65,12 +66,12 @@ public class IntPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> gt(
+    public final <X extends RuntimeException> IntPropertyValidator<T> gt(
             final int min, final Supplier<X> exceptionSupplier) {
         return withRule(Conditions.greaterThan(min), exceptionSupplier);
     }
@@ -78,12 +79,12 @@ public class IntPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> gt(
+    public final <X extends RuntimeException> IntPropertyValidator<T> gt(
             final int min, final Function<Integer, X> exceptionFunction) {
         return withRule(Conditions.greaterThan(min), exceptionFunction);
     }
@@ -100,9 +101,9 @@ public class IntPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
      * @param min 最小值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> ge(final int min) {
+    public final IntPropertyValidator<T> ge(final int min) {
         return withRule(Conditions.greaterThanOrEqualTo(min),
                 "The input must be greater than or equal to '%d'.", min);
     }
@@ -112,21 +113,21 @@ public class IntPropertyValidator<T>
      *
      * @param min 最小值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> ge(final int min, final String errorMessage) {
+    public final IntPropertyValidator<T> ge(final int min, final String errorMessage) {
         return withRule(Conditions.greaterThanOrEqualTo(min), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> ge(
+    public final <X extends RuntimeException> IntPropertyValidator<T> ge(
             final int min, final Supplier<X> exceptionSupplier) {
         return withRule(Conditions.greaterThanOrEqualTo(min), exceptionSupplier);
     }
@@ -134,12 +135,12 @@ public class IntPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> ge(
+    public final <X extends RuntimeException> IntPropertyValidator<T> ge(
             final int min, final Function<Integer, X> exceptionFunction) {
         return withRule(Conditions.greaterThanOrEqualTo(min), exceptionFunction);
     }
@@ -156,9 +157,9 @@ public class IntPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
      * @param max 最大值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> lt(final int max) {
+    public final IntPropertyValidator<T> lt(final int max) {
         return withRule(Conditions.lessThan(max),
                 "The input must be less than '%d'.", max);
     }
@@ -168,9 +169,9 @@ public class IntPropertyValidator<T>
      *
      * @param max 最大值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> lt(
+    public final IntPropertyValidator<T> lt(
             final int max, final String errorMessage) {
         return withRule(Conditions.lessThan(max), errorMessage);
     }
@@ -178,12 +179,12 @@ public class IntPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> lt(
+    public final <X extends RuntimeException> IntPropertyValidator<T> lt(
             final int max, final Supplier<X> exceptionSupplier) {
         return withRule(Conditions.lessThan(max), exceptionSupplier);
     }
@@ -191,12 +192,12 @@ public class IntPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> lt(
+    public final <X extends RuntimeException> IntPropertyValidator<T> lt(
             final int max, final Function<Integer, X> exceptionFunction) {
         return withRule(Conditions.lessThan(max), exceptionFunction);
     }
@@ -213,9 +214,9 @@ public class IntPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
      * @param max 最大值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> le(final int max) {
+    public final IntPropertyValidator<T> le(final int max) {
         return withRule(Conditions.lessThanOrEqualTo(max),
                 "The input must be less than or equal to '%d'.", max);
     }
@@ -225,9 +226,9 @@ public class IntPropertyValidator<T>
      *
      * @param max 最大值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public IntPropertyValidator<T> le(
+    public final IntPropertyValidator<T> le(
             final int max, final String errorMessage) {
         return withRule(Conditions.lessThanOrEqualTo(max), errorMessage);
     }
@@ -235,12 +236,12 @@ public class IntPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> le(
+    public final <X extends RuntimeException> IntPropertyValidator<T> le(
             final int max, final Supplier<X> exceptionSupplier) {
         return withRule(Conditions.lessThanOrEqualTo(max), exceptionSupplier);
     }
@@ -248,12 +249,12 @@ public class IntPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public <X extends RuntimeException> IntPropertyValidator<T> le(
+    public final <X extends RuntimeException> IntPropertyValidator<T> le(
             final int max, final Function<Integer, X> exceptionFunction) {
         return withRule(Conditions.lessThanOrEqualTo(max), exceptionFunction);
     }

@@ -23,14 +23,11 @@ import java.util.function.Supplier;
 import com.google.common.collect.Range;
 
 /**
- * 针对 {@code Comparable} 类型的属性校验器基类
+ * {@code Comparable} 类型属性的校验器的基类
  *
- * <p>
- * 内置了判断属性是否在给定区间内的校验规则。
- *
- * @param <T> 待校验对象类型
- * @param <TProperty> 属性类型
- * @param <TPropertyValidator> 当前属性校验器类型，用于链式调用
+ * @param <T> 待校验对象的类型
+ * @param <TProperty> 待校验属性的类型，必须实现 {@code Comparable} 接口
+ * @param <TPropertyValidator> 具体校验器类型，用于支持链式调用
  * @see Range
  * @author ZhouXY
  */
@@ -45,53 +42,59 @@ public abstract class BaseComparablePropertyValidator<
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     * 添加一条校验属性的规则，校验属性的取值范围。
      *
      * @param range 区间
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator inRange(final Range<TProperty> range) {
         return withRule(Conditions.inRange(range), value -> ValidationException.withMessage(
-                "The input must in the interval %s. You entered %s.", range, value));
+            "The input must in the interval %s. You entered %s.", range, value));
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     * 添加一条校验属性的规则，校验属性的取值范围。
      *
      * @param range 区间
-     * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @param errorMessage 自定义错误消息模板
+     * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator inRange(
-            final Range<TProperty> range, final String errorMessage) {
+        final Range<TProperty> range, final String errorMessage) {
         return withRule(Conditions.inRange(range), errorMessage);
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     * 添加一条校验属性的规则，校验属性的取值范围。
      *
+     * @param <X> 自定义异常类型
      * @param range 区间
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator inRange(
-            final Range<TProperty> range, final Supplier<X> exceptionSupplier) {
+        final Range<TProperty> range, final Supplier<X> exceptionSupplier) {
         return withRule(Conditions.inRange(range), exceptionSupplier);
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否在给定的区间之内
+     * 添加一条校验属性的规则，校验属性的取值范围。
      *
+     * @param <X> 自定义异常类型
      * @param range 区间
-     * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @param exceptionFunction 根据属性值生成异常的函数
+     * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator inRange(
-            final Range<TProperty> range, final Function<TProperty, X> exceptionFunction) {
+        final Range<TProperty> range, final Function<TProperty, X> exceptionFunction) {
         return withRule(Conditions.inRange(range), exceptionFunction);
     }
 
+    /**
+     * 校验条件的实现
+     */
     private static class Conditions {
+
         private static <TProperty extends Comparable<TProperty>> Predicate<TProperty> inRange(
                 final Range<TProperty> range) {
             return value -> value == null || range.contains(value);

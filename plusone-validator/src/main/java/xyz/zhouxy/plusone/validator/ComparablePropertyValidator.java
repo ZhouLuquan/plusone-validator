@@ -19,13 +19,11 @@ package xyz.zhouxy.plusone.validator;
 import java.util.function.Function;
 
 /**
- * 针对 {@code Comparable} 类型的默认属性校验器
+ * {@code Comparable} 类型属性的校验器
  *
- * <p>
- * 继承自 {@link BaseComparablePropertyValidator}，内置了判断属性是否在给定区间内的校验规则。
- *
- * @param <T> 待校验对象类型
- * @param <TProperty> 属性类型
+ * @param <T> 待校验对象的类型
+ * @param <TProperty> 待校验属性的类型，必须实现 {@code Comparable} 接口
+ * @param <TPropertyValidator> 具体校验器类型，用于支持链式调用
  * @see com.google.common.collect.Range
  * @author ZhouXY
  */

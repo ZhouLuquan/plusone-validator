@@ -21,11 +21,12 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * 浮点数属性校验器
+ * {@code Double} 类型属性的校验器
  *
  * <p>
- * 内置对 {@code Double} 类型常用的校验规则。
+ * 用于构建校验 {@code Double} 类型属性的规则链。
  *
+ * @param <T> 待校验对象的类型
  * @author ZhouXY
  */
 public class DoublePropertyValidator<T>
@@ -43,7 +44,7 @@ public class DoublePropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
      * @param min 最小值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> gt(final double min) {
         return withRule(Conditions.greaterThan(min),
@@ -55,7 +56,7 @@ public class DoublePropertyValidator<T>
      *
      * @param min 最小值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> gt(
             final double min, final String errorMessage) {
@@ -65,10 +66,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> gt(
             final double min, final Supplier<X> exceptionSupplier) {
@@ -78,10 +79,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> gt(
             final double min, final Function<Double, X> exceptionFunction) {
@@ -100,7 +101,7 @@ public class DoublePropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
      * @param min 最小值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> ge(final double min) {
         return withRule(Conditions.greaterThanOrEqualTo(min),
@@ -112,7 +113,7 @@ public class DoublePropertyValidator<T>
      *
      * @param min 最小值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> ge(
             final double min, final String errorMessage) {
@@ -122,10 +123,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> ge(
             final double min, final Supplier<X> exceptionSupplier) {
@@ -135,10 +136,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> ge(
             final double min, final Function<Double, X> exceptionFunction) {
@@ -157,7 +158,7 @@ public class DoublePropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
      * @param max 最大值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> lt(final double max) {
         return withRule(Conditions.lessThan(max),
@@ -169,7 +170,7 @@ public class DoublePropertyValidator<T>
      *
      * @param max 最大值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> lt(
             final double max, final String errorMessage) {
@@ -179,10 +180,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> lt(
             final double max, final Supplier<X> exceptionSupplier) {
@@ -192,10 +193,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> lt(
             final double max, final Function<Double, X> exceptionFunction) {
@@ -214,7 +215,7 @@ public class DoublePropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
      * @param max 最大值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> le(final double max) {
         return withRule(Conditions.lessThanOrEqualTo(max),
@@ -226,7 +227,7 @@ public class DoublePropertyValidator<T>
      *
      * @param max 最大值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final DoublePropertyValidator<T> le(
             final double max, final String errorMessage) {
@@ -236,10 +237,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> le(
             final double max, final Supplier<X> exceptionSupplier) {
@@ -249,10 +250,10 @@ public class DoublePropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> DoublePropertyValidator<T> le(
             final double max, final Function<Double, X> exceptionFunction) {

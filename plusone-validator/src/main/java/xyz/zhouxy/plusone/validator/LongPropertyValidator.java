@@ -21,11 +21,12 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * 长整数属性校验器
+ * {@code Long} 类型属性的校验器
  *
  * <p>
- * 内置对 {@code Long} 类型常用的校验规则。
+ * 用于构建校验 {@code Long} 类型属性的规则链。
  *
+ * @param <T> 待校验对象的类型
  * @author ZhouXY
  */
 public class LongPropertyValidator<T>
@@ -43,7 +44,7 @@ public class LongPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
      * @param min 最小值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final LongPropertyValidator<T> gt(final long min) {
         return withRule(Conditions.greaterThan(min),
@@ -55,7 +56,7 @@ public class LongPropertyValidator<T>
      *
      * @param min 最小值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final LongPropertyValidator<T> gt(
             final long min, final String errorMessage) {
@@ -65,10 +66,10 @@ public class LongPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> gt(
             final long min, final Supplier<X> exceptionSupplier) {
@@ -78,10 +79,10 @@ public class LongPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> gt(
             final long min, final Function<Long, X> exceptionFunction) {
@@ -100,7 +101,7 @@ public class LongPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
      * @param min 最小值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final LongPropertyValidator<T> ge(final long min) {
         return withRule(Conditions.greaterThanOrEqualTo(min),
@@ -112,20 +113,19 @@ public class LongPropertyValidator<T>
      *
      * @param min 最小值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
-    public final LongPropertyValidator<T> ge(
-            final long min, final String errorMessage) {
+    public final LongPropertyValidator<T> ge(final long min, final String errorMessage) {
         return withRule(Conditions.greaterThanOrEqualTo(min), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> ge(
             final long min, final Supplier<X> exceptionSupplier) {
@@ -135,10 +135,10 @@ public class LongPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否大于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param min 最小值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> ge(
             final long min, final Function<Long, X> exceptionFunction) {
@@ -157,7 +157,7 @@ public class LongPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
      * @param max 最大值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final LongPropertyValidator<T> lt(final long max) {
         return withRule(Conditions.lessThan(max),
@@ -169,7 +169,7 @@ public class LongPropertyValidator<T>
      *
      * @param max 最大值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final LongPropertyValidator<T> lt(
             final long max, final String errorMessage) {
@@ -179,10 +179,10 @@ public class LongPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> lt(
             final long max, final Supplier<X> exceptionSupplier) {
@@ -192,10 +192,10 @@ public class LongPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> lt(
             final long max, final Function<Long, X> exceptionFunction) {
@@ -214,7 +214,7 @@ public class LongPropertyValidator<T>
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
      * @param max 最大值
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final LongPropertyValidator<T> le(final long max) {
         return withRule(Conditions.lessThanOrEqualTo(max),
@@ -226,7 +226,7 @@ public class LongPropertyValidator<T>
      *
      * @param max 最大值
      * @param errorMessage 异常信息
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final LongPropertyValidator<T> le(
             final long max, final String errorMessage) {
@@ -236,10 +236,10 @@ public class LongPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionSupplier 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> le(
             final long max, final Supplier<X> exceptionSupplier) {
@@ -249,10 +249,10 @@ public class LongPropertyValidator<T>
     /**
      * 添加一条校验属性的规则，校验属性是否小于等于给定值
      *
-     * @param <X> 异常类型
+     * @param <X> 自定义异常类型
      * @param max 最大值
      * @param exceptionFunction 自定义异常
-     * @return 属性校验器
+     * @return 当前验证器实例，用于链式调用
      */
     public final <X extends RuntimeException> LongPropertyValidator<T> le(
             final long max, final Function<Long, X> exceptionFunction) {
