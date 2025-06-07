@@ -19,6 +19,7 @@ package xyz.zhouxy.plusone.map.validator;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +59,7 @@ class MapValidatorTests {
         params.put(ParamsValidator.STRING_PROPERTY2, "Foo");
         assertAll(() -> {
             Map<String, Object> validatedParams = validator.validateAndCopy(params);
-            assertEquals(ParamsValidator.keySet(), validatedParams.keySet());
+            assertEquals(ImmutableSet.copyOf(ParamsValidator.reservedProperties()), validatedParams.keySet());
 
             assertEquals(true, validatedParams.get(ParamsValidator.BOOL_PROPERTY));
             assertEquals(Integer.MAX_VALUE, validatedParams.get(ParamsValidator.INT_PROPERTY));
@@ -103,11 +104,14 @@ class ParamsValidator extends MapValidator<String, Object> {
     public static final String OBJECT_PROPERTY = "objectProperty";
     public static final String STRING_LIST_PROPERTY = "stringListProperty";
 
+    private static final String[] RESERVED_PROPERTIES = {
+            BOOL_PROPERTY, INT_PROPERTY, LONG_PROPERTY, DOUBLE_PROPERTY, STRING_PROPERTY,
+            DATE_TIME_PROPERTY, OBJECT_PROPERTY, STRING_LIST_PROPERTY };
+
     public static final ParamsValidator INSTANCE = new ParamsValidator();
 
     private ParamsValidator() {
-        super(new String[] { BOOL_PROPERTY, INT_PROPERTY, LONG_PROPERTY, DOUBLE_PROPERTY, STRING_PROPERTY,
-                DATE_TIME_PROPERTY, OBJECT_PROPERTY, STRING_LIST_PROPERTY });
+        super(RESERVED_PROPERTIES);
         ruleForBool(BOOL_PROPERTY)
                 .notNull();
         ruleForInt(INT_PROPERTY)
@@ -130,8 +134,7 @@ class ParamsValidator extends MapValidator<String, Object> {
                         "'stringProperty' must be equal to 'stringProperty2'.");
     }
 
-    public static Set<String> keySet() {
-        return ImmutableSet.of(BOOL_PROPERTY, INT_PROPERTY, LONG_PROPERTY, DOUBLE_PROPERTY, STRING_PROPERTY,
-                DATE_TIME_PROPERTY, OBJECT_PROPERTY, STRING_LIST_PROPERTY);
+    public static String[] reservedProperties() {
+        return Arrays.copyOf(RESERVED_PROPERTIES, RESERVED_PROPERTIES.length);
     }
 }
