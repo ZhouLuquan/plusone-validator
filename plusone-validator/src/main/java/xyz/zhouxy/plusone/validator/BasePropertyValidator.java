@@ -258,50 +258,50 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @return 当前校验器实例，用于链式调用
      */
-    public final TPropertyValidator equal(Object that) {
-        return withRule(Conditions.equal(that),
-                "The input must be equal to '%s'.", that);
+    public final TPropertyValidator equal(Object obj) {
+        return withRule(Conditions.equal(obj),
+                "The input must be equal to '%s'.", obj);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @param errorMessage 异常信息
      * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator equal(
-            final Object that, final String errorMessage) {
-        return withRule(Conditions.equal(that), errorMessage);
+            final Object obj, final String errorMessage) {
+        return withRule(Conditions.equal(obj), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @param exceptionSupplier 自定义异常
      * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator equal(
-            final Object that, final Supplier<X> exceptionSupplier) {
-        return withRule(Conditions.equal(that), exceptionSupplier);
+            final Object obj, final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.equal(obj), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @param exceptionFunction 自定义异常
      * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator equal(
-            final Object that, final Function<TProperty, X> exceptionFunction) {
-        return withRule(Conditions.equal(that), exceptionFunction);
+            final Object obj, final Function<TProperty, X> exceptionFunction) {
+        return withRule(Conditions.equal(obj), exceptionFunction);
     }
 
     // ================================
@@ -315,49 +315,49 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @return 当前校验器实例，用于链式调用
      */
-    public final TPropertyValidator notEqual(final Object that) {
-        return withRule(Conditions.notEqual(that),
-                "The input must not equal '%s'.", that);
+    public final TPropertyValidator notEqual(final Object obj) {
+        return withRule(Conditions.notEqual(obj),
+                "The input must not equal '%s'.", obj);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @param errorMessage 异常信息
      * @return 当前校验器实例，用于链式调用
      */
-    public final TPropertyValidator notEqual(final Object that, final String errorMessage) {
-        return withRule(Conditions.notEqual(that), errorMessage);
+    public final TPropertyValidator notEqual(final Object obj, final String errorMessage) {
+        return withRule(Conditions.notEqual(obj), errorMessage);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @param exceptionSupplier 自定义异常
      * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator notEqual(
-            final Object that, final Supplier<X> exceptionSupplier) {
-        return withRule(Conditions.notEqual(that), exceptionSupplier);
+            final Object obj, final Supplier<X> exceptionSupplier) {
+        return withRule(Conditions.notEqual(obj), exceptionSupplier);
     }
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
      * @param <X> 自定义异常类型
-     * @param that 用于比较的对象
+     * @param obj 用于比较的对象
      * @param exceptionFunction 自定义异常
      * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator notEqual(
-            final Object that, final Function<TProperty, X> exceptionFunction) {
-        return withRule(Conditions.notEqual(that), exceptionFunction);
+            final Object obj, final Function<TProperty, X> exceptionFunction) {
+        return withRule(Conditions.notEqual(obj), exceptionFunction);
     }
 
     // ================================
