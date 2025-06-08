@@ -108,7 +108,7 @@ public abstract class BasePropertyValidator<
      *
      * @param <X> 自定义异常类型
      * @param condition 校验条件
-     * @param exceptionFunction 自定义异常（以当前属性值为参数）
+     * @param exceptionFunction 自定义异常
      * @return 当前校验器实例，用于链式调用
      */
     protected final <X extends RuntimeException> TPropertyValidator withRule(

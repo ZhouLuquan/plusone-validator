@@ -82,7 +82,7 @@ public abstract class BaseComparablePropertyValidator<
      *
      * @param <X> 自定义异常类型
      * @param range 区间
-     * @param exceptionFunction 根据属性值生成异常的函数
+     * @param exceptionFunction 自定义异常
      * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator inRange(
