@@ -6,7 +6,7 @@
 
   <groupId>xyz.zhouxy.plusone</groupId>
   <artifactId>plusone-validator-parent</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0-RC1</version>
 
   <name>plusone-validator-parent</name>
   <url>http://zhouxy.xyz</url>
@@ -30,7 +30,7 @@
       <dependency>
         <groupId>xyz.zhouxy.plusone</groupId>
         <artifactId>plusone-dependencies</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.1.0-RC1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
