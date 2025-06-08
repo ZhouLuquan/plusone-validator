@@ -16,7 +16,7 @@
   <url>http://zhouxy.xyz</url>
 
   <description>
-    Plusone Validator 是一个校验库，用于构建校验规则对对象（尤其是入参）进行校验。API 参考自 .NET 的 FluentValidation。
+    Plusone Validator 是一个校验库，使用 lambda 表达式（包括方法引用）和流式 API 构建校验规则，对对象进行校验。
   </description>
 
   <properties>
