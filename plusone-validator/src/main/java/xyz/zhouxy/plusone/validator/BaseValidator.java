@@ -19,6 +19,7 @@ package xyz.zhouxy.plusone.validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -283,6 +284,24 @@ public abstract class BaseValidator<T> implements IValidator<T> {
      */
     protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleForPair(Function<T, Entry<V1, V2>> getter) {
         PairPropertyValidator<T, V1, V2> validator = new PairPropertyValidator<>(getter);
+        this.rules.add(validator::validate);
+        return validator;
+    }
+
+    /**
+     * 添加一个针对二元组的校验器
+     *
+     * @param <V1> 第一个元素的类型
+     * @param <V2> 第二个元素的类型
+     * @param v1Getter 用于从目标对象获取第一个元素的函数式接口。示例：{@code Person::getName1}。
+     * @param v2Getter 用于从目标对象获取第二个元素的函数式接口。示例：{@code Person::getName2}。
+     * @return {@code PairPropertyValidator}。用于添加针对该二元组的校验规则。
+     */
+    protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleForPair(
+            Function<T, V1> v1Getter,
+            Function<T, V2> v2Getter) {
+        PairPropertyValidator<T, V1, V2> validator = new PairPropertyValidator<>(
+                t -> new SimpleImmutableEntry<>(v1Getter.apply(t), v2Getter.apply(t)));
         this.rules.add(validator::validate);
         return validator;
     }

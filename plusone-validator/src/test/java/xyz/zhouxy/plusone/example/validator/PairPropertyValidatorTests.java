@@ -41,7 +41,9 @@ public class PairPropertyValidatorTests {
 
     @Test
     void must_validInput() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "100");
+
+        IValidator<ExampleCommand> validator1 = new BaseValidator<ExampleCommand>() {
             {
                 ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()))
@@ -51,69 +53,113 @@ public class PairPropertyValidatorTests {
                                 (str, intValue) -> ExampleException.withMessage("Validation failed: ('%s', %d).", str, intValue));
             }
         };
+        assertDoesNotThrow(() -> validator1.validate(command));
 
-        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "100");
-        assertDoesNotThrow(() -> validator.validate(command));
+        IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()))
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()), MESSAGE)
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()), () -> ExampleException.withMessage(MESSAGE))
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()),
+                                (str, intValue) -> ExampleException.withMessage("Validation failed: ('%s', %d).", str, intValue));
+            }
+        };
+        assertDoesNotThrow(() -> validator2.validate(command));
     }
 
     @Test
     void must_default_invalidInput() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
+
+        IValidator<ExampleCommand> validator1 = new BaseValidator<ExampleCommand>() {
             {
                 ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()));
             }
         };
+        ValidationException e1 = assertThrows(ValidationException.class, () -> validator1.validate(command));
+        assertEquals("The specified condition was not met for the input.", e1.getMessage());
 
-        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
-
-        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
-        assertEquals("The specified condition was not met for the input.", e.getMessage());
+        IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()));
+            }
+        };
+        ValidationException e2 = assertThrows(ValidationException.class, () -> validator2.validate(command));
+        assertEquals("The specified condition was not met for the input.", e2.getMessage());
     }
 
     @Test
     void must_message_invalidInput() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
+
+        IValidator<ExampleCommand> validator1 = new BaseValidator<ExampleCommand>() {
             {
                 ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), MESSAGE);
             }
         };
+        ValidationException e1 = assertThrows(ValidationException.class, () -> validator1.validate(command));
+        assertEquals(MESSAGE, e1.getMessage());
 
-        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
-        ValidationException e = assertThrows(ValidationException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE, e.getMessage());
+        IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()), MESSAGE);
+            }
+        };
+        ValidationException e2 = assertThrows(ValidationException.class, () -> validator2.validate(command));
+        assertEquals(MESSAGE, e2.getMessage());
     }
 
     @Test
     void must_exceptionSupplier_invalidInput() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
+
+        IValidator<ExampleCommand> validator1 = new BaseValidator<ExampleCommand>() {
             {
                 ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), () -> ExampleException.withMessage(MESSAGE));
             }
         };
+        ExampleException e1 = assertThrows(ExampleException.class, () -> validator1.validate(command));
+        assertEquals(MESSAGE, e1.getMessage());
 
-        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
-
-        ExampleException e = assertThrows(ExampleException.class, () -> validator.validate(command));
-        assertEquals(MESSAGE, e.getMessage());
+        IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()), () -> ExampleException.withMessage(MESSAGE));
+            }
+        };
+        ExampleException e2 = assertThrows(ExampleException.class, () -> validator2.validate(command));
+        assertEquals(MESSAGE, e2.getMessage());
     }
 
     @Test
     void must_exceptionFunction_invalidInput() {
-        IValidator<ExampleCommand> validator = new BaseValidator<ExampleCommand>() {
+        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
+
+        IValidator<ExampleCommand> validator1 = new BaseValidator<ExampleCommand>() {
             {
                 ruleForPair((ExampleCommand command) -> new SimpleImmutableEntry<String,Integer>(command.getStringProperty(), command.getIntProperty()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()),
                                 (str, intValue) -> ExampleException.withMessage("Validation failed: ('%s', %d).", str, intValue));
             }
         };
+        ExampleException e1 = assertThrows(ExampleException.class, () -> validator1.validate(command));
+        assertEquals("Validation failed: ('', 100).", e1.getMessage());
 
-        ExampleCommand command = exampleCommandWithIntAndStringListProperty(100, "");
-
-        ExampleException e = assertThrows(ExampleException.class, () -> validator.validate(command));
-        assertEquals("Validation failed: ('', 100).", e.getMessage());
+        IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
+            {
+                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                        .must((str, intValue) -> Objects.equals(str, intValue.toString()),
+                                (str, intValue) -> ExampleException.withMessage("Validation failed: ('%s', %d).", str, intValue));
+            }
+        };
+        ExampleException e2 = assertThrows(ExampleException.class, () -> validator2.validate(command));
+        assertEquals("Validation failed: ('', 100).", e2.getMessage());
     }
 
     // ================================
