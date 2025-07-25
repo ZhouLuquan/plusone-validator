@@ -281,8 +281,12 @@ public abstract class BaseValidator<T> implements IValidator<T> {
      * @param <V2> 第二个元素的类型
      * @param getter 根据对象构造一个二元组，通常是两个属性的值。
      * @return {@code PairPropertyValidator}。用于添加针对该二元组的校验规则。
+     *
+     * @deprecated 请使用 {@link #ruleFor(Function, Function)} 代替。
      */
-    protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleForPair(Function<T, Entry<V1, V2>> getter) {
+    @Deprecated
+    protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleForPair( // NOSONAR
+            Function<T, Entry<V1, V2>> getter) {
         PairPropertyValidator<T, V1, V2> validator = new PairPropertyValidator<>(getter);
         this.rules.add(validator::validate);
         return validator;
@@ -291,15 +295,14 @@ public abstract class BaseValidator<T> implements IValidator<T> {
     /**
      * 添加一个针对二元组的校验器
      *
-     * @param <V1> 第一个元素的类型
-     * @param <V2> 第二个元素的类型
-     * @param v1Getter 用于从目标对象获取第一个元素的函数式接口。示例：{@code Person::getName1}。
-     * @param v2Getter 用于从目标对象获取第二个元素的函数式接口。示例：{@code Person::getName2}。
+     * @param <V1> 第1个元素的类型
+     * @param <V2> 第2个元素的类型
+     * @param v1Getter 用于从目标对象获取第1个元素的函数式接口。示例：{@code Person::getName1}。
+     * @param v2Getter 用于从目标对象获取第2个元素的函数式接口。示例：{@code Person::getName2}。
      * @return {@code PairPropertyValidator}。用于添加针对该二元组的校验规则。
      */
-    protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleForPair(
-            Function<T, V1> v1Getter,
-            Function<T, V2> v2Getter) {
+    protected final <V1, V2> PairPropertyValidator<T, V1, V2> ruleFor(
+            Function<T, V1> v1Getter, Function<T, V2> v2Getter) {
         PairPropertyValidator<T, V1, V2> validator = new PairPropertyValidator<>(
                 t -> new SimpleImmutableEntry<>(v1Getter.apply(t), v2Getter.apply(t)));
         this.rules.add(validator::validate);

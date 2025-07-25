@@ -31,6 +31,7 @@ import xyz.zhouxy.plusone.validator.BaseValidator;
 import xyz.zhouxy.plusone.validator.IValidator;
 import xyz.zhouxy.plusone.validator.ValidationException;
 
+@SuppressWarnings("deprecation")
 public class PairPropertyValidatorTests {
 
     static final String MESSAGE = "Validation failed.";
@@ -57,7 +58,7 @@ public class PairPropertyValidatorTests {
 
         IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                ruleFor(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()))
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), MESSAGE)
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), () -> ExampleException.withMessage(MESSAGE))
@@ -83,7 +84,7 @@ public class PairPropertyValidatorTests {
 
         IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                ruleFor(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()));
             }
         };
@@ -106,7 +107,7 @@ public class PairPropertyValidatorTests {
 
         IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                ruleFor(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), MESSAGE);
             }
         };
@@ -129,7 +130,7 @@ public class PairPropertyValidatorTests {
 
         IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                ruleFor(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()), () -> ExampleException.withMessage(MESSAGE));
             }
         };
@@ -153,7 +154,7 @@ public class PairPropertyValidatorTests {
 
         IValidator<ExampleCommand> validator2 = new BaseValidator<ExampleCommand>() {
             {
-                ruleForPair(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
+                ruleFor(ExampleCommand::getStringProperty, ExampleCommand::getIntProperty)
                         .must((str, intValue) -> Objects.equals(str, intValue.toString()),
                                 (str, intValue) -> ExampleException.withMessage("Validation failed: ('%s', %d).", str, intValue));
             }
