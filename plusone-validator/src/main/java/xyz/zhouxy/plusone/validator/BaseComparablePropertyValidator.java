@@ -33,7 +33,7 @@ import com.google.common.collect.Range;
  */
 public abstract class BaseComparablePropertyValidator<
             T,
-            TProperty extends Comparable<TProperty>,
+            TProperty extends Comparable<? super TProperty>,
             TPropertyValidator extends BaseComparablePropertyValidator<T, TProperty, TPropertyValidator>>
         extends BasePropertyValidator<T, TProperty, TPropertyValidator> {
 
@@ -47,9 +47,9 @@ public abstract class BaseComparablePropertyValidator<
      * @param range 区间
      * @return 当前校验器实例，用于链式调用
      */
-    public final TPropertyValidator inRange(final Range<TProperty> range) {
+    public final TPropertyValidator inRange(final Range<? super TProperty> range) {
         return withRule(Conditions.inRange(range), value -> ValidationException.withMessage(
-            "The input must in the interval %s. You entered %s.", range, value));
+                "The input must in the interval %s. You entered %s.", range, value));
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class BaseComparablePropertyValidator<
      * @return 当前校验器实例，用于链式调用
      */
     public final TPropertyValidator inRange(
-        final Range<TProperty> range, final String errorMessage) {
+            final Range<? super TProperty> range, final String errorMessage) {
         return withRule(Conditions.inRange(range), errorMessage);
     }
 
@@ -73,7 +73,7 @@ public abstract class BaseComparablePropertyValidator<
      * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator inRange(
-        final Range<TProperty> range, final Supplier<X> exceptionSupplier) {
+            final Range<? super TProperty> range, final Supplier<X> exceptionSupplier) {
         return withRule(Conditions.inRange(range), exceptionSupplier);
     }
 
@@ -86,7 +86,7 @@ public abstract class BaseComparablePropertyValidator<
      * @return 当前校验器实例，用于链式调用
      */
     public final <X extends RuntimeException> TPropertyValidator inRange(
-        final Range<TProperty> range, final Function<TProperty, X> exceptionFunction) {
+            final Range<? super TProperty> range, final Function<TProperty, X> exceptionFunction) {
         return withRule(Conditions.inRange(range), exceptionFunction);
     }
 
@@ -95,8 +95,8 @@ public abstract class BaseComparablePropertyValidator<
      */
     private static class Conditions {
 
-        private static <TProperty extends Comparable<TProperty>> Predicate<TProperty> inRange(
-                final Range<TProperty> range) {
+        private static <TProperty extends Comparable<? super TProperty>> Predicate<TProperty> inRange(
+                final Range<? super TProperty> range) {
             return value -> value == null || range.contains(value);
         }
     }

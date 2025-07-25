@@ -109,7 +109,7 @@ public abstract class BaseValidator<T> implements IValidator<T> {
      *               示例：{@code Person::getName}。
      * @return {@code ComparablePropertyValidator}。用于添加针对该属性的校验规则。
      */
-    protected final <R extends Comparable<R>> ComparablePropertyValidator<T, R> ruleForComparable(
+    protected final <R extends Comparable<? super R>> ComparablePropertyValidator<T, R> ruleForComparable(
             Function<T, R> getter) {
         ComparablePropertyValidator<T, R> validator = new ComparablePropertyValidator<>(getter);
         this.rules.add(validator::validate);

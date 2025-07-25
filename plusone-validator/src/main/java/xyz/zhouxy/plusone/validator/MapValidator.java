@@ -173,7 +173,8 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
      * @param key key
      * @return 属性校验器
      */
-    protected final <E extends Comparable<E>> ComparablePropertyValidator<Map<K, V>, E> ruleForComparable(K key) {
+    protected final <E extends Comparable<? super E>> //
+    ComparablePropertyValidator<Map<K, V>, E> ruleForComparable(K key) {
         @SuppressWarnings("unchecked")
         Function<Map<K, V>, E> getter = m -> (E) m.get(key);
         return ruleForComparable(getter);

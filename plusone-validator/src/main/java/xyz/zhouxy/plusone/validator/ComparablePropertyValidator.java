@@ -26,7 +26,7 @@ import java.util.function.Function;
  * @see com.google.common.collect.Range
  * @author ZhouXY108 <luquanlion@outlook.com>
  */
-public class ComparablePropertyValidator<T, TProperty extends Comparable<TProperty>>
+public class ComparablePropertyValidator<T, TProperty extends Comparable<? super TProperty>>
         extends BaseComparablePropertyValidator<T, TProperty, ComparablePropertyValidator<T, TProperty>> {
 
     ComparablePropertyValidator(Function<T, ? extends TProperty> getter) {

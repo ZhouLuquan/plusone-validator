@@ -122,14 +122,14 @@ class ParamsValidator extends MapValidator<String, Object> {
                 .notNull(d -> ExampleException.withMessage("The doubleProperty cannot be null, but it was %s", d));
         ruleForString(STRING_PROPERTY)
                 .notNull();
-        ruleForComparable(DATE_TIME_PROPERTY)
+        this.<LocalDateTime>ruleForComparable(DATE_TIME_PROPERTY)
                 .notNull("The dateTimeProperty cannot be null");
         ruleFor(OBJECT_PROPERTY)
                 .notNull(() -> ExampleException.withMessage("The objectProperty cannot be null"));
-        ruleForCollection(STRING_LIST_PROPERTY)
+        this.<String>ruleForCollection(STRING_LIST_PROPERTY)
                 .notNull(d -> ExampleException.withMessage("The stringListProperty cannot be null, but it was %s", d));
 
-        ruleForPair(STRING_PROPERTY, STRING_PROPERTY2)
+        this.<String, String>ruleForPair(STRING_PROPERTY, STRING_PROPERTY2)
                 .must((str1, str2) -> str1 != null && str1.equals(str2),
                         "'stringProperty' must be equal to 'stringProperty2'.");
     }
