@@ -13,7 +13,6 @@
 
   <artifactId>plusone-validator</artifactId>
   <name>plusone-validator</name>
-  <url>http://zhouxy.xyz</url>
 
   <description>
     Plusone Validator 是一个校验库，使用 lambda 表达式（包括方法引用）和流式 API 构建校验规则，对对象进行校验。

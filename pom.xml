@@ -9,7 +9,7 @@
   <version>1.0.0-RC2</version>
 
   <name>plusone-validator-parent</name>
-  <url>http://zhouxy.xyz</url>
+  <url>http://gitea.zhouxy.xyz/plusone/plusone-validator</url>
 
   <packaging>pom</packaging>
 
