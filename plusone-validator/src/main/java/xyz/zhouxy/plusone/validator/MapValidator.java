@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * <p>
  * 校验后拷贝出一个新的 Map 对象，仅保留指定的 key。
  *
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 

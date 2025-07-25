@@ -19,7 +19,7 @@ package xyz.zhouxy.plusone.validator;
 /**
  * 自带校验方法，校验不通过时直接抛异常。
  *
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  *
  * @see BaseValidator
  */

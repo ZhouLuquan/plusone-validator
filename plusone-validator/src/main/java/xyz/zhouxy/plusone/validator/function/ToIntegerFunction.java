@@ -21,7 +21,7 @@ import java.util.function.Function;
 /**
  * Function&lt;T, Integer&gt;
  *
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 @FunctionalInterface
 public interface ToIntegerFunction<T> extends Function<T, Integer>, Serializable {

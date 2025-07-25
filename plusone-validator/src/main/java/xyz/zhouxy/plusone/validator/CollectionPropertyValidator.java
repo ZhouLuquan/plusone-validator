@@ -32,7 +32,7 @@ import xyz.zhouxy.plusone.commons.util.AssertTools;
  *
  * @param <T> 待校验对象的类型
  * @param <E> 集合元素的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class CollectionPropertyValidator<T, E>
         extends BasePropertyValidator<T, Collection<E>, CollectionPropertyValidator<T, E>> {

@@ -23,7 +23,7 @@ import java.util.function.Function;
  *
  * @param <T> 待校验对象的类型
  * @param <TProperty> 待校验属性的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class ObjectPropertyValidator<T, TProperty>
         extends BasePropertyValidator<T, TProperty, ObjectPropertyValidator<T, TProperty>> {

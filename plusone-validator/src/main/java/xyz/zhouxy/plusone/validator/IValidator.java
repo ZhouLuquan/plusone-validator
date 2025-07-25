@@ -23,7 +23,7 @@ package xyz.zhouxy.plusone.validator;
  * </p>
  *
  * @param <T> 待校验对象的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public interface IValidator<T> {
 

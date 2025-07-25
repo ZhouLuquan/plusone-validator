@@ -18,7 +18,7 @@ package xyz.zhouxy.plusone.validator;
 /**
  * 校验失败异常
  *
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class ValidationException extends RuntimeException {
 

@@ -21,7 +21,7 @@ import java.util.function.Function;
 /**
  * Function&lt;T, Double&gt;
  *
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 @FunctionalInterface
 public interface ToDoubleObjectFunction<T> extends Function<T, Double>, Serializable {

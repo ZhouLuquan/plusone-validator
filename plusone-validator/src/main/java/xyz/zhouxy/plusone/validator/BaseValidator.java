@@ -34,7 +34,7 @@ import xyz.zhouxy.plusone.validator.function.*;
  * 子类可通过添加不同的校验规则，构建完整的校验逻辑，用于校验对象。
  *
  * @param <T> 待校验对象的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public abstract class BaseValidator<T> implements IValidator<T> {
 

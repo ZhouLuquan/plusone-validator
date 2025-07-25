@@ -29,7 +29,7 @@ import com.google.common.collect.Range;
  * @param <TProperty> 待校验属性的类型，必须实现 {@code Comparable} 接口
  * @param <TPropertyValidator> 具体校验器类型，用于支持链式调用
  * @see Range
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public abstract class BaseComparablePropertyValidator<
             T,
