@@ -19,17 +19,10 @@
     Plusone Validator 是一个校验库，使用 lambda 表达式（包括方法引用）和流式 API 构建校验规则，对对象进行校验。
   </description>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>xyz.zhouxy.plusone</groupId>
       <artifactId>plusone-commons</artifactId>
-      <version>1.1.0-RC1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

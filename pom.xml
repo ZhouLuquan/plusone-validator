@@ -23,6 +23,10 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+
+    <plusone-commons.version>1.1.0-RC1</plusone-commons.version>
   </properties>
 
   <dependencyManagement>
@@ -30,9 +34,14 @@
       <dependency>
         <groupId>xyz.zhouxy.plusone</groupId>
         <artifactId>plusone-dependencies</artifactId>
-        <version>1.1.0-RC1</version>
+        <version>${plusone-commons.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>xyz.zhouxy.plusone</groupId>
+        <artifactId>plusone-commons</artifactId>
+        <version>${plusone-commons.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
