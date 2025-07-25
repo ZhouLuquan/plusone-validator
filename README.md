@@ -25,14 +25,9 @@ class CustomerValidator extends BaseValidator<Customer> {
             .notNull("生日不能为空")
             .must(LocalDate.now().minusYears(16)::isAfter, "用户必须大于16周岁");
         ruleFor(Customer::getAddress).length(20, 250, "地址长度必须在20-250之间");
-        ruleFor((Customer customer) -> Pair.of(customer.getVipLevel(), customer.getBirthday()))
-            .must(CustomerValidator::validateAge, "5级以上会员必须满18周岁");
-    }
-
-    private static boolean validateAge(Pair<Integer, LocalDate> vipLevelAndBirthday) {
-        Integer vipLevel = vipLevelAndBirthday.getLeft();
-        LocalDate birthday = vipLevelAndBirthday.getRight();
-        return vipLevel <= 5 || LocalDate.now().minusYears(18).isAfter(birthday);
+        ruleFor(Customer::getVipLevel, Customer::getBirthday)
+            .must((vipLevel, birthday) -> vipLevel <= 5 || LocalDate.now().minusYears(18).isAfter(birthday),
+                "5级以上会员必须满18周岁");
     }
 
     public static CustomerValidator getInstance() {
@@ -73,15 +68,9 @@ class CustomerMapValidator extends MapValidator<String, Object> {
             .notNull("生日不能为空")
             .must(LocalDate.now().minusYears(16)::isAfter, "用户必须大于16周岁");
         ruleForString("address").length(20, 250, "地址长度必须在20-250之间");
-        this.<Pair<Integer, LocalDate>>ruleFor((Map<String, Object> customer) ->
-                Pair.of(MapUtils.getInteger(customer, "vipLevel"), (LocalDate) customer.get("birthday")))
-            .must(CustomerMapValidator::validateAge, "5级以上会员必须满18周岁");
-    }
-
-    private static boolean validateAge(Pair<Integer, LocalDate> vipLevelAndBirthday) {
-        Integer vipLevel = vipLevelAndBirthday.getLeft();
-        LocalDate birthday = vipLevelAndBirthday.getRight();
-        return vipLevel <= 5 || LocalDate.now().minusYears(18).isAfter(birthday);
+        this.<Integer, LocalDate>ruleForPair("vipLevel", "birthday")
+            .must((vipLevel, birthday) -> vipLevel <= 5 || LocalDate.now().minusYears(18).isAfter(birthday),
+                "5级以上会员必须满18周岁");
     }
 
     public static CustomerMapValidator getInstance() {
