@@ -27,7 +27,7 @@ import java.util.function.Supplier;
  * @param <T>  被验证对象类型
  * @param <V1> 第一个元素的类型
  * @param <V2> 第二个元素的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class PairPropertyValidator<T, V1, V2>
         extends BasePropertyValidator<T, Entry<V1, V2>, PairPropertyValidator<T, V1, V2>> {

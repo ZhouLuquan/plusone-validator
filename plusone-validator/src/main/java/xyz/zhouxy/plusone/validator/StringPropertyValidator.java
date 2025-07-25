@@ -35,7 +35,7 @@ import xyz.zhouxy.plusone.commons.util.StringTools;
  * 用于构建校验 {@code String} 类型属性的规则链。
  *
  * @param <T> 待校验对象的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class StringPropertyValidator<T>
         extends BaseComparablePropertyValidator<T, String, StringPropertyValidator<T>> {

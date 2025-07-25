@@ -24,7 +24,7 @@ import java.util.function.Function;
  * @param <T> 待校验对象的类型
  * @param <TProperty> 待校验属性的类型，必须实现 {@code Comparable} 接口
  * @see com.google.common.collect.Range
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class ComparablePropertyValidator<T, TProperty extends Comparable<TProperty>>
         extends BaseComparablePropertyValidator<T, TProperty, ComparablePropertyValidator<T, TProperty>> {

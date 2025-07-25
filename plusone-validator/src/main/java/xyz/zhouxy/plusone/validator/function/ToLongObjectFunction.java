@@ -21,7 +21,7 @@ import java.util.function.Function;
 /**
  * Function&lt;T, Long&gt;
  *
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 @FunctionalInterface
 public interface ToLongObjectFunction<T> extends Function<T, Long>, Serializable {

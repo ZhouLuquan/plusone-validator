@@ -31,7 +31,7 @@ import xyz.zhouxy.plusone.commons.util.AssertTools;
  *
  * @param <T> 待校验对象的类型
  * @param <E> 数组元素的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class ArrayPropertyValidator<T, E>
         extends BasePropertyValidator<T, E[], ArrayPropertyValidator<T, E>> {

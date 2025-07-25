@@ -27,7 +27,7 @@ import java.util.function.Supplier;
  * 用于构建校验 {@code Long} 类型属性的规则链。
  *
  * @param <T> 待校验对象的类型
- * @author ZhouXY
+ * @author ZhouXY108 <luquanlion@outlook.com>
  */
 public class LongPropertyValidator<T>
         extends BaseComparablePropertyValidator<T, Long, LongPropertyValidator<T>> {
