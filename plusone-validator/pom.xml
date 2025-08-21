@@ -8,7 +8,7 @@
   <parent>
     <groupId>xyz.zhouxy.plusone</groupId>
     <artifactId>plusone-validator-parent</artifactId>
-    <version>1.0.0-RC2</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>plusone-validator</artifactId>
