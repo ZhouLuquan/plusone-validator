@@ -93,7 +93,7 @@ public abstract class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
         validate(obj);
         return obj.entrySet().stream()
                 .filter(kv -> keys.contains(kv.getKey()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2));
     }
 
     // ================================
