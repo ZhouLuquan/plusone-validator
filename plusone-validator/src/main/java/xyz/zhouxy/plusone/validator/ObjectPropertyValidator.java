@@ -28,7 +28,7 @@ import java.util.function.Function;
 public class ObjectPropertyValidator<T, TProperty>
         extends BasePropertyValidator<T, TProperty, ObjectPropertyValidator<T, TProperty>> {
 
-    ObjectPropertyValidator(Function<T, TProperty> getter) {
+    ObjectPropertyValidator(Function<T, ? extends TProperty> getter) {
         super(getter);
     }
 
