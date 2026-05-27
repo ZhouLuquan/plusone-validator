@@ -151,11 +151,17 @@ public class ArrayPropertyValidator<T, E>
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
      *
+     * <p>
+     * 当数组为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param condition 校验条件
      * @return 当前校验器实例，用于链式调用
      */
     public final ArrayPropertyValidator<T, E> allMatch(final Predicate<E> condition) {
         return withRule(c -> {
+            if (ArrayTools.isEmpty(c)) {
+                return;
+            }
             for (E element : c) {
                 if (!condition.test(element)) {
                     throw ValidationException.withMessage("All elements must match the condition.");
@@ -167,6 +173,9 @@ public class ArrayPropertyValidator<T, E>
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
      *
+     * <p>
+     * 当数组为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param condition 校验条件
      * @param errorMessage 异常信息
      * @return 当前校验器实例，用于链式调用
@@ -174,6 +183,9 @@ public class ArrayPropertyValidator<T, E>
     public final ArrayPropertyValidator<T, E> allMatch(
             final Predicate<E> condition, final String errorMessage) {
         return withRule(c -> {
+            if (ArrayTools.isEmpty(c)) {
+                return;
+            }
             for (E element : c) {
                 if (!condition.test(element)) {
                     throw ValidationException.withMessage(errorMessage);
@@ -185,6 +197,9 @@ public class ArrayPropertyValidator<T, E>
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
      *
+     * <p>
+     * 当数组为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param <X> 自定义异常类型
      * @param condition 校验条件
      * @param exceptionSupplier 自定义异常
@@ -193,6 +208,9 @@ public class ArrayPropertyValidator<T, E>
     public final <X extends RuntimeException> ArrayPropertyValidator<T, E> allMatch(
             final Predicate<E> condition, final Supplier<X> exceptionSupplier) {
         return withRule(c -> {
+            if (ArrayTools.isEmpty(c)) {
+                return;
+            }
             for (E element : c) {
                 if (!condition.test(element)) {
                     throw exceptionSupplier.get();
@@ -204,6 +222,9 @@ public class ArrayPropertyValidator<T, E>
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
      *
+     * <p>
+     * 当数组为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param <X> 自定义异常类型
      * @param condition 校验条件
      * @param exceptionFunction 自定义异常
@@ -212,6 +233,9 @@ public class ArrayPropertyValidator<T, E>
     public final <X extends RuntimeException> ArrayPropertyValidator<T, E> allMatch(
             final Predicate<E> condition, final Function<E, X> exceptionFunction) {
         return withRule(c -> {
+            if (ArrayTools.isEmpty(c)) {
+                return;
+            }
             for (E element : c) {
                 if (!condition.test(element)) {
                     throw exceptionFunction.apply(element);

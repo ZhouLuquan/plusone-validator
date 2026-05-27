@@ -293,8 +293,18 @@ public class ArrayPropertyValidatorTests {
             }
         };
 
-        ExampleCommand command = exampleCommandWithStringArrayProperty(new String[] { "1234", "12345", "123456" });
-        assertDoesNotThrow(() -> validator.validate(command));
+        {
+            ExampleCommand command = exampleCommandWithStringArrayProperty(new String[] { "1234", "12345", "123456" });
+            assertDoesNotThrow(() -> validator.validate(command));
+        }
+        {
+            ExampleCommand command = exampleCommandWithStringArrayProperty(new String[0]);
+            assertDoesNotThrow(() -> validator.validate(command));
+        }
+        {
+            ExampleCommand command = exampleCommandWithStringArrayProperty(null);
+            assertDoesNotThrow(() -> validator.validate(command));
+        }
     }
 
     @Test

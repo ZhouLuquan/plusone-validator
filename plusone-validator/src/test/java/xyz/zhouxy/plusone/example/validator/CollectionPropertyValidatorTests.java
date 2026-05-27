@@ -298,8 +298,14 @@ public class CollectionPropertyValidatorTests {
             }
         };
 
-        ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("1234", "12345", "123456"));
-        assertDoesNotThrow(() -> validator.validate(command));
+        {
+            ExampleCommand command = exampleCommandWithStringListProperty(Lists.newArrayList("1234", "12345", "123456"));
+            assertDoesNotThrow(() -> validator.validate(command));
+        }
+        {
+            ExampleCommand command = exampleCommandWithStringListProperty(null);
+            assertDoesNotThrow(() -> validator.validate(command));
+        }
     }
 
     @Test

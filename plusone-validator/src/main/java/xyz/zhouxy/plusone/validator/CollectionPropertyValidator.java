@@ -151,35 +151,55 @@ public class CollectionPropertyValidator<T, E>
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
      *
+     * <p>
+     * 当集合为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param condition 校验条件
      * @return 当前校验器实例，用于链式调用
      */
     public final CollectionPropertyValidator<T, E> allMatch(
             final Predicate<E> condition) {
-        return withRule(c -> c.forEach(element -> {
-            if (!condition.test(element)) {
-                throw ValidationException.withMessage("All elements must match the condition.");
+        return withRule(c -> {
+            if (CollectionTools.isEmpty(c)) {
+                return;
             }
-        }));
+            c.forEach(element -> {
+                if (!condition.test(element)) {
+                    throw ValidationException.withMessage("All elements must match the condition.");
+                }
+            });
+        });
     }
 
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
+     *
+     * <p>
+     * 当集合为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param condition 校验条件
      * @param errorMessage 异常信息
      * @return 当前校验器实例，用于链式调用
      */
     public final CollectionPropertyValidator<T, E> allMatch(
             final Predicate<E> condition, final String errorMessage) {
-        return withRule(c -> c.forEach(element -> {
-            if (!condition.test(element)) {
-                throw ValidationException.withMessage(errorMessage);
+        return withRule(c -> {
+            if (CollectionTools.isEmpty(c)) {
+                return;
             }
-        }));
+            c.forEach(element -> {
+                if (!condition.test(element)) {
+                    throw ValidationException.withMessage(errorMessage);
+                }
+            });
+        });
     }
 
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
+     *
+     * <p>
+     * 当集合为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param <X> 自定义异常类型
      * @param condition 校验条件
@@ -188,15 +208,23 @@ public class CollectionPropertyValidator<T, E>
      */
     public final <X extends RuntimeException> CollectionPropertyValidator<T, E> allMatch(
             final Predicate<E> condition, final Supplier<X> exceptionSupplier) {
-        return withRule(c -> c.forEach(element -> {
-            if (!condition.test(element)) {
-                throw exceptionSupplier.get();
+        return withRule(c -> {
+            if (CollectionTools.isEmpty(c)) {
+                return;
             }
-        }));
+            c.forEach(element -> {
+                if (!condition.test(element)) {
+                    throw exceptionSupplier.get();
+                }
+            });
+        });
     }
 
     /**
      * 添加一条校验属性的规则，校验是否所有元素都满足指定条件
+     *
+     * <p>
+     * 当集合为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param <X> 自定义异常类型
      * @param condition 校验条件
@@ -205,11 +233,16 @@ public class CollectionPropertyValidator<T, E>
      */
     public final <X extends RuntimeException> CollectionPropertyValidator<T, E> allMatch(
             final Predicate<E> condition, final Function<E, X> exceptionFunction) {
-        return withRule(c -> c.forEach(element -> {
-            if (!condition.test(element)) {
-                throw exceptionFunction.apply(element);
+        return withRule(c -> {
+            if (CollectionTools.isEmpty(c)) {
+                return;
             }
-        }));
+            c.forEach(element -> {
+                if (!condition.test(element)) {
+                    throw exceptionFunction.apply(element);
+                }
+            });
+        });
     }
 
     // ================================
