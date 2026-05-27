@@ -258,6 +258,9 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param obj 用于比较的对象
      * @return 当前校验器实例，用于链式调用
      */
@@ -268,6 +271,9 @@ public abstract class BasePropertyValidator<
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param obj 用于比较的对象
      * @param errorMessage 异常信息
@@ -281,6 +287,9 @@ public abstract class BasePropertyValidator<
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
      *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
+     *
      * @param <X> 自定义异常类型
      * @param obj 用于比较的对象
      * @param exceptionSupplier 自定义异常
@@ -293,6 +302,9 @@ public abstract class BasePropertyValidator<
 
     /**
      * 添加一条校验属性的规则，校验属性是否等于给定值
+     *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param <X> 自定义异常类型
      * @param obj 用于比较的对象
@@ -313,7 +325,10 @@ public abstract class BasePropertyValidator<
     // ================================
 
     /**
-     * 添加一条校验属性的规则，校验属性是否等于给定值
+     * 添加一条校验属性的规则，校验属性是否不等于给定值
+     *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param obj 用于比较的对象
      * @return 当前校验器实例，用于链式调用
@@ -324,7 +339,10 @@ public abstract class BasePropertyValidator<
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否等于给定值
+     * 添加一条校验属性的规则，校验属性是否不等于给定值
+     *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param obj 用于比较的对象
      * @param errorMessage 异常信息
@@ -335,7 +353,10 @@ public abstract class BasePropertyValidator<
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否等于给定值
+     * 添加一条校验属性的规则，校验属性是否不等于给定值
+     *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param <X> 自定义异常类型
      * @param obj 用于比较的对象
@@ -348,7 +369,10 @@ public abstract class BasePropertyValidator<
     }
 
     /**
-     * 添加一条校验属性的规则，校验属性是否等于给定值
+     * 添加一条校验属性的规则，校验属性是否不等于给定值
+     *
+     * <p>
+     * 当值为 {@code null} 时，视为通过。如果需要校验值不为 {@code null}，请使用 {@link #notNull()} 方法。
      *
      * @param <X> 自定义异常类型
      * @param obj 用于比较的对象
