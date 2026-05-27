@@ -48,7 +48,7 @@ public class DoublePropertyValidator<T>
      */
     public final DoublePropertyValidator<T> gt(final double min) {
         return withRule(Conditions.greaterThan(min),
-                "The input must be greater than '%s'.", min);
+                "The input must be greater than '%f'.", min);
     }
 
     /**
@@ -105,7 +105,7 @@ public class DoublePropertyValidator<T>
      */
     public final DoublePropertyValidator<T> ge(final double min) {
         return withRule(Conditions.greaterThanOrEqualTo(min),
-                "The input must be greater than or equal to '%s'.", min);
+                "The input must be greater than or equal to '%f'.", min);
     }
 
     /**
@@ -162,7 +162,7 @@ public class DoublePropertyValidator<T>
      */
     public final DoublePropertyValidator<T> lt(final double max) {
         return withRule(Conditions.lessThan(max),
-                "The input must be less than '%s'.", max);
+                "The input must be less than '%f'.", max);
     }
 
     /**
@@ -219,7 +219,7 @@ public class DoublePropertyValidator<T>
      */
     public final DoublePropertyValidator<T> le(final double max) {
         return withRule(Conditions.lessThanOrEqualTo(max),
-                "The input must be less than or equal to '%s'.", max);
+                "The input must be less than or equal to '%f'.", max);
     }
 
     /**

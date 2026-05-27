@@ -87,7 +87,7 @@ public class DoublePropertyValidatorTests {
 
         ValidationException e = assertThrows(
                 ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be greater than '%s'.", MIN), e.getMessage());
+        assertEquals(String.format("The input must be greater than '%f'.", MIN), e.getMessage());
     }
 
     @ParameterizedTest
@@ -196,7 +196,7 @@ public class DoublePropertyValidatorTests {
 
         ValidationException e = assertThrows(
                 ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be greater than or equal to '%s'.", MIN), e.getMessage());
+        assertEquals(String.format("The input must be greater than or equal to '%f'.", MIN), e.getMessage());
     }
 
     @ParameterizedTest
@@ -305,7 +305,7 @@ public class DoublePropertyValidatorTests {
 
         ValidationException e = assertThrows(
                 ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be less than '%s'.", MAX), e.getMessage());
+        assertEquals(String.format("The input must be less than '%f'.", MAX), e.getMessage());
     }
 
     @ParameterizedTest
@@ -414,7 +414,7 @@ public class DoublePropertyValidatorTests {
 
         ValidationException e = assertThrows(
                 ValidationException.class, () -> validator.validate(command));
-        assertEquals(String.format("The input must be less than or equal to '%s'.", MAX), e.getMessage());
+        assertEquals(String.format("The input must be less than or equal to '%f'.", MAX), e.getMessage());
     }
 
     @ParameterizedTest
