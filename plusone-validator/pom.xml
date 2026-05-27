@@ -18,6 +18,27 @@
     Plusone Validator 是一个校验库，使用 lambda 表达式（包括方法引用）和流式 API 构建校验规则，对对象进行校验。
   </description>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Zhou Xingyi (周兴毅)</name>
+      <url>https://gitea.zhouxy.xyz/plusone</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://gitea.zhouxy.xyz/plusone/plusone-validator.git</connection>
+    <developerConnection>scm:git:ssh://gitea.zhouxy.xyz/plusone/plusone-validator.git</developerConnection>
+    <url>https://gitea.zhouxy.xyz/plusone/plusone-validator</url>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>xyz.zhouxy.plusone</groupId>
