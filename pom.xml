@@ -26,7 +26,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
 
-    <plusone-commons.version>1.1.0-RC1</plusone-commons.version>
+    <plusone-commons.version>1.1.0-SNAPSHOT</plusone-commons.version>
   </properties>
 
   <dependencyManagement>
